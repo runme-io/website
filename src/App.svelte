@@ -10,6 +10,9 @@
 	<Footer/>
 </main>
 
-<style lang="sass">
-	@import './style.sass'
+<style global lang="sass">
+	@import './assets/styles/fonts.sass'
+
+	html
+		font-family: Roboto,Arial,Helvetica,sans-serif
 </style>
