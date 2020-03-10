@@ -3,6 +3,7 @@ import alias from '@rollup/plugin-alias'
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
+import autoPreprocess from 'svelte-preprocess'
 import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -23,14 +24,15 @@ export default {
 			// a separate file - better for performance
 			css: css => {
 				css.write('public/build/bundle.css');
-			}
+			},
+			preprocess: autoPreprocess()
 		}),
 
 		alias({
 			entries: [
-				{ find: '@ui', replacement: 'src/UI' },
-				{ find: '@runme', replacement: 'src/Runme' },
-				{ find: '@helpers', replacement: 'src/helpers' }
+				{ find: '@ui', replacement: 'src/Components/UI' },
+				{ find: '@runme', replacement: 'src/Components/Runme' },
+				{ find: '@helpers', replacement: 'src/Components/helpers' }
 			]
 		}),
 
