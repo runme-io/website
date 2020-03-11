@@ -1,8 +1,8 @@
 <script>
     import Icon from 'fa-svelte'
     import { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown'
-    import Button from '@ui/Button.svelte'
-    import { isGitUrl } from '@helpers/validation.js'
+    import Button from '../../../components/UI/Button.svelte'
+    //import { isGitUrl } from '@helpers/validation.js'
 
     let showAdvancedOptions = false
     let embedStyle = 'markdown'
@@ -38,16 +38,13 @@
 </style>
 
 <section class="generator">
-    <h1>Title</h1>
-    <h2>Subtitle</h2>
-
     <div class="generator__repo-url">
         <input on:keyup={generateEmbedCode} bind:value={repoUrl} placeholder="Please enter your repo url like https://github.com/jexia/test-node-app.git">
         <Button type="submit" on:message={handleMessage}>Generate</Button>
     </div>
 
     <div class="generator__advanced-options">
-        <a on:click={toggleAdvanced}>Advanced options <Icon icon={faSortDown}/></a>
+        <div on:click={toggleAdvanced}>Advanced options <Icon icon={faSortDown}/></div>
         {#if showAdvancedOptions}
             <input on:keyup={generateEmbedCode} bind:value={dockerImage} placeholder="docker image in format <image>:<tag> (optional)">
         {/if}

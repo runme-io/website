@@ -23,5 +23,5 @@
         color: #fff
         background-color: #555
         border: 1px solid transparent
-        border-radius: 3px
+        border-radius: .3rem
 </style>
