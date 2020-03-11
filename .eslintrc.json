@@ -16,7 +16,8 @@
     }
   ],
   "rules": {
-    "prettier/prettier": "error",
-    "svelte3/lint-template": 2
+    "svelte3/ignore-styles": 0,
+    "eol-last": ["error", "always"],
+    "object-curly-newline": ["error", "always"]
   }
 }
