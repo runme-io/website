@@ -1,7 +1,7 @@
 <script>
     import Icon from 'fa-svelte'
     import { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown'
-    import Button from '../../../components/UI/Button.svelte'
+    import Button from '../../components/UI/Button.svelte'
 
     let showAdvancedOptions = false
     let embedStyle = 'markdown'
@@ -35,8 +35,7 @@
 </script>
 
 <style lang="sass">
-    @import './style.sass'
-    @import './style.sass'
+    @import '../../assets/style/theme'
 
     .generator
         padding-top: $spacing

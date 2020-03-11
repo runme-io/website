@@ -6,7 +6,11 @@
 </script>
 
 <style lang="sass" global>
-	@import "./style/global.sass";
+	@import "../assets/style/global.sass"
+
+	main
+		padding-left: $spacing
+		padding-right: $spacing
 </style>
 
 <Header/>

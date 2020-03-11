@@ -1,13 +1,16 @@
 <script>
-    import Button from './Button.svelte'
+    export let href
+    export let alt = ''
 </script>
 
-<style>
+<style lang="sass">
+    @import '../../assets/style/theme.sass'
 
+    img
+        height: 20px
+        display: inline
 </style>
 
-<Button>
-    <div class="logo"></div>
-    <div class="seperator"></div>
-    <div class="name">runme</div>
-</Button>
+<a {href} class="runme-button">
+    <img src="/svg/runmeButton.svg" {alt}>
+</a>

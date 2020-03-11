@@ -1,7 +1,9 @@
 <script>
     import { createEventDispatcher } from 'svelte'
 
-    export let type
+    export let type = ''
+    let cssClass;
+    export { cssClass as class };
 
     const dispatch = createEventDispatcher()
 
@@ -10,7 +12,7 @@
     }
 </script>
 
-<button {type} class="btn" on:click={emit}>
+<button {type} class={`btn ${cssClass || ''}`} on:click={emit}>
     <slot/>
 </button>
 

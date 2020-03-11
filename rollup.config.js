@@ -7,6 +7,7 @@ import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
+import svelteSVG from "rollup-plugin-svelte-svg";
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -43,6 +44,7 @@ export default {
 				dedupe: ['svelte']
 			}),
 			commonjs(),
+			svelteSVG(),
 
 			legacy && babel({
 				extensions: ['.js', '.mjs', '.html', '.svelte'],
@@ -85,7 +87,8 @@ export default {
 			resolve({
 				dedupe: ['svelte']
 			}),
-			commonjs()
+			commonjs(),
+			svelteSVG({ generate: 'ssr' })
 		],
 		external: Object.keys(pkg.dependencies).concat(
 			require('module').builtinModules || Object.keys(process.binding('natives'))
