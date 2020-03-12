@@ -9,14 +9,13 @@
     const facebookIcon = faFacebookSquare
     const linkedInIcon = faLinkedin
     const mailIcon = faEnvelope
-
     const title = ''
-    const text = ''
+    const text = 'Check runme.io to run your application from Git-repo.'
     const url = 'https://runme.io'
 </script>
 
 <ul>
-    <li class="twitter"><a target="_blank" href="https://twitter.com/intent/tweet?url={url}&text={title}&hashtags=jexia,runme"><Icon icon={twitterIcon}/></a></li>
+    <li class="twitter"><a target="_blank" href="https://twitter.com/intent/tweet?url={url}&text={text} @Jexiacom&hashtags=Jexia,Runme,Serverless,Applications"><Icon icon={twitterIcon}/></a></li>
     <li class="facebook"><a target="_blank" href="https://www.facebook.com/sharer.php?u={url}"><Icon icon={facebookIcon}/></a></li>
     <li class="mail"><a target="_blank" href="mailto:?subject={title}&body={text}"><Icon icon={mailIcon}/></a></li>
     <li class="linked-in"><a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={url}&title={title}&summary={text}"><Icon icon={linkedInIcon}/></a></li>
