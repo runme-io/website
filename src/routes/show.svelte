@@ -1,15 +1,15 @@
 <script>
-	import ShowLayout from '../components/UI/ShowLayout.svelte'
+	import SimpleHeader from '../components/UI/SimpleHeader.svelte'
 
-	let src = ''
+	let src = 'https://reinos.nl'
 </script>
 <svelte:head>
 	<title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<ShowLayout>
-	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
-</ShowLayout>
+<SimpleHeader title="This application will stay available for 10 minutes."/>
+<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
+
 
 <style lang="sass">
 	@import '../assets/style/theme'
@@ -19,5 +19,5 @@
 		background: #000
 		border: none
 		width: 100vw
-		height: calc(100vh - 300px)
+		height: calc(100vh - 10rem)
 </style>

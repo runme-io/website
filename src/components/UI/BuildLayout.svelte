@@ -3,7 +3,7 @@
     import JexiaFooter from './JexiaFooter.svelte'
 </script>
 
-<SimpleHeader/>
+<SimpleHeader title="Run your application from any public Git-repo with one click"/>
 <main>
     <slot/>
 </main>

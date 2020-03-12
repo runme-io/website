@@ -1,8 +1,13 @@
+<script>
+    export let title = null
+    export let countDown = null
+</script>
+
 <header>
     <div class="logo-svg">
         <img src="/svg/jexiaLogo.svg" alt="logo">
     </div>
-    <h1>Run your application from any public Git-repo with one click</h1>
+    <h1>{title}</h1>
     <div class="counter">
         <span class="title">Build time</span>
         <span class="timer">
@@ -18,7 +23,8 @@
     @import "../../assets/style/mixins"
 
     header
-        padding: 3rem $spacing
+        height: 10rem
+        padding: 2rem $spacing
         background-color: $primary-color
         display: flex
         flex-direction: row
