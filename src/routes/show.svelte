@@ -1,7 +1,23 @@
+<script>
+	import ShowLayout from '../components/UI/ShowLayout.svelte'
+
+	let src = ''
+</script>
 <svelte:head>
-	<title>About</title>
+	<title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<h1>About this site</h1>
+<ShowLayout>
+	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
+</ShowLayout>
 
-<p>This is the 'about' page. There's not much here.</p>
+<style lang="sass">
+	@import '../assets/style/theme'
+
+	.deployed-iframe
+		display: block
+		background: #000
+		border: none
+		width: 100vw
+		height: calc(100vh - 300px)
+</style>

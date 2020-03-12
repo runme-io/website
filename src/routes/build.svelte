@@ -1,11 +1,11 @@
 <script>
-    import SimpleLayout from '../components/UI/SimpleLayout.svelte'
+    import BuildLayout from '../components/UI/BuildLayout.svelte'
 </script>
 <svelte:head>
     <title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<SimpleLayout>
+<BuildLayout>
     <div class="build-log">
         <header>
             <ul class="actions">
@@ -19,7 +19,7 @@
             Build in progress....
         </div>
     </div>
-</SimpleLayout>
+</BuildLayout>
 
 
 <style lang="sass">
@@ -69,6 +69,4 @@
             color: $white
             padding: 3rem 2rem
             min-height: 30rem
-
-
 </style>
