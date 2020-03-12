@@ -66,7 +66,7 @@
         font-family: $font-family-github
         border: .1rem solid #d1d5da
         border-radius: .3rem
-        margin-top: 2rem
+        margin-top: $spacing
 
         .header
             display: flex
@@ -82,7 +82,7 @@
 
             span
                 display: inline-block
-                margin-left: .5rem
+                margin-left: 1rem
 
         .content
             padding: 3.2rem
