@@ -1,14 +1,12 @@
 <script>
-    import Header from '../../components/UI/Header.svelte'
-    import RunmeFooter from './RunmeFooter.svelte'
+    import SimpleHeader from '../../components/UI/SimpleHeader.svelte'
     import JexiaFooter from './JexiaFooter.svelte'
 </script>
 
-<Header/>
+<SimpleHeader/>
 <main>
     <slot/>
 </main>
-<RunmeFooter/>
 <JexiaFooter/>
 
 
