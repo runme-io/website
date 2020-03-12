@@ -1,6 +1,25 @@
 <script>
     export let title = null
     let countDown = null
+    let showTimer = 0
+
+    countDown = 1 * 10
+
+    let timer = countDown
+    let minutes
+    let seconds
+    setInterval(function () {
+        minutes = Math.floor(timer / 60)
+        seconds = Math.floor(timer % 60)
+
+        minutes = minutes < 10 ? "0" + minutes : minutes
+        seconds = seconds < 10 ? "0" + seconds : seconds
+
+        showTimer = minutes + ":" + seconds
+
+        --timer
+    }, 1000)
+
 </script>
 
 <header>
@@ -11,9 +30,7 @@
     <div class="counter">
         <span class="title">Build time</span>
         <span class="timer">
-            <span>0</span>
-            <span>05</span>
-            <span>35</span>
+            {showTimer}
         </span>
     </div>
 </header>
@@ -51,10 +68,4 @@
 
             .title
                 display: block
-
-            .timer
-                span
-                    &:after
-                        content: '.'
-                        display: inline-block
 </style>
