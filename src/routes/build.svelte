@@ -1,11 +1,16 @@
 <script>
-    import BuildLayout from '../components/UI/BuildLayout.svelte'
+    import SimpleHeader from '../components/UI/SimpleHeader.svelte'
+    import JexiaFooter from '../components/UI/JexiaFooter.svelte'
+
+    const countDownFrom = 10 * 60
 </script>
 <svelte:head>
     <title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<BuildLayout>
+
+<SimpleHeader countDown="{countDownFrom}" title="Run your application from any public Git-repo with one click"/>
+<main>
     <div class="build-log">
         <header>
             <ul class="actions">
@@ -19,7 +24,8 @@
             Build in progress....
         </div>
     </div>
-</BuildLayout>
+</main>
+<JexiaFooter/>
 
 
 <style lang="sass">

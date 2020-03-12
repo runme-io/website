@@ -1,14 +1,13 @@
 <script>
     export let title = null
-    let countDown = null
+    export let countDown = null
     let showTimer = 0
-
-    countDown = 1 * 10
 
     let timer = countDown
     let minutes
     let seconds
-    setInterval(function () {
+
+    const timerInterval = setInterval(function () {
         minutes = Math.floor(timer / 60)
         seconds = Math.floor(timer % 60)
 
@@ -18,6 +17,10 @@
         showTimer = minutes + ":" + seconds
 
         --timer
+
+        if (timer < 0) {
+          clearInterval(timerInterval)
+        }
     }, 1000)
 
 </script>
