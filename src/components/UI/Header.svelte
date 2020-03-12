@@ -12,6 +12,8 @@
 
 <style lang="sass">
     @import "../../assets/style/theme"
+    @import "../../assets/style/mixins"
+
     header
         padding-left: $spacing
         padding-right: $spacing
@@ -20,25 +22,41 @@
         flex-direction: row
         flex-wrap: wrap
         justify-content: flex-start
-        background-image: linear-gradient(to right, black 33%, rgba(255,255,255, .5) 0%)
-        background-position: bottom
-        background-size: 2rem .1rem
-        background-repeat: repeat-x
+        @include dashed-line()
 
     .header-image
         align-self: flex-end
         margin-left: auto
         vertical-align: top
 
+        @media screen and (max-width: 670px)
+            display: none
+
         img
             height: 300px
 
+            @media screen and (max-width: 780px)
+                height: 200px
+
     .logo
         width: 50%
+        padding-bottom: $spacing
+
+        @media screen and (max-width: 780px)
+            width: 60%
+
+        @media screen and (max-width: 670px)
+            width: 100%
 
         h1
             line-height: 3.5rem
             font-size: 2.5rem
+
+            @media screen and (max-width: 992px)
+                font-size: 2rem
+
+            @media screen and (max-width: 780px)
+                font-size: 1.8rem
 
         .logo-svg
             width: 200px
