@@ -9,7 +9,7 @@
         <span>README.md</span>
     </div>
     <div class="content">
-        <h1>Application</h1>
+        <h1>Your awesome application</h1>
         <div class="runme-button"><RunmeButton/></div>
         <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vitae arcu tincidunt, vehicula nisi id, ullamcorper sem. Integer mollis, velit ut accumsan porttitor, tortor erat molestie lorem, ac placerat lacus arcu a mauris. Vivamus nulla velit, laoreet rutrum augue id, facilisis porta lorem. Aliquam interdum imperdiet fermentum. Ut turpis tellus, lacinia non tortor id, luctus rutrum tellus. Sed facilisis risus sed augue pulvinar, ut sagittis quam ullamcorper. Mauris dignissim feugiat sollicitudin.</p>
     </div>
@@ -55,4 +55,5 @@
 
             p
                 font-size: 1.6rem
+                filter: blur(3px)
 </style>
