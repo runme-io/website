@@ -1,6 +1,7 @@
 <script>
     import SocialIcons from '../UI/SocialIcons.svelte'
     import Donation from '../UI/Donation.svelte'
+
     const date = new Date()
     const year = date.getYear()
 
