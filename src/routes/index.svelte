@@ -1,15 +1,18 @@
 <script>
 	import Generator from '../components/Runme/Generator.svelte'
 	import RunmeButton from '../components/Runme/RunmeButton.svelte'
+	import MainLayout from '../components/UI/MainLayout.svelte'
 </script>
 <svelte:head>
 	<title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<div class="generator-page">
-	<h1>Generate <RunmeButton/>  button for your repo.</h1>
-	<Generator/>
-</div>
+<MainLayout>
+	<div class="generator-page">
+		<h1>Generate <RunmeButton/>  button for your repo.</h1>
+		<Generator/>
+	</div>
+</MainLayout>
 
 
 <style lang="sass">
