@@ -1,6 +1,7 @@
 <script>
     export let title = null
     export let countDown = null
+    export let countDownTitle = ''
     let showTimer = 0
 
     let timer = countDown
@@ -31,7 +32,7 @@
     </div>
     <h1>{title}</h1>
     <div class="counter">
-        <span class="title">Build time</span>
+        <span class="title">{countDownTitle}</span>
         <span class="timer">
             {showTimer}
         </span>
@@ -67,7 +68,7 @@
 
         .counter
             align-self: center
-            margin-left: auto
+            text-align: center
 
             .title
                 display: block

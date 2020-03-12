@@ -8,8 +8,8 @@
     <title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
+<SimpleHeader countDownTitle="Build time" countDown="{countDownFrom}" title="Run your application from any public Git-repo with one click"/>
 
-<SimpleHeader countDown="{countDownFrom}" title="Run your application from any public Git-repo with one click"/>
 <main>
     <div class="build-log">
         <header>
@@ -25,8 +25,8 @@
         </div>
     </div>
 </main>
-<JexiaFooter/>
 
+<JexiaFooter/>
 
 <style lang="sass">
     @import '../assets/style/theme'

@@ -7,9 +7,8 @@
 	<title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<SimpleHeader title="This application will stay available for 10 minutes."/>
+<SimpleHeader countDown="{60*10}" countDownTitle="Countdown" title="This application will stay available for 10 minutes."/>
 <iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
-
 
 <style lang="sass">
 	@import '../assets/style/theme'
