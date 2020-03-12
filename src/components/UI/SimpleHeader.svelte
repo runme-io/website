@@ -1,6 +1,6 @@
 <script>
     export let title = null
-    export let countDown = null
+    let countDown = null
 </script>
 
 <header>

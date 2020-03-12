@@ -1,11 +1,16 @@
 <script>
-
+    export let disabled = false
+    export let loading = false
     let cssClass = null;
     export { cssClass as class };
+
 </script>
 
-<button class={`btn ${cssClass || ''}`} on:click>
+<button {disabled} class={`btn ${cssClass || ''}`} on:click>
     <slot/>
+    {#if loading}
+        <img class="loading" alt="loading" src="/svg/loader.svg">
+    {/if}
 </button>
 
 <style lang="sass">
@@ -28,4 +33,13 @@
 
         &:active
             box-shadow: 0.2rem 0.2rem 0.1rem rgba(0, 0, 0, 0.4)
+
+        &:disabled
+            cursor: not-allowed
+            background-color: #767676
+
+    .loading
+        display: inline
+        height: 2rem
+
 </style>
