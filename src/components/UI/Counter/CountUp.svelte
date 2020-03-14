@@ -1,21 +1,26 @@
 <script>
-    // Todo make this as a store
-    let showTimer = 0
+    import moment from 'moment'
+    import { build } from '../../Runme/stores.js'
+    import { displayTimer } from '../../Helpers/Const'
 
+    let display = 0
     let totalSeconds = 0;
-    let hour = 0
-    let minutes = 0
-    let seconds = 0
+    let interval = null
 
-    const countDownInterval = setInterval(function () {
-        ++totalSeconds
+    // TODO fix timers
+    const unsubscribe = build.subscribe(({ created_at }) => {
+        if (created_at) {
+            const deployedTime = moment.utc(created_at)
+            const now = moment()
+            totalSeconds = now.diff(deployedTime, 'seconds')
 
-        hour = Math.floor(totalSeconds /3600)
-        minutes = Math.floor((totalSeconds - hour * 3600) / 60)
-        seconds = totalSeconds - ((hour * 3600) + (minutes * 60));
-
-        showTimer = minutes + ":" + seconds
-    }, 1000)
+            // update the timer
+            interval = setInterval(() => display = displayTimer(++totalSeconds), 1000)
+        } else {
+            clearInterval(interval)
+            display = '00:00'
+        }
+    });
 </script>
 
-{showTimer}
+{display}

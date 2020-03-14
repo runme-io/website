@@ -7,12 +7,16 @@
     import { isDockerUrl, isEmpty, isGitUrl } from '../Helpers/Validation'
     import Alert from '../UI/Alert.svelte'
     import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
+    import { runmeCreate } from './Service'
 
-    let showAdvancedOptions = false
+    // form fields
     let embedStyle = 'markdown'
     let repoUrl = 'https://github.com/jexia/jexia-vue-todo.git' // TODO remove it later
     let repoBranch = 'master'
     let dockerImage = ''
+
+    // others
+    let showAdvancedOptions = false
     let embedCode = ''
     let dropDownIcon = faSortDown
     let canShowEmbed = false
@@ -49,20 +53,7 @@
         isLoading(true)
 
         try {
-            let response = await fetch(`https://svc.runme.io/v1/apps`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    repo_url: repoUrl,
-                    repo_branch: repoBranch,
-                    docker_image: dockerImage
-                }),
-            })
-
-            let { id } = await response.json();
+            let { id } = await runmeCreate(repoUrl, repoBranch, dockerImage)
             appId = id
 
             isLoading(false)

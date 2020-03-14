@@ -2,16 +2,20 @@
     import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
     import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
     import { parse } from 'qs'
-    import hljs from 'highlight.js/lib/highlight'
-    import javascript from 'highlight.js/lib/languages/javascript'
+    import { default as AnsiUp } from 'ansi_up';
     import BuildLoading from '../components/UI/BuildLoading.svelte'
+    import * as animateScroll from 'svelte-scrollto'
+    import { goto } from '@sapper/app'
+    import { runmeBuild } from '../components/Runme/Service'
+    import { build } from '../components/Runme/stores.js';
 
-    hljs.registerLanguage('javascript', javascript)
+    const ansi_up = new AnsiUp();
 
     let building = true
     let buildLog = ''
     let buildStatus = 'building'
     let buildNotFound = false
+    let countFrom = 0
 
     // only client code
     if (process.browser) {
@@ -24,18 +28,8 @@
 
         const { build_id } = parsed
 
-        const poll = setInterval(() => {
-            fetch(`https://svc.runme.io/v1/build/${build_id}`, {
-                method: 'GET',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-            })
-                .then((response) => {
-                    return response.json()
-                })
+        function process(once = false) {
+            runmeBuild(build_id)
                 .then((response) => {
                     if (response.length === 0) {
                         buildNotFound = true
@@ -44,18 +38,49 @@
                     }
 
                     if (response[0] !== undefined) {
-                        response = response[0]
+                        const { status, deploy_log, build_log } = response[0]
+                        let log = []
 
-                        buildStatus = response.status
-                        buildLog = response.deploy_log ? hljs.highlight('javascript', response.deploy_log).value : ''
+                        // update the start date for the counter
+                        if (once) {
+                            build.set(response[0])
+                        }
 
-                        if (response.status === 'fail') {
+                        // fail? show a message
+                        if (status === 'fail') {
                             building = false
                             clearInterval(poll)
                         }
+
+                        // success? Go to the show page
+                        if (status === 'done') {
+                            building = false
+                            clearInterval(poll)
+                            goto(`/show?build_id=${build_id}`)
+                        }
+
+                        if(build_log) {
+                            log.push(atob(build_log))
+                        }
+
+                        if(deploy_log) {
+                            log.push(atob(deploy_log))
+                        }
+
+                        buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
+                        buildStatus = status
+
+                        // With a timeout, due the content change, we scroll to the bottom
+                        setTimeout(() => animateScroll.scrollToBottom({
+                            offset: 200,
+                        }), 200)
                     }
                 });
-        }, 3000);
+        }
+
+        process(true)
+
+        const poll = setInterval(() => process(), 3000);
 
     }
 </script>
@@ -134,4 +159,7 @@
             padding: 3rem 2rem
             min-height: 30rem
             word-break: break-word
+            line-height: 2.5rem
+            /*height: calc(100vh - 19rem)*/
+            /*overflow-y: scroll*/
 </style>

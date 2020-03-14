@@ -11,3 +11,8 @@
 </script>
 
 <div class="build-progress">Build in progress ...{dots}</div>
+
+<style lang="sass">
+    .build-progress
+        margin-top: .5rem
+</style>

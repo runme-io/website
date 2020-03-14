@@ -2,10 +2,12 @@
     import CountDown from '../Counter/CountDown.svelte'
     import CountUp from '../Counter/CountUp.svelte'
 
-    export let countDown = null
-    export let countUp = null
+    export let countDown = false
+    export let countUp = false
     export let title = null
     export let countDownTitle = ''
+
+
 </script>
 
 <header>
@@ -16,7 +18,7 @@
     <div class="counter">
         <span class="title">{countDownTitle}</span>
         <span class="timer">
-            {#if countDown}<CountDown {countDown}/>{/if}
+            {#if countDown}<CountDown/>{/if}
             {#if countUp}<CountUp/>{/if}
         </span>
     </div>
@@ -27,6 +29,8 @@
     @import "../../assets/style/mixins"
 
     header
+        position: sticky
+        top: 0
         height: 10rem
         padding: 2rem $spacing
         background-color: $primary-color

@@ -1,14 +1,42 @@
 <script>
 	import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
+	import { runmeBuild } from '../components/Runme/Service'
+	import { parse } from 'qs'
+	import { goto } from '@sapper/app'
+	import { build } from '../components/Runme/stores.js';
 
-	let src = 'https://reinos.nl'
+	let src
 
+	if (process.browser) {
+		const parsed = parse(window.location.search.replace('?', ''));
+
+		// no app_id? just redirect back
+		if (!Object.keys(parsed).includes('build_id')) {
+			goto('/')
+		}
+
+		const { build_id } = parsed;
+
+		runmeBuild(build_id)
+			.then(([response]) => {
+			    if (!response) {
+			        // TODO redirect back, as we have no result and the website seems offline.
+                    // TODO or show an error
+                }
+
+				build.set(response)
+				src = `http://${response.app_id}.runme.io`
+			})
+			.catch(() => {
+				// TODO what to do?
+			})
+	}
 </script>
 <svelte:head>
 	<title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<SimpleHeader countDown="{60*10}" countDownTitle="Countdown" title="This application will stay available for 10 minutes."/>
+<SimpleHeader countDown={true} countDownTitle="Countdown" title="This application will stay available for 10 minutes."/>
 <iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
 
 <style lang="sass">

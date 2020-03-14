@@ -1,32 +1,34 @@
 <script>
-    import { parse } from 'qs';
+    import { parse } from 'qs'
     import { goto } from '@sapper/app'
+    import { runmeStart } from '../components/Runme/Service'
 
-    // TODO check on SSR, this is client code
-    if (typeof window !== 'undefined') {
+    // Run only in client mode
+    if (process.browser) {
         const parsed = parse(window.location.search.replace('?', ''));
 
-        // no repo url? Redirect back
+        // no app_id? just redirect back
         if (!Object.keys(parsed).includes('app_id')) {
             goto('/')
         }
 
         const { app_id } = parsed;
 
-        fetch(`https://svc.runme.io/v1/apps/${app_id}/run`, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({}),
-        })
-            .then((response) => {
-                return response.json();
+        runmeStart(app_id)
+            .then(({ build_id, message }) => {
+
+              if (build_id) {
+                  goto(`/build?build_id=${build_id}`)
+              }
+
+              if (message) {
+                // TODO show the error
+                // goto(`/error?build_id=${build_id}`)
+              }
+
             })
-            .then(({ build_id }) => {
-                goto(`/build?build_id=${build_id}`)
-            });
+            .catch(() => {
+              // TODO catch an error and show the message to the user
+            })
     }
 </script>
