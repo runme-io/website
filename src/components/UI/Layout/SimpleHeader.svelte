@@ -1,6 +1,6 @@
 <script>
-    import CountDown from '../CountDown.svelte'
-    import CountUp from '../CountUp.svelte'
+    import CountDown from '../Counter/CountDown.svelte'
+    import CountUp from '../Counter/CountUp.svelte'
 
     export let countDown = null
     export let countUp = null

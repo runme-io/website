@@ -13,8 +13,8 @@
     let buildStatus = 'building'
     let buildNotFound = false
 
-    // TODO check on SSR, this is client code
-    if (typeof window !== 'undefined') {
+    // only client code
+    if (process.browser) {
         const parsed = parse(window.location.search.replace('?', ''))
 
         // no repo url? Redirect back
