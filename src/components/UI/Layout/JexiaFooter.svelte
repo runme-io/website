@@ -1,8 +1,6 @@
 <script>
-
     const date = new Date()
     const year = date.getYear()
-
 </script>
 
 <footer>

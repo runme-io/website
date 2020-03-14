@@ -1,5 +1,5 @@
 <script>
-    import Header from '../../components/UI/Header.svelte'
+    import Header from './Header.svelte'
     import RunmeFooter from './RunmeFooter.svelte'
     import JexiaFooter from './JexiaFooter.svelte'
 </script>

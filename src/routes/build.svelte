@@ -1,14 +1,69 @@
 <script>
-    import SimpleHeader from '../components/UI/SimpleHeader.svelte'
-    import JexiaFooter from '../components/UI/JexiaFooter.svelte'
+    import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
+    import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
+    import { parse } from 'qs'
+    import hljs from 'highlight.js/lib/highlight'
+    import javascript from 'highlight.js/lib/languages/javascript'
+    import BuildLoading from '../components/UI/BuildLoading.svelte'
 
-    const countDownFrom = 10 * 60
+    hljs.registerLanguage('javascript', javascript)
+
+    let building = true
+    let buildLog = ''
+    let buildStatus = 'building'
+    let buildNotFound = false
+
+    // TODO check on SSR, this is client code
+    if (typeof window !== 'undefined') {
+        const parsed = parse(window.location.search.replace('?', ''))
+
+        // no repo url? Redirect back
+        if (!Object.keys(parsed).includes('build_id')) {
+            goto('/')
+        }
+
+        const { build_id } = parsed
+
+        const poll = setInterval(() => {
+            fetch(`https://svc.runme.io/v1/build/${build_id}`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((response) => {
+                    if (response.length === 0) {
+                        buildNotFound = true
+                        building = false
+                        clearInterval(poll)
+                    }
+
+                    if (response[0] !== undefined) {
+                        response = response[0]
+
+                        buildStatus = response.status
+                        buildLog = response.deploy_log ? hljs.highlight('javascript', response.deploy_log).value : ''
+
+                        if (response.status === 'fail') {
+                            building = false
+                            clearInterval(poll)
+                        }
+                    }
+                });
+        }, 3000);
+
+    }
 </script>
 <svelte:head>
     <title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<SimpleHeader countDownTitle="Build time" countDown="{countDownFrom}" title="Run your application from any public Git-repo with one click"/>
+<SimpleHeader countDownTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
 
 <main>
     <div class="build-log">
@@ -21,7 +76,10 @@
             <h2>Jexia CLI</h2>
         </header>
         <div class="content">
-            Build in progress....
+            {@html buildLog}
+            {#if building}<BuildLoading intervalTimer="100"/>{/if}
+            {#if buildStatus === 'fail'}<div class="failed">Build failed</div>{/if}
+            {#if buildNotFound}<div class="not-found">Build not found</div>{/if}
         </div>
     </div>
 </main>
@@ -75,4 +133,5 @@
             color: $white
             padding: 3rem 2rem
             min-height: 30rem
+            word-break: break-word
 </style>

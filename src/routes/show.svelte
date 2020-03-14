@@ -1,7 +1,8 @@
 <script>
-	import SimpleHeader from '../components/UI/SimpleHeader.svelte'
+	import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
 
 	let src = 'https://reinos.nl'
+
 </script>
 <svelte:head>
 	<title>Runme.io - generate your code to deply</title>

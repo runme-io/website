@@ -1,29 +1,11 @@
 <script>
-    export let title = null
+    import CountDown from '../CountDown.svelte'
+    import CountUp from '../CountUp.svelte'
+
     export let countDown = null
+    export let countUp = null
+    export let title = null
     export let countDownTitle = ''
-    let showTimer = 0
-
-    let timer = countDown
-    let minutes
-    let seconds
-
-    const timerInterval = setInterval(function () {
-        minutes = Math.floor(timer / 60)
-        seconds = Math.floor(timer % 60)
-
-        minutes = minutes < 10 ? "0" + minutes : minutes
-        seconds = seconds < 10 ? "0" + seconds : seconds
-
-        showTimer = minutes + ":" + seconds
-
-        --timer
-
-        if (timer < 0) {
-          clearInterval(timerInterval)
-        }
-    }, 1000)
-
 </script>
 
 <header>
@@ -34,7 +16,8 @@
     <div class="counter">
         <span class="title">{countDownTitle}</span>
         <span class="timer">
-            {showTimer}
+            {#if countDown}<CountDown {countDown}/>{/if}
+            {#if countUp}<CountUp/>{/if}
         </span>
     </div>
 </header>

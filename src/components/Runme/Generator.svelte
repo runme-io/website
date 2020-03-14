@@ -10,7 +10,7 @@
 
     let showAdvancedOptions = false
     let embedStyle = 'markdown'
-    let repoUrl = 'https://github.com/jexia/test-node-app.git' // TODO remove it later
+    let repoUrl = 'https://github.com/jexia/jexia-vue-todo.git' // TODO remove it later
     let repoBranch = 'master'
     let dockerImage = ''
     let embedCode = ''
@@ -21,7 +21,7 @@
     let errorMsg = ''
     let appId = ''
 
-    const CurrentUrl = typeof window !== 'undefined' ? location.href : ''
+    const CurrentUrl = process.browser ? location.href : ''
 
     $: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
     $: dockerImageValid = isDockerUrl(dockerImage)
@@ -44,37 +44,34 @@
         }
     }
 
-    function generateEmbedCode () {
+    async function generateEmbedCode () {
         // set the button to loading
         isLoading(true)
 
-        fetch(`https://svc.runme.io/v1/apps`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                repo_url: repoUrl,
-                repo_branch: repoBranch,
-                docker_image: dockerImage
-            }),
-        })
-                .then((response) => {
-                    return response.json()
-                })
-                .then((data) => {
-                    console.log(data)
-                    isLoading(false)
-                    showEmbedCode()
-                })
-                .catch(() => {
-                    errorMsg = 'There is a problem with creating your button. Please try again later'
-                    isLoading(false)
-                })
+        try {
+            let response = await fetch(`https://svc.runme.io/v1/apps`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    repo_url: repoUrl,
+                    repo_branch: repoBranch,
+                    docker_image: dockerImage
+                }),
+            })
 
-        appId = 'adfasdf' // TODO should be removed is tmp
-        showEmbedCode()
+            let { id } = await response.json();
+            appId = id
+
+            isLoading(false)
+            showEmbedCode()
+
+        } catch(error) {
+            errorMsg = 'There is a problem with creating your button. Please try again later'
+            isLoading(false)
+        }
     }
 
     function showEmbedCode () {
@@ -85,10 +82,6 @@
             embedCode = `.. image:: ${CurrentUrl}static/button.svg\n    :target: https://runme.io/run?app_id=${appId}`
         }
     }
-
-    // change the code based on the embedStyle selection
-    $: showEmbedCode(embedStyle)
-
 </script>
 
 <section class="generator">
@@ -123,13 +116,12 @@
 
     <GenerateButton {loading} disabled={!formIsValid} on:click={generateEmbedCode}>{buttonText}</GenerateButton>
 
-
     {#if canShowEmbed}
         <div class="embed-result">
             <div class="generated-embed-code">
                 <div class="embed-code-options">
-                    <label><input bind:group={embedStyle} type="radio" value="markdown"/> Markdown</label>
-                    <label><input bind:group={embedStyle} type="radio" value="reStructuredText"/> reStructuredText</label>
+                    <label><input bind:group={embedStyle} on:change={showEmbedCode} type="radio" value="markdown"/> Markdown</label>
+                    <label><input bind:group={embedStyle} on:change={showEmbedCode} type="radio" value="reStructuredText"/> reStructuredText</label>
                 </div>
                 <TextInput rows="4" controlType="textarea" value={embedCode}/>
             </div>

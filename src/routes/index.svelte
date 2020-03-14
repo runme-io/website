@@ -1,7 +1,7 @@
 <script>
 	import Generator from '../components/Runme/Generator.svelte'
 	import RunmeButton from '../components/Runme/RunmeButton.svelte'
-	import MainLayout from '../components/UI/MainLayout.svelte'
+	import MainLayout from '../components/UI/Layout/MainLayout.svelte'
 </script>
 <svelte:head>
 	<title>Runme.io - generate your code to deply</title>
