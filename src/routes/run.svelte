@@ -22,7 +22,7 @@
               }
 
               if (message) {
-                // TODO show the error
+                // TODO show the error?
                 // goto(`/error?build_id=${build_id}`)
               }
 

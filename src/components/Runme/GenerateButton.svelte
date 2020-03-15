@@ -1,12 +1,10 @@
 <script>
     export let disabled = false
     export let loading = false
-    let cssClass = null;
-    export { cssClass as class };
 
 </script>
 
-<button {disabled} class={`btn ${cssClass || ''}`} on:click>
+<button {disabled} class="btn" on:click>
     <slot/>
     {#if loading}
         <img class="loading" alt="loading" src="/svg/loader.svg">
@@ -15,6 +13,7 @@
 
 <style lang="sass">
     @import '../../assets/style/theme'
+
     .btn
         display: inline-block
         padding: .5rem 1.5rem

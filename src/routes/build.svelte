@@ -160,6 +160,4 @@
             min-height: 30rem
             word-break: break-word
             line-height: 2.5rem
-            /*height: calc(100vh - 19rem)*/
-            /*overflow-y: scroll*/
 </style>

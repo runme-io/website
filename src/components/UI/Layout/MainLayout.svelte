@@ -13,7 +13,7 @@
 
 
 <style lang="sass">
-    @import '../../assets/style/theme'
+    @import '../../../assets/style/theme'
 
     main
         padding-left: $spacing

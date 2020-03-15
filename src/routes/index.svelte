@@ -4,7 +4,7 @@
 	import MainLayout from '../components/UI/Layout/MainLayout.svelte'
 </script>
 <svelte:head>
-	<title>Runme.io - generate your code to deply</title>
+	<title>Runme.io - generate your code to deploy</title>
 </svelte:head>
 
 <MainLayout>

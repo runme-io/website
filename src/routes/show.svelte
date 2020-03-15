@@ -3,41 +3,44 @@
 	import { runmeBuild } from '../components/Runme/Service'
 	import { parse } from 'qs'
 	import { goto } from '@sapper/app'
-	import { build } from '../components/Runme/stores.js';
+	import { build } from '../components/Runme/stores.js'
+	import Alert from '../components/UI/Alert.svelte'
 
 	let src
+	let notFound = false
 
 	if (process.browser) {
-		const parsed = parse(window.location.search.replace('?', ''));
+		const parsed = parse(window.location.search.replace('?', ''))
 
 		// no app_id? just redirect back
 		if (!Object.keys(parsed).includes('build_id')) {
 			goto('/')
 		}
 
-		const { build_id } = parsed;
+		const { build_id } = parsed
 
 		runmeBuild(build_id)
 			.then(([response]) => {
-			    if (!response) {
-			        // TODO redirect back, as we have no result and the website seems offline.
-                    // TODO or show an error
-                }
-
 				build.set(response)
 				src = `http://${response.app_id}.runme.io`
 			})
-			.catch(() => {
-				// TODO what to do?
-			})
+			.catch(() => notFound = true)
 	}
 </script>
 <svelte:head>
 	<title>Runme.io - generate your code to deply</title>
 </svelte:head>
 
-<SimpleHeader countDown={true} countDownTitle="Countdown" title="This application will stay available for 10 minutes."/>
-<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
+<SimpleHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
+
+{#if src}
+	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
+{:else if notFound}
+	<main class="main-content">
+		<h1>Website/application offline</h1>
+		<p>This website/applications seems to be offline.</p>
+	</main>
+{/if}
 
 <style lang="sass">
 	@import '../assets/style/theme'

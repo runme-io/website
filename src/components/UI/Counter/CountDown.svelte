@@ -6,22 +6,29 @@
     let display = 0
     let totalSeconds = 0
     let interval = null
+    const appAliveInSeconds = 10 * 60
 
-    setInterval(() => display = displayTimer(--totalSeconds), 1000)
-
-    // TODO fix timers
-    const unsubscribe = build.subscribe(({ updated_at }) => {
-      console.log(interval)
+    const clear = () => {
         clearInterval(interval)
         display = '00:00'
+    }
 
+    const unsubscribe = build.subscribe(({ updated_at }) => {
         if (updated_at) {
             const deployedTime = moment.utc(updated_at)
             const now = moment()
-            totalSeconds = now.diff(deployedTime, 'seconds')
+            totalSeconds = appAliveInSeconds - now.diff(deployedTime, 'seconds')
 
             // update the timer
-            interval = setInterval(() => display = displayTimer(--totalSeconds), 1000)
+            interval = setInterval(() => {
+                if(totalSeconds < 0) {
+                  display = displayTimer(--totalSeconds)
+                } else {
+                  clear()
+                }
+            }, 1000)
+        } else {
+            clear()
         }
     });
 </script>

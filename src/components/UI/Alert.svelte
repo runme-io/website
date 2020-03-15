@@ -1,5 +1,6 @@
 <script>
     export let type = ''
+
     function classType(){
       switch (type) {
           case 'success':

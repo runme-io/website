@@ -11,8 +11,8 @@
 </header>
 
 <style lang="sass">
-    @import "../../assets/style/theme"
-    @import "../../assets/style/mixins"
+    @import "../../../assets/style/theme"
+    @import "../../../assets/style/mixins"
 
     header
         padding-left: $spacing

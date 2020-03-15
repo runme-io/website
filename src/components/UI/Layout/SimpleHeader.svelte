@@ -5,7 +5,7 @@
     export let countDown = false
     export let countUp = false
     export let title = null
-    export let countDownTitle = ''
+    export let timerTitle = ''
 
 
 </script>
@@ -16,7 +16,7 @@
     </div>
     <h1>{title}</h1>
     <div class="counter">
-        <span class="title">{countDownTitle}</span>
+        <span class="title">{timerTitle}</span>
         <span class="timer">
             {#if countDown}<CountDown/>{/if}
             {#if countUp}<CountUp/>{/if}
@@ -25,8 +25,8 @@
 </header>
 
 <style lang="sass">
-    @import "../../assets/style/theme"
-    @import "../../assets/style/mixins"
+    @import "../../../assets/style/theme"
+    @import "../../../assets/style/mixins"
 
     header
         position: sticky

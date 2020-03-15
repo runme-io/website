@@ -7,7 +7,6 @@
     let totalSeconds = 0;
     let interval = null
 
-    // TODO fix timers
     const unsubscribe = build.subscribe(({ created_at }) => {
         if (created_at) {
             const deployedTime = moment.utc(created_at)

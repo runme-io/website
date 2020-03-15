@@ -11,8 +11,8 @@
 </footer>
 
 <style lang="sass">
-    @import '../../assets/style/theme'
-    @import '../../assets/style/mixins'
+    @import '../../../assets/style/theme'
+    @import '../../../assets/style/mixins'
 
     footer
         @include dashed-line(top)
