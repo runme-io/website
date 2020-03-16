@@ -10,7 +10,7 @@
 
 <header>
     <div class="logo-svg">
-        <a href="">
+        <a href="/">
             <img src="/svg/jexiaLogo.svg" alt="logo">
         </a>
     </div>
