@@ -91,9 +91,9 @@
     function showEmbedCode () {
         canShowEmbed = repoUrl !== '' && repoBranch !== '' && appId !== ''
         if (canShowEmbed && embedStyle === 'markdown') {
-            embedCode = `[![Runme](${CurrentUrl}/static/button.svg)](${CurrentUrl}/run?app_id=${appId})`
+            embedCode = `[![Runme](https://svc.runme.io/static/button.svg)](${CurrentUrl}/run?app_id=${appId})`
         } else if (canShowEmbed && embedStyle === 'reStructuredText') {
-            embedCode = `.. image:: ${CurrentUrl}/static/button.svg\n    :target: ${CurrentUrl}/run?app_id=${appId}`
+            embedCode = `.. image:: https://svc.runme.io/static/button.svg\n    :target: ${CurrentUrl}/run?app_id=${appId}`
         }
     }
 </script>
