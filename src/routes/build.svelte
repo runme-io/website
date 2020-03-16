@@ -8,7 +8,6 @@
     import { runmeService } from '../components/Runme/Services'
     import { build } from '../components/Runme/stores.js';
     import { queryParam } from '../components/Helpers/QueryParam'
-    import { websocketStore } from 'svelte-websocket-store';
 
     const ansi_up = new AnsiUp();
 
