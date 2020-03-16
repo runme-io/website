@@ -6,7 +6,7 @@
     import * as animateScroll from 'svelte-scrollto'
     import { goto } from '@sapper/app'
     import { runmeService } from '../components/Runme/Services'
-    import { build } from '../components/Runme/stores.js';
+    import { build } from '../components/Runme/stores.js'
     import { queryParam } from '../components/Helpers/QueryParam'
 
     const ansi_up = new AnsiUp();
