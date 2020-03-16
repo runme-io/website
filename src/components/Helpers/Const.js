@@ -14,3 +14,7 @@ export const redirectWithError = (errorMsg, path = '/') => {
   const error = encodeURI(errorMsg)
   goto(`${path}?error=${error}`)
 }
+
+export const currentUrl = () => {
+  return process.browser ? `${location.protocol}//${location.host}` : ''
+}
