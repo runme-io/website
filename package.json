@@ -1,7 +1,12 @@
 {
-  "name": "TODO",
-  "description": "TODO",
+  "name": "runme-website",
+  "description": "This is the Website for runme.io",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jexia-com/runme-website.git"
+  },
+  "license": "",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
@@ -9,7 +14,8 @@
     "start": "node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "test": "run-p --race dev cy:run"
+    "test": "run-p --race dev cy:run",
+    "docker": "docker build -t runme-website ."
   },
   "dependencies": {
     "ansi_up": "^4.0.4",
@@ -40,8 +46,9 @@
     "rollup-plugin-svelte": "^5.0.1",
     "rollup-plugin-terser": "^4.0.4",
     "sapper": "^0.27.0",
+    "sass": "^1.26.3",
     "svelte": "^3.0.0",
-    "svelte-preprocess": "^3.4.0",
+    "svelte-preprocess": "^3.5.0",
     "svelte-scrollto": "^0.1.1"
   }
 }

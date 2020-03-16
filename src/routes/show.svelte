@@ -1,7 +1,7 @@
 <script>
 	import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
 	import { runmeService } from '../components/Runme/Services'
-	import { build } from '../components/Runme/stores.js'
+	import { build } from '../components/Runme/Stores'
 	import { queryParam } from '../components/Helpers/QueryParam'
 
 	let src
