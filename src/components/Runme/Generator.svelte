@@ -28,8 +28,8 @@
     let errorType = 'warning'
 
     $: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
-    $: dockerImageValid = isDockerUrl(dockerImage)
-    $: formIsValid = repoUrlValid
+    $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
+    $: formIsValid = repoUrlValid && dockerImageValid
 
     const CurrentUrl = process.browser ? `${location.protocol}//${location.host}` : ''
 
