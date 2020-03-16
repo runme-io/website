@@ -14,7 +14,6 @@
 	</div>
 </MainLayout>
 
-
 <style lang="sass">
 	@import '../assets/style/theme'
 

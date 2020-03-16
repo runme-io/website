@@ -13,7 +13,7 @@
             const now = moment()
             totalSeconds = now.diff(deployedTime, 'seconds')
 
-            // update the timer
+            // start the countup
             interval = setInterval(() => display = displayTimer(++totalSeconds), 1000)
         } else {
             clearInterval(interval)

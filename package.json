@@ -18,7 +18,6 @@
     "moment": "^2.24.0",
     "polka": "next",
     "prismjs": "^1.19.0",
-    "qs": "^6.9.1",
     "sirv": "^0.4.0"
   },
   "devDependencies": {

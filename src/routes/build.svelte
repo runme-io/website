@@ -1,94 +1,99 @@
+<svelte:head>
+    <title>Runme.io - Building your application</title>
+</svelte:head>
 <script>
     import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
     import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
-    import { parse } from 'qs'
     import { default as AnsiUp } from 'ansi_up';
     import BuildLoading from '../components/UI/BuildLoading.svelte'
     import * as animateScroll from 'svelte-scrollto'
     import { goto } from '@sapper/app'
-    import { runmeBuild } from '../components/Runme/Service'
+    import { runmeService } from '../components/Runme/Services'
     import { build } from '../components/Runme/stores.js';
+    import { queryParam } from '../components/Helpers/QueryParam'
 
     const ansi_up = new AnsiUp();
 
     let building = true
     let buildLog = ''
-    let buildStatus = 'building'
-    let buildNotFound = false
+    let buildErrorMsg
     let countFrom = 0
+
+    const showBuildError = (error) => {
+        buildErrorMsg = error
+        building = false
+    }
 
     // only client code
     if (process.browser) {
-        const parsed = parse(window.location.search.replace('?', ''))
+        const buildId = queryParam().get('build_id')
 
         // no repo url? Redirect back
-        if (!Object.keys(parsed).includes('build_id')) {
-            goto('/')
+        if (buildId === '') {
+            showBuildError('"build_id" is missing')
+        } else {
+            const process = (once = false) => {
+                runmeService().build(buildId)
+                        .then((response) => {
+                            if (response.length === 0) {
+                                showBuildError(`Build ID "${buildId}" has not been found`)
+                                clearInterval(buildPolling)
+                            }
+
+                            if (response[0] !== undefined) {
+                                const { status, deploy_log, build_log } = response[0]
+                                let log = []
+
+                                // update the start date for the counter
+                                if (once) {
+                                    build.set(response[0])
+                                }
+
+                                // fail? show a message
+                                if (status === 'fail') {
+                                    showBuildError(`Build failed`)
+                                    clearInterval(buildPolling)
+                                }
+
+                                // success? Go to the show page
+                                if (status === 'done') {
+                                    clearInterval(buildPolling)
+                                    goto(`/show?build_id=${buildId}`)
+                                }
+
+                                if(build_log) {
+                                    log.push(atob(build_log))
+                                }
+
+                                if(deploy_log) {
+                                    log.push(atob(deploy_log))
+                                }
+
+                                buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
+
+                                // With a timeout, due the content change, we scroll to the bottom
+                                // TODO use some kind of function for scrolling that Netlify also does (div scroll) instead of pageScroll
+                                setTimeout(() => animateScroll.scrollToBottom({
+                                    offset: 200,
+                                }), 200)
+                            }
+                        })
+                        .catch(() => {
+                            clearInterval(buildPolling)
+                            showBuildError(`Build ID "${buildId}" has not been found`)
+                        })
+            }
+
+            // just run it for the first time.
+            process(true)
+
+            // run the interval polling
+            const buildPolling = setInterval(() => process(), 3000);
         }
-
-        const { build_id } = parsed
-
-        function process(once = false) {
-            runmeBuild(build_id)
-                .then((response) => {
-                    if (response.length === 0) {
-                        buildNotFound = true
-                        building = false
-                        clearInterval(poll)
-                    }
-
-                    if (response[0] !== undefined) {
-                        const { status, deploy_log, build_log } = response[0]
-                        let log = []
-
-                        // update the start date for the counter
-                        if (once) {
-                            build.set(response[0])
-                        }
-
-                        // fail? show a message
-                        if (status === 'fail') {
-                            building = false
-                            clearInterval(poll)
-                        }
-
-                        // success? Go to the show page
-                        if (status === 'done') {
-                            building = false
-                            clearInterval(poll)
-                            goto(`/show?build_id=${build_id}`)
-                        }
-
-                        if(build_log) {
-                            log.push(atob(build_log))
-                        }
-
-                        if(deploy_log) {
-                            log.push(atob(deploy_log))
-                        }
-
-                        buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
-                        buildStatus = status
-
-                        // With a timeout, due the content change, we scroll to the bottom
-                        setTimeout(() => animateScroll.scrollToBottom({
-                            offset: 200,
-                        }), 200)
-                    }
-                });
-        }
-
-        process(true)
-
-        const poll = setInterval(() => process(), 3000);
-
     }
 </script>
-<svelte:head>
-    <title>Runme.io - generate your code to deply</title>
-</svelte:head>
 
-<SimpleHeader countDownTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
+<SimpleHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
 
 <main>
     <div class="build-log">
@@ -103,8 +108,7 @@
         <div class="content">
             {@html buildLog}
             {#if building}<BuildLoading intervalTimer="100"/>{/if}
-            {#if buildStatus === 'fail'}<div class="failed">Build failed</div>{/if}
-            {#if buildNotFound}<div class="not-found">Build not found</div>{/if}
+            {#if buildErrorMsg}<div class="not-found">> Error: {buildErrorMsg}</div>{/if}
         </div>
     </div>
 </main>

@@ -19,9 +19,9 @@
             const now = moment()
             totalSeconds = appAliveInSeconds - now.diff(deployedTime, 'seconds')
 
-            // update the timer
+            // start the countdown
             interval = setInterval(() => {
-                if(totalSeconds < 0) {
+                if (totalSeconds > 0) {
                   display = displayTimer(--totalSeconds)
                 } else {
                   clear()

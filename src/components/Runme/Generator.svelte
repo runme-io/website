@@ -7,7 +7,8 @@
     import { isDockerUrl, isEmpty, isGitUrl } from '../Helpers/Validation'
     import Alert from '../UI/Alert.svelte'
     import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
-    import { runmeCreate } from './Service'
+    import { runmeService } from './Services'
+    import { queryParam } from '../Helpers/QueryParam'
 
     // form fields
     let embedStyle = 'markdown'
@@ -24,19 +25,32 @@
     let buttonText = 'Generate'
     let errorMsg = ''
     let appId = ''
-
-    const CurrentUrl = process.browser ? location.href : ''
+    let errorType = 'warning'
 
     $: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
     $: dockerImageValid = isDockerUrl(dockerImage)
     $: formIsValid = repoUrlValid
 
-    function toggleAdvanced () {
-        showAdvancedOptions = !showAdvancedOptions
-        dropDownIcon = showAdvancedOptions ? faSortDown : faSortUp
+    const CurrentUrl = process.browser ? `${location.protocol}//${location.host}` : ''
+
+    const setError = (error, type = 'warning') => {
+        errorType = type
+        errorMsg = error
     }
 
-    function isLoading (status) {
+    const clearError = () => {
+        queryParam().set('error', '')
+        setError('')
+    }
+
+    // check if we have to deal with an error from a previous page
+    // TODO move this to a store/service or global component
+    const hasError = queryParam().get('error')
+    if (hasError) {
+        setError(hasError, 'danger')
+    }
+
+    const isLoading = (status) => {
         if (status) {
             loading = true
             formIsValid = false
@@ -48,19 +62,27 @@
         }
     }
 
+    function toggleAdvanced () {
+        showAdvancedOptions = !showAdvancedOptions
+        dropDownIcon = showAdvancedOptions ? faSortDown : faSortUp
+    }
+
     async function generateEmbedCode () {
         // set the button to loading
         isLoading(true)
 
+        // clear previous errors
+        clearError()
+
         try {
-            let { id } = await runmeCreate(repoUrl, repoBranch, dockerImage)
+            let { id } = await runmeService().create(repoUrl, repoBranch, dockerImage)
             appId = id
 
             isLoading(false)
             showEmbedCode()
 
         } catch(error) {
-            errorMsg = 'There is a problem with creating your button. Please try again later'
+            setError('There is a problem with creating your button. Please try again later')
             isLoading(false)
         }
     }
@@ -76,7 +98,8 @@
 </script>
 
 <section class="generator">
-    {#if errorMsg}<Alert type="warning">{errorMsg}</Alert>{/if}
+    <!-- TODO move this to a global component for every page -->
+    {#if errorMsg}<Alert type={errorType}>{errorMsg}</Alert>{/if}
 
     <div class="generator__repo-url">
         <TextInput
