@@ -9,7 +9,7 @@
     import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
     import { runmeService } from './Services'
     import { queryParam } from '../Helpers/QueryParam'
-    import { currentUrl } from '../Helpers/Const'
+    import { getCurrentUrl } from '../Helpers/Const'
 
     // form fields
     let embedStyle = 'markdown'
@@ -32,7 +32,7 @@
     $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
     $: formIsValid = repoUrlValid && dockerImageValid
 
-    const CurrentUrl = currentUrl()
+    const CurrentUrl = getCurrentUrl()
 
     const setError = (error, type = 'warning') => {
         errorType = type

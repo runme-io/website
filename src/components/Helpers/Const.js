@@ -15,6 +15,6 @@ export const redirectWithError = (errorMsg, path = '/') => {
   goto(`${path}?error=${error}`)
 }
 
-export const currentUrl = () => {
+export const getCurrentUrl = () => {
   return process.browser ? `${location.protocol}//${location.host}` : ''
 }
