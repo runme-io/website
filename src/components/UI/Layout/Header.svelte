@@ -1,7 +1,9 @@
 <header>
     <div class="logo">
         <div class="logo-svg">
-            <img src="/svg/jexiaLogo.svg" alt="logo">
+            <a href="/">
+                <img src="/svg/jexiaLogo.svg" alt="logo">
+            </a>
         </div>
         <h1>Run your application from any public Git-repo with one click</h1>
     </div>
@@ -62,4 +64,7 @@
             width: 200px
             margin-top: 75px
             margin-bottom: 40px
+
+            a
+                border: 0
 </style>

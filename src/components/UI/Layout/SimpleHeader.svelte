@@ -6,13 +6,13 @@
     export let countUp = false
     export let title = null
     export let timerTitle = ''
-
-
 </script>
 
 <header>
     <div class="logo-svg">
-        <img src="/svg/jexiaLogo.svg" alt="logo">
+        <a href="">
+            <img src="/svg/jexiaLogo.svg" alt="logo">
+        </a>
     </div>
     <h1>{title}</h1>
     <div class="counter">
@@ -52,6 +52,9 @@
 
         .logo-svg
             width: 200px
+
+            a
+                border: 0
 
         .counter
             align-self: center
