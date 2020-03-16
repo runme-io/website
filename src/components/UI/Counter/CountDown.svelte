@@ -2,6 +2,7 @@
     import moment from 'moment'
     import { build } from '../../Runme/stores.js'
     import { displayTimer } from '../../Helpers/Const'
+    import { onDestroy } from 'svelte'
 
     let display = 0
     let totalSeconds = 0
@@ -19,6 +20,9 @@
             const now = moment()
             totalSeconds = appAliveInSeconds - now.diff(deployedTime, 'seconds')
 
+            // first clearing the old interval
+            clearInterval(interval)
+
             // start the countdown
             interval = setInterval(() => {
                 if (totalSeconds > 0) {
@@ -31,6 +35,11 @@
             clear()
         }
     });
+
+    onDestroy(() => {
+        clearInterval(interval)
+        unsubscribe()
+    })
 </script>
 
 {display}

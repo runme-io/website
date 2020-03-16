@@ -1,6 +1,3 @@
-<svelte:head>
-    <title>Runme.io - Building your application</title>
-</svelte:head>
 <script>
     import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
     import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
@@ -11,6 +8,7 @@
     import { runmeService } from '../components/Runme/Services'
     import { build } from '../components/Runme/stores.js';
     import { queryParam } from '../components/Helpers/QueryParam'
+    import { websocketStore } from 'svelte-websocket-store';
 
     const ansi_up = new AnsiUp();
 
@@ -24,6 +22,10 @@
         building = false
     }
 
+    const done = (buildId) => {
+        goto(`/show?build_id=${buildId}`)
+    }
+
     // only client code
     if (process.browser) {
         const buildId = queryParam().get('build_id')
@@ -32,66 +34,57 @@
         if (buildId === '') {
             showBuildError('"build_id" is missing')
         } else {
-            const process = (once = false) => {
-                runmeService().build(buildId)
-                        .then((response) => {
-                            if (response.length === 0) {
-                                showBuildError(`Build ID "${buildId}" has not been found`)
-                                clearInterval(buildPolling)
-                            }
 
-                            if (response[0] !== undefined) {
-                                const { status, deploy_log, build_log } = response[0]
-                                let log = []
+            // TODO ASYNC/WAIT for the .build()
+            runmeService().build(buildId)
+                .then(([response]) => {
+                    if (response.status === 'done') {
+                        done(buildId)
+                    }
 
-                                // update the start date for the counter
-                                if (once) {
-                                    build.set(response[0])
-                                }
+                    // update the store
+                    build.set(response)
 
-                                // fail? show a message
-                                if (status === 'fail') {
-                                    showBuildError(`Build failed`)
-                                    clearInterval(buildPolling)
-                                }
+                    // fire-up the WS
+                    runmeService().wsBuild(buildId, message => {
 
-                                // success? Go to the show page
-                                if (status === 'done') {
-                                    clearInterval(buildPolling)
-                                    goto(`/show?build_id=${buildId}`)
-                                }
+                        const { status, deploy_log, build_log } = message
+                        let log = []
 
-                                if(build_log) {
-                                    log.push(atob(build_log))
-                                }
+                        if (status === 'fail') {
+                            showBuildError(`Build failed`)
+                        }
 
-                                if(deploy_log) {
-                                    log.push(atob(deploy_log))
-                                }
+                        // TODO are we sure we need to do this automatically?
+                        if (status === 'done') {
+                            done(buildId)
+                        }
 
-                                buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
+                        if (build_log) {
+                            log.push(build_log)
+                        }
 
-                                // With a timeout, due the content change, we scroll to the bottom
-                                // TODO use some kind of function for scrolling that Netlify also does (div scroll) instead of pageScroll
-                                setTimeout(() => animateScroll.scrollToBottom({
-                                    offset: 200,
-                                }), 200)
-                            }
-                        })
-                        .catch(() => {
-                            clearInterval(buildPolling)
-                            showBuildError(`Build ID "${buildId}" has not been found`)
-                        })
-            }
+                        if (deploy_log) {
+                            log.push(deploy_log)
+                        }
 
-            // just run it for the first time.
-            process(true)
+                        buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
 
-            // run the interval polling
-            const buildPolling = setInterval(() => process(), 3000);
+                        // With a timeout, due the content change, we scroll to the bottom
+                        // TODO use some kind of function for scrolling that Netlify also does (div scroll) instead of pageScroll
+                        setTimeout(() => animateScroll.scrollToBottom({
+                            offset: 200,
+                        }), 200)
+                    });
+                })
+                .catch(() => showBuildError(`Build ID "${buildId}" has not been found`))
         }
     }
 </script>
+
+<svelte:head>
+    <title>Runme.io - Building your application</title>
+</svelte:head>
 
 <SimpleHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
 

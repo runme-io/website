@@ -41,9 +41,24 @@ export function runmeService() {
     return await response.json()
   }
 
+  function wsBuild(build_id, callback) {
+    const ws = new WebSocket('ws://svc.runme.io/ws');
+
+    ws.onopen = function(){
+      ws.send(JSON.stringify({ "command": "subscribe", "payload": {"build_id": build_id} }))
+    }
+
+    ws.onmessage = function(message) {
+      if (typeof callback === 'function') {
+        callback(JSON.parse(message.data).payload)
+      }
+    }
+  }
+
   return {
     create,
     start,
     build,
+    wsBuild,
   }
 }

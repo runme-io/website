@@ -17,11 +17,11 @@
 
 		if (buildId) {
 			runmeService().build(buildId)
-					.then(([response]) => {
-						build.set(response)
-						src = `http://${response.app_id}.runme.io`
-					})
-					.catch(() => showError(`No application has been deployed with build ID "${buildId}". Please generate an build <a href="/">here</a>.`))
+				.then(([response]) => {
+					build.set(response)
+					src = `http://${response.app_id}.runme.io`
+				})
+				.catch(() => showError(`No application has been deployed with build ID "${buildId}". Please generate an build <a href="/">here</a>.`))
 		} else {
 			showError()
 		}
