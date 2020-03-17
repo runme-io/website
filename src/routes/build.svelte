@@ -49,6 +49,20 @@
         }
     }
 
+    const collectLog = (build_log, deploy_log) => {
+        let log = []
+
+        if (build_log) {
+            log.push(build_log)
+        }
+
+        if (deploy_log) {
+            log.push(deploy_log)
+        }
+
+        buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
+    }
+
     // only client code
     if (process.browser) {
         const buildId = queryParam().get('build_id')
@@ -64,6 +78,12 @@
                         done(buildId)
                     }
 
+                    if (response.status === 'fail') {
+                        collectLog(atob(response.build_log), atob(response.deploy_log))
+
+                        // TODO we need to scroll down
+                    }
+
                     // update the store
                     build.set(response)
 
@@ -71,7 +91,6 @@
                     runmeService().wsBuild(buildId, message => {
 
                         const { status, deploy_log, build_log } = message
-                        let log = []
 
                         if (status === 'fail') {
                             showBuildError(`Build failed`)
@@ -82,15 +101,8 @@
                             done(buildId)
                         }
 
-                        if (build_log) {
-                            log.push(build_log)
-                        }
-
-                        if (deploy_log) {
-                            log.push(deploy_log)
-                        }
-
-                        buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
+                        // collect the log and combine them
+                        collectLog(build_log, deploy_log)
 
                         // get the height of the content, to determine if we need to set an extra class for the sticky position
                         displayActionsAsSticky = getContentHeight() > 300
@@ -110,37 +122,39 @@
     <title>Runme.io - Building your application</title>
 </svelte:head>
 
-<SimpleHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
+<div class="page-container">
+    <SimpleHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
 
-<div class="container">
-    <main>
-        <div class="build-log">
-            <header>
-                <ul class="actions">
-                    <li class="red"></li>
-                    <li class="orange"></li>
-                    <li class="green"></li>
-                </ul>
-                <h2>Jexia CLI</h2>
-            </header>
-            <div class="content">
-                {@html buildLog}
-                {#if building}<BuildLoading intervalTimer="100"/>{/if}
-                {#if buildErrorMsg}<div class="not-found">> Error: {buildErrorMsg}</div>{/if}
+    <div class="container">
+        <main>
+            <div class="build-log">
+                <header>
+                    <ul class="actions">
+                        <li class="red"></li>
+                        <li class="orange"></li>
+                        <li class="green"></li>
+                    </ul>
+                    <h2>Jexia CLI</h2>
+                </header>
+                <div class="content">
+                    {@html buildLog}
+                    {#if building}<BuildLoading intervalTimer="100"/>{/if}
+                    {#if buildErrorMsg}<div class="not-found">> Error: {buildErrorMsg}</div>{/if}
 
-                {#if building && buildLog}
-                    <div class="actions" class:sticky={displayActionsAsSticky}>
-                        <button title="Scroll to bottom" class:active={buildSticky} on:click={scrollToBottom}><Icon icon="{faArrowDown}"/></button>
-                        <button title="Scroll to top" on:click={scrollToTop}><Icon icon="{faArrowUp}"/></button>
-                    </div>
-                    <div id="marker-scroll-to-bottom"></div>
-                {/if}
+                    {#if building && buildLog}
+                        <div class="actions" class:sticky={displayActionsAsSticky}>
+                            <button title="Scroll to bottom" class:active={buildSticky} on:click={scrollToBottom}><Icon icon="{faArrowDown}"/></button>
+                            <button title="Scroll to top" on:click={scrollToTop}><Icon icon="{faArrowUp}"/></button>
+                        </div>
+                        <div id="marker-scroll-to-bottom"></div>
+                    {/if}
+                </div>
             </div>
-        </div>
-    </main>
-</div>
+        </main>
+    </div>
 
-<JexiaFooter/>
+    <JexiaFooter/>
+</div>
 
 <style lang="sass">
     @import '../assets/style/theme'
