@@ -29,7 +29,7 @@ export function queryParam() {
         const updateRegex = new RegExp('([\?&])' + key + '[^&]*')
         const removeRegex = new RegExp('([\?&])' + key + '=[^&;]+[&;]?')
 
-        if (typeof value === 'undefined' || value == null || value === '') { // Remove param if value is empty
+        if (typeof value === 'undefined' || value === null || value === '') { // Remove param if value is empty
           params = urlQueryString.replace(removeRegex, "$1")
           params = params.replace( /[&;]$/, '')
 
