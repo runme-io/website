@@ -1,12 +1,13 @@
 <script>
-    import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
+    import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
 </script>
+
 <svelte:head>
     <!-- TODO show the repo url in the title? -->
     <title>Runme.io - </title>
 </svelte:head>
 
-<SimpleHeader title="Deploy your application on our Jexia platform"/>
+<FixedHeader title="Deploy your application on our Jexia platform"/>
 
 <iframe class="deployed-iframe" title="Your deployed app" src="https://app.jexia.com"></iframe>
 

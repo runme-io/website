@@ -1,5 +1,5 @@
 <script>
-    import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
+    import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
     import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
     import { default as AnsiUp } from 'ansi_up';
     import BuildLoading from '../components/UI/BuildLoading.svelte'
@@ -123,7 +123,7 @@
 </svelte:head>
 
 <div class="page-container">
-    <SimpleHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
+    <FixedHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
 
     <div class="container">
         <main>
