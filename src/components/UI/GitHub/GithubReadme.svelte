@@ -1,37 +1,6 @@
 <script>
-    // import RunmeButton from './../../Runme/RunmeButton.svelte'
     import GitHubBookIcon from './GitHubBookIcon.svelte'
-    import parseGithub from 'github-url-to-object'
-    import { fetchReadme } from '@varandas/fetch-readme'
-    import marked from 'marked'
     import GithubMarkdown from './GithubMarkdown.svelte'
-
-    export let repositoryUrl
-
-    let readme
-
-    const github = parseGithub(repositoryUrl)
-
-    if (process.browser) {
-
-        // const converter = new showdown.Converter()
-        fetchReadme({
-            username: github.user,
-            repository: github.repo,
-            branch: github.branch
-        }).then(response => readme = marked(response))
-    }
-
-    // const result = await axiosInstance.get(
-    //         config.username +
-    //         '/' +
-    //         config.repository +
-    //         '/' +
-    //         config.branch +
-    //         '/' +
-    //         config.readme
-    // )
-    // return result.data
 </script>
 
 <div class="github-readme">
@@ -39,7 +8,7 @@
         <GitHubBookIcon/>
         <span>README.md</span>
     </div>
-    <GithubMarkdown content={readme}/>
+    <GithubMarkdown/>
 </div>
 
 <style lang="sass">
@@ -66,11 +35,4 @@
             span
                 display: inline-block
                 margin-left: 1rem
-
-        .markdown-body
-            padding: 3.2rem
-
-            /*.runme-button*/
-            /*    margin-top: 2rem*/
-            /*    margin-bottom: 1rem*/
 </style>

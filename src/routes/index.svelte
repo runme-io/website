@@ -4,7 +4,7 @@
 	import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
 	import Header from '../components/UI/Layout/Header.svelte'
 	import RunmeFooter from '../components/UI/Layout/RunmeFooter.svelte'
-	import { embedCodeGenerated } from './../components/Runme/Stores'
+	import { application } from './../components/Runme/Stores'
 </script>
 <svelte:head>
 	<title>Runme.io - generate your code to deploy</title>
@@ -22,7 +22,7 @@
 		</div>
 	</main>
 
-	{#if $embedCodeGenerated}<RunmeFooter/>{/if}
+	{#if $application}<RunmeFooter/>{/if}
 	<JexiaFooter/>
 </div>
 

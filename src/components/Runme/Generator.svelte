@@ -10,7 +10,7 @@
     import { runmeService } from './Services'
     import { queryParam } from '../Helpers/QueryParam'
     import { getCurrentUrl } from '../Helpers/Const'
-    import { embedCodeGenerated } from './Stores'
+    import { application } from './Stores'
 
     // form fields
     let embedStyle = 'markdown'
@@ -73,15 +73,15 @@
         // set the button to loading
         isLoading(true)
 
-        // mark the embed code as generated and let others use it
-        embedCodeGenerated.set(true)
-
         // clear previous errors
         clearError()
 
         try {
-            let { id } = await runmeService().create(repoUrl, repoBranch, dockerImage)
-            appId = id
+            let response = await runmeService().create(repoUrl, repoBranch, dockerImage)
+            appId = response.id
+
+            // Save the application response
+            application.set(response)
 
             isLoading(false)
             showEmbedCode()
@@ -147,8 +147,8 @@
                 </div>
             </div>
 
-            <h3>Github example</h3>
-            <GithubReadme repositoryUrl={repoUrl}/>
+            <h3>Your Readme.md (with runme button)</h3>
+            <GithubReadme/>
         </div>
     {/if}
 </section>
@@ -186,7 +186,7 @@
                 cursor: pointer
 
         h3
-            margin-top: 2rem
+            margin-top: 3rem
             font-weight: bold
             font-size: 2rem
             margin-bottom: 2rem

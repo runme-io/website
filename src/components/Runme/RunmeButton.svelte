@@ -11,6 +11,6 @@
         display: inline
 </style>
 
-<a {href} class="runme-button">
+<a {href} class="runme-button" target="_blank">
     <img src="/svg/runmeButton.svg" {alt}>
 </a>
