@@ -37,10 +37,12 @@
 {#if src}
 	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
 {:else if errorMsg}
-	<main class="main-content">
-		<h1>Error</h1>
-		<p>{@html errorMsg}</p>
-	</main>
+	<div class="container">
+		<div class="main-content">
+			<h1>Error</h1>
+			<p>{@html errorMsg}</p>
+		</div>
+	</div>
 {/if}
 
 <style lang="sass">

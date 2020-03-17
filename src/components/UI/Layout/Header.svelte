@@ -1,14 +1,16 @@
 <header>
-    <div class="logo">
-        <div class="logo-svg">
-            <a href="/">
-                <img src="/svg/jexiaLogo.svg" alt="logo">
-            </a>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-svg">
+                <a href="/">
+                    <img src="/svg/jexiaLogo.svg" alt="logo">
+                </a>
+            </div>
+            <h1>Run your application from any public Git-repo with one click</h1>
         </div>
-        <h1>Run your application from any public Git-repo with one click</h1>
-    </div>
-    <div class="header-image">
-        <img src="/svg/runmeHeaderImage.svg" alt="header image">
+        <div class="header-image">
+            <img src="/svg/runmeHeaderImage.svg" alt="header image">
+        </div>
     </div>
 </header>
 
@@ -20,11 +22,13 @@
         padding-left: $spacing
         padding-right: $spacing
         background-color: $primary-color
-        display: flex
-        flex-direction: row
-        flex-wrap: wrap
-        justify-content: flex-start
         @include dashed-line()
+
+        .container
+            display: flex
+            flex-direction: row
+            flex-wrap: wrap
+            justify-content: flex-start
 
     .header-image
         align-self: flex-end
@@ -61,9 +65,9 @@
                 font-size: 1.8rem
 
         .logo-svg
-            width: 200px
-            margin-top: 75px
-            margin-bottom: 40px
+            width: 25rem
+            margin-top: 7.5rem
+            margin-bottom: 4rem
 
             a
                 border: 0

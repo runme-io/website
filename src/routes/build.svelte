@@ -8,13 +8,18 @@
     import { runmeService } from '../components/Runme/Services'
     import { build } from '../components/Runme/Stores'
     import { queryParam } from '../components/Helpers/QueryParam'
+    import Icon from 'fa-svelte'
+    import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
+    import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown'
 
     const ansi_up = new AnsiUp();
 
     let building = true
     let buildLog = ''
+    let buildSticky = true
     let buildErrorMsg
     let countFrom = 0
+    let displayActionsAsSticky = false
 
     const showBuildError = (error) => {
         buildErrorMsg = error
@@ -25,6 +30,25 @@
         goto(`/show?build_id=${buildId}`)
     }
 
+    const scrollToBottom = () => {
+        buildSticky = true
+        // TODO somehow the offset (negative and positive) is not working).
+        // TODO for now this is ok, but in a future release this should be fixed
+        animateScroll.scrollTo({ element: '#marker-scroll-to-bottom', offset: 500 })
+    }
+
+    const scrollToTop = () => {
+        buildSticky = false
+        animateScroll.scrollToTop()
+    }
+
+    const getContentHeight = () => {
+        if (process.browser) {
+            const element = document.getElementsByClassName('content')
+            return element[0] ? element[0].offsetHeight : 0
+        }
+    }
+
     // only client code
     if (process.browser) {
         const buildId = queryParam().get('build_id')
@@ -33,7 +57,6 @@
         if (buildId === '') {
             showBuildError('"build_id" is missing')
         } else {
-
             // TODO ASYNC/WAIT for the .build()
             runmeService().build(buildId)
                 .then(([response]) => {
@@ -54,7 +77,7 @@
                             showBuildError(`Build failed`)
                         }
 
-                        // TODO are we sure we need to do this automatically?
+                        // TODO are we sure we need to do this automatically? e.g. Netlify does not do that
                         if (status === 'done') {
                             done(buildId)
                         }
@@ -69,11 +92,13 @@
 
                         buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
 
-                        // With a timeout, due the content change, we scroll to the bottom
-                        // TODO use some kind of function for scrolling that Netlify also does (div scroll) instead of pageScroll
-                        setTimeout(() => animateScroll.scrollToBottom({
-                            offset: 200,
-                        }), 200)
+                        // get the height of the content, to determine if we need to set an extra class for the sticky position
+                        displayActionsAsSticky = getContentHeight() > 300
+
+                        // If needed, we follow the log by scrolling to it
+                        if (buildSticky) {
+                            setTimeout(() => scrollToBottom(), 200)
+                        }
                     });
                 })
                 .catch(() => showBuildError(`Build ID "${buildId}" has not been found`))
@@ -87,28 +112,46 @@
 
 <SimpleHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
 
-<main>
-    <div class="build-log">
-        <header>
-            <ul class="actions">
-                <li class="red"></li>
-                <li class="orange"></li>
-                <li class="green"></li>
-            </ul>
-            <h2>Jexia CLI</h2>
-        </header>
-        <div class="content">
-            {@html buildLog}
-            {#if building}<BuildLoading intervalTimer="100"/>{/if}
-            {#if buildErrorMsg}<div class="not-found">> Error: {buildErrorMsg}</div>{/if}
+<div class="container">
+    <main>
+        <div class="build-log">
+            <header>
+                <ul class="actions">
+                    <li class="red"></li>
+                    <li class="orange"></li>
+                    <li class="green"></li>
+                </ul>
+                <h2>Jexia CLI</h2>
+            </header>
+            <div class="content">
+                {@html buildLog}
+                {#if building}<BuildLoading intervalTimer="100"/>{/if}
+                {#if buildErrorMsg}<div class="not-found">> Error: {buildErrorMsg}</div>{/if}
+
+                {#if building && buildLog}
+                    <div class="actions" class:sticky={displayActionsAsSticky}>
+                        <button title="Scroll to bottom" class:active={buildSticky} on:click={scrollToBottom}><Icon icon="{faArrowDown}"/></button>
+                        <button title="Scroll to top" on:click={scrollToTop}><Icon icon="{faArrowUp}"/></button>
+                    </div>
+                    <div id="marker-scroll-to-bottom"></div>
+                {/if}
+            </div>
         </div>
-    </div>
-</main>
+    </main>
+</div>
 
 <JexiaFooter/>
 
 <style lang="sass">
     @import '../assets/style/theme'
+
+    @keyframes flickerAnimation
+        0%
+            opacity: 1
+        50%
+            opacity: .2
+        100%
+            opacity: 1
 
     .build-log
         margin-top: $spacing
@@ -156,4 +199,34 @@
             min-height: 30rem
             word-break: break-word
             line-height: 2.5rem
+            position: relative
+
+            .actions
+                position: absolute
+                bottom: 1.5rem
+                right: 1.5rem
+                text-align: right
+                display: flex
+                flex-direction: row
+                margin-left: auto
+                width: 7rem
+                align-items: baseline
+                background: #343434
+                border-radius: 2rem
+                padding: 1rem
+
+                &.sticky
+                    position: sticky
+
+                > button
+                    display: inline-flex
+                    padding: 0 .5rem
+                    cursor: pointer
+                    border: 0
+                    background: transparent
+                    color: $white
+                    outline: none
+
+                    &.active
+                        animation: flickerAnimation 1s infinite
 </style>

@@ -11,6 +11,9 @@
     form
         margin-top: 2rem
 
+        input[type=image]
+            outline: none
+
     img
         cursor: pointer
 </style>
