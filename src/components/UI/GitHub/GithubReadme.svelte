@@ -1,6 +1,37 @@
 <script>
-    import RunmeButton from './../../Runme/RunmeButton.svelte'
+    // import RunmeButton from './../../Runme/RunmeButton.svelte'
     import GitHubBookIcon from './GitHubBookIcon.svelte'
+    import parseGithub from 'github-url-to-object'
+    import { fetchReadme } from '@varandas/fetch-readme'
+    import marked from 'marked'
+    import GithubMarkdown from './GithubMarkdown.svelte'
+
+    export let repositoryUrl
+
+    let readme
+
+    const github = parseGithub(repositoryUrl)
+
+    if (process.browser) {
+
+        // const converter = new showdown.Converter()
+        fetchReadme({
+            username: github.user,
+            repository: github.repo,
+            branch: github.branch
+        }).then(response => readme = marked(response))
+    }
+
+    // const result = await axiosInstance.get(
+    //         config.username +
+    //         '/' +
+    //         config.repository +
+    //         '/' +
+    //         config.branch +
+    //         '/' +
+    //         config.readme
+    // )
+    // return result.data
 </script>
 
 <div class="github-readme">
@@ -8,11 +39,7 @@
         <GitHubBookIcon/>
         <span>README.md</span>
     </div>
-    <div class="content">
-        <h1>Your awesome application</h1>
-        <div class="runme-button"><RunmeButton/></div>
-        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vitae arcu tincidunt, vehicula nisi id, ullamcorper sem. Integer mollis, velit ut accumsan porttitor, tortor erat molestie lorem, ac placerat lacus arcu a mauris. Vivamus nulla velit, laoreet rutrum augue id, facilisis porta lorem. Aliquam interdum imperdiet fermentum. Ut turpis tellus, lacinia non tortor id, luctus rutrum tellus. Sed facilisis risus sed augue pulvinar, ut sagittis quam ullamcorper. Mauris dignissim feugiat sollicitudin.</p>
-    </div>
+    <GithubMarkdown content={readme}/>
 </div>
 
 <style lang="sass">
@@ -40,20 +67,10 @@
                 display: inline-block
                 margin-left: 1rem
 
-        .content
+        .markdown-body
             padding: 3.2rem
 
-            h1
-                padding-bottom: .3em
-                border-bottom: 1px solid #eaecef
-                font-size: 3rem
-                font-weight: bold
-
-            .runme-button
-                margin-top: 2rem
-                margin-bottom: 1rem
-
-            p
-                font-size: 1.6rem
-                filter: blur(3px)
+            /*.runme-button*/
+            /*    margin-top: 2rem*/
+            /*    margin-bottom: 1rem*/
 </style>
