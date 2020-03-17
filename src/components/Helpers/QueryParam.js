@@ -48,8 +48,15 @@ export function queryParam() {
     }
   }
 
+  function clear(key) {
+    if (get(key)) {
+      set(key, null)
+    }
+  }
+
   return {
     get,
     set,
+    clear,
   }
 }

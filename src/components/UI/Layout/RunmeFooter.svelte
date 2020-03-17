@@ -31,6 +31,7 @@
 
     footer
         @include dashed-line(top)
+        margin-top: 10rem
 
         .runme-footer
             display: flex
@@ -38,6 +39,7 @@
             flex-direction: row
             margin: $spacing auto 0 auto
             padding: $spacing
+            padding-bottom: 0
             width: 80%
             font-size: 1.6rem
             text-align: center
@@ -66,5 +68,4 @@
 
             .social-icons
                 margin-top: 3rem
-
 </style>

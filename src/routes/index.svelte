@@ -20,11 +20,11 @@
 	@import '../assets/style/theme'
 
 	.generator-page
-		padding-top: $spacing
+		padding-top: 6rem
 		width: 75%
 		margin: 0 auto
 
 		h1
 			text-align: center
-			font-size: 2.2rem
+			font-size: 2.5rem
 </style>

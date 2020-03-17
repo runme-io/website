@@ -2,20 +2,15 @@
     import Header from './Header.svelte'
     import RunmeFooter from './RunmeFooter.svelte'
     import JexiaFooter from './JexiaFooter.svelte'
+    import { embedCodeGenerated } from './../../Runme/Stores'
 </script>
 
 <Header/>
+
 <main>
     <slot/>
 </main>
-<RunmeFooter/>
+
+{#if $embedCodeGenerated}<RunmeFooter/>{/if}
+
 <JexiaFooter/>
-
-
-<style lang="sass">
-    @import '../../../assets/style/theme'
-
-    main
-        padding-left: $spacing
-        padding-right: $spacing
-</style>

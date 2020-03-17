@@ -38,20 +38,22 @@
         @media screen and (max-width: 670px)
             display: none
 
-        img
-            height: 300px
+        @media screen and (max-width: 850px)
+            margin-bottom: auto
+            margin-top: auto
 
-            @media screen and (max-width: 780px)
-                height: 200px
+        img
+            width: 340px
+
+            @media screen and (max-width: 850px)
+                width: 240px
 
     .logo
         width: 50%
         padding-bottom: $spacing
 
-        @media screen and (max-width: 780px)
-            width: 60%
-
         @media screen and (max-width: 670px)
+            text-align: center
             width: 100%
 
         h1
@@ -68,6 +70,10 @@
             width: 25rem
             margin-top: 7.5rem
             margin-bottom: 4rem
+
+            @media screen and (max-width: 670px)
+                margin-left: auto
+                margin-right: auto
 
             a
                 border: 0
