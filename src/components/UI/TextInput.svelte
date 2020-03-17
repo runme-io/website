@@ -34,6 +34,7 @@
         display: block
         margin-bottom: 0.5rem
         width: 100%
+        font-weight: 600
 
     .form-control
         padding: 0.5rem 0

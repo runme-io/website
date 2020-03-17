@@ -106,7 +106,7 @@
     <!-- TODO move this to a global component for every page -->
     {#if errorMsg}<Alert type={errorType}>{errorMsg}</Alert>{/if}
 
-    <div class="generator__repo-url">
+    <div id="repo-url">
         <TextInput
             id="repo-url"
             label="Copy your repo URL below. (URL format http://<repo URL>.git)"
@@ -117,7 +117,7 @@
             on:input={event => (repoUrl = event.target.value)} />
     </div>
 
-    <div class="generator__advanced-options">
+    <div id="advanced-options">
         <div class="advanced-option" on:click={toggleAdvanced}>Advanced options <Icon icon={dropDownIcon}/></div>
         {#if showAdvancedOptions}
             <div class="spacing-top">
@@ -133,7 +133,9 @@
         {/if}
     </div>
 
-    <GenerateButton {loading} disabled={!formIsValid} on:click={generateEmbedCode}>{buttonText}</GenerateButton>
+    <div class="generate-button">
+        <GenerateButton {loading} disabled={!formIsValid} on:click={generateEmbedCode}>{buttonText}</GenerateButton>
+    </div>
 
     {#if canShowEmbed}
         <div class="embed-result">
@@ -159,7 +161,7 @@
         padding-top: $spacing
 
     .spacing-top
-        padding-top: 1rem
+        padding-top: 2rem
 
     .advanced-option
         font-size: 1.2rem
@@ -168,10 +170,13 @@
     .advanced-option :global(.fa-svelte)
         width: 1rem
 
+    .generate-button
+        text-align: center
+
     .embed-result
         @include dashed-line(top)
-        padding-top: 2rem
-        margin-top: 2rem
+        padding-top: 5rem
+        margin-top: 3rem
 
         .generated-embed-code
             margin-top: 1rem
