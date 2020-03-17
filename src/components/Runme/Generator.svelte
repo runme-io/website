@@ -10,6 +10,7 @@
     import { runmeService } from './Services'
     import { queryParam } from '../Helpers/QueryParam'
     import { getCurrentUrl } from '../Helpers/Const'
+    import { embedCodeGenerated } from './Stores'
 
     // form fields
     let embedStyle = 'markdown'
@@ -71,6 +72,9 @@
     async function generateEmbedCode () {
         // set the button to loading
         isLoading(true)
+
+        // mark the embed code as generated and let others use it
+        embedCodeGenerated.set(true)
 
         // clear previous errors
         clearError()
