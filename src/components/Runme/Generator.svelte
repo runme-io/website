@@ -148,7 +148,7 @@
             </div>
 
             <h3>Github example</h3>
-            <GithubReadme/>
+            <GithubReadme repositoryUrl={repoUrl}/>
         </div>
     {/if}
 </section>
