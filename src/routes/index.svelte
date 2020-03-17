@@ -8,9 +8,11 @@
 </svelte:head>
 
 <MainLayout>
-	<div class="generator-page">
-		<h1>Generate <RunmeButton/>  button for your repo.</h1>
-		<Generator/>
+	<div class="container">
+		<div class="generator-page">
+			<h1>Generate <RunmeButton/>  button for your repo.</h1>
+			<Generator/>
+		</div>
 	</div>
 </MainLayout>
 

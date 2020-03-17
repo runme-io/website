@@ -112,31 +112,33 @@
 
 <SimpleHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
 
-<main>
-    <div class="build-log">
-        <header>
-            <ul class="actions">
-                <li class="red"></li>
-                <li class="orange"></li>
-                <li class="green"></li>
-            </ul>
-            <h2>Jexia CLI</h2>
-        </header>
-        <div class="content">
-            {@html buildLog}
-            {#if building}<BuildLoading intervalTimer="100"/>{/if}
-            {#if buildErrorMsg}<div class="not-found">> Error: {buildErrorMsg}</div>{/if}
+<div class="container">
+    <main>
+        <div class="build-log">
+            <header>
+                <ul class="actions">
+                    <li class="red"></li>
+                    <li class="orange"></li>
+                    <li class="green"></li>
+                </ul>
+                <h2>Jexia CLI</h2>
+            </header>
+            <div class="content">
+                {@html buildLog}
+                {#if building}<BuildLoading intervalTimer="100"/>{/if}
+                {#if buildErrorMsg}<div class="not-found">> Error: {buildErrorMsg}</div>{/if}
 
-            {#if building && buildLog}
-                <div class="actions" class:sticky={displayActionsAsSticky}>
-                    <button title="Scroll to bottom" class:active={buildSticky} on:click={scrollToBottom}><Icon icon="{faArrowDown}"/></button>
-                    <button title="Scroll to top" on:click={scrollToTop}><Icon icon="{faArrowUp}"/></button>
-                </div>
-                <div id="marker-scroll-to-bottom"></div>
-            {/if}
+                {#if building && buildLog}
+                    <div class="actions" class:sticky={displayActionsAsSticky}>
+                        <button title="Scroll to bottom" class:active={buildSticky} on:click={scrollToBottom}><Icon icon="{faArrowDown}"/></button>
+                        <button title="Scroll to top" on:click={scrollToTop}><Icon icon="{faArrowUp}"/></button>
+                    </div>
+                    <div id="marker-scroll-to-bottom"></div>
+                {/if}
+            </div>
         </div>
-    </div>
-</main>
+    </main>
+</div>
 
 <JexiaFooter/>
 

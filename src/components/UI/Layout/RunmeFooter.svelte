@@ -8,20 +8,21 @@
 </script>
 
 <footer>
-    <div class="runme-footer">
-        <div class="social">
-            <p>If you like it, help us spread the word!</p>
-            <div class="social-icons">
-                <SocialIcons/>
-            </div>
+    <div class="container">
+        <div class="runme-footer">
+            <div class="social">
+                <p>If you like it, help us spread the word!</p>
+                <div class="social-icons">
+                    <SocialIcons/>
+                </div>
 
-        </div>
-        <div class="donation">
-            <p>If you like this project, please keep the project alive with a small donation.</p>
-            <Donation/>
+            </div>
+            <div class="donation">
+                <p>If you like this project, please keep the project alive with a small donation.</p>
+                <Donation/>
+            </div>
         </div>
     </div>
-
 </footer>
 
 <style lang="sass">
