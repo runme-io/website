@@ -1,6 +1,6 @@
 <script>
-    import RunmeButton from './../../Runme/RunmeButton.svelte'
     import GitHubBookIcon from './GitHubBookIcon.svelte'
+    import GithubMarkdown from './GithubMarkdown.svelte'
 </script>
 
 <div class="github-readme">
@@ -8,11 +8,7 @@
         <GitHubBookIcon/>
         <span>README.md</span>
     </div>
-    <div class="content">
-        <h1>Your awesome application</h1>
-        <div class="runme-button"><RunmeButton/></div>
-        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vitae arcu tincidunt, vehicula nisi id, ullamcorper sem. Integer mollis, velit ut accumsan porttitor, tortor erat molestie lorem, ac placerat lacus arcu a mauris. Vivamus nulla velit, laoreet rutrum augue id, facilisis porta lorem. Aliquam interdum imperdiet fermentum. Ut turpis tellus, lacinia non tortor id, luctus rutrum tellus. Sed facilisis risus sed augue pulvinar, ut sagittis quam ullamcorper. Mauris dignissim feugiat sollicitudin.</p>
-    </div>
+    <GithubMarkdown/>
 </div>
 
 <style lang="sass">
@@ -39,21 +35,4 @@
             span
                 display: inline-block
                 margin-left: 1rem
-
-        .content
-            padding: 3.2rem
-
-            h1
-                padding-bottom: .3em
-                border-bottom: 1px solid #eaecef
-                font-size: 3rem
-                font-weight: bold
-
-            .runme-button
-                margin-top: 2rem
-                margin-bottom: 1rem
-
-            p
-                font-size: 1.6rem
-                filter: blur(3px)
 </style>
