@@ -41,7 +41,7 @@
     }
 
     const clearError = () => {
-        queryParam().set('error', '')
+        queryParam().clear('error')
         setError('')
     }
 
