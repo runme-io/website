@@ -12,13 +12,12 @@
 
 <style lang="sass">
     @import '../../../assets/style/theme'
-    @import '../../../assets/style/mixins'
 
     footer
-        @include dashed-line(top)
-        margin-top: $spacing
+        margin-top: auto
 
     .jexia-footer
+        margin-top: $spacing
         padding: $spacing
         background-color: #f4f4f4
         text-align: center

@@ -1,13 +1,9 @@
 <script>
     import SocialIcons from '../../UI/SocialIcons.svelte'
     import Donation from '../../UI/Donation.svelte'
-
-    const date = new Date()
-    const year = date.getYear()
-
 </script>
 
-<footer>
+<section>
     <div class="container">
         <div class="runme-footer">
             <div class="social">
@@ -23,13 +19,13 @@
             </div>
         </div>
     </div>
-</footer>
+</section>
 
 <style lang="sass">
     @import '../../../assets/style/theme'
     @import '../../../assets/style/mixins'
 
-    footer
+    section
         @include dashed-line(top)
         margin-top: 10rem
 
