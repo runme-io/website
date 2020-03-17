@@ -6,15 +6,11 @@
 <section>
     <div class="container">
         <div class="runme-footer">
+            <p>If you Like this project, you can show your appreciation by <br>helping us spread the word or making a small donation.</p>
             <div class="social">
-                <p>If you like it, help us spread the word!</p>
-                <div class="social-icons">
-                    <SocialIcons/>
-                </div>
-
+                <SocialIcons/>
             </div>
             <div class="donation">
-                <p>If you like this project, please keep the project alive with a small donation.</p>
                 <Donation/>
             </div>
         </div>
@@ -34,34 +30,27 @@
             flex-wrap: wrap
             flex-direction: row
             margin: $spacing auto 0 auto
+            justify-content: center
             padding: $spacing
             padding-bottom: 0
             width: 80%
             font-size: 1.6rem
             text-align: center
 
+            p
+                width: 100%
+
             @media screen and (max-width: 992px)
                 width: 100%
 
             > div
-                width: 50%
-
                 &:first-child
                     padding-right: $spacing
 
                 &:last-child
                     padding-left: $spacing
 
-                @media screen and (max-width: 580px)
-                    width: 100%
-
-                    &:first-child
-                        padding-right: 0
-
-                    &:last-child
-                        padding-left: 0
-                        margin-top: $spacing
-
-            .social-icons
-                margin-top: 3rem
+            .social,
+            .donation
+                margin-top: 2rem
 </style>

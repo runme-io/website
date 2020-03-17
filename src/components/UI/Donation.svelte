@@ -6,13 +6,8 @@
 </form>
 
 <style lang="sass">
-    @import '../../assets/style/theme'
-
-    form
-        margin-top: 2rem
-
-        input[type=image]
-            outline: none
+    input[type=image]
+        outline: none
 
     img
         cursor: pointer
