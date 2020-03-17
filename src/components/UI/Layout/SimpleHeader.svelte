@@ -15,13 +15,15 @@
         </a>
     </div>
     <h1>{title}</h1>
-    <div class="counter">
-        <span class="title">{timerTitle}</span>
-        <span class="timer">
-            {#if countDown}<CountDown/>{/if}
-            {#if countUp}<CountUp/>{/if}
-        </span>
-    </div>
+    {#if timerTitle}
+        <div class="counter">
+            <span class="title">{timerTitle}</span>
+            <span class="timer">
+                {#if countDown}<CountDown/>{/if}
+                {#if countUp}<CountUp/>{/if}
+            </span>
+        </div>
+    {/if}
 </header>
 
 <style lang="sass">
