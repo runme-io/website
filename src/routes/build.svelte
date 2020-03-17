@@ -19,6 +19,7 @@
     let buildSticky = true
     let buildErrorMsg
     let countFrom = 0
+    let displayActionsAsSticky = false
 
     const showBuildError = (error) => {
         buildErrorMsg = error
@@ -31,12 +32,21 @@
 
     const scrollToBottom = () => {
         buildSticky = true
-        animateScroll.scrollTo({ element: '#scroll-to-bottom' })
+        // TODO somehow the offset (negative and positive) is not working).
+        // TODO for now this is ok, but in a future release this should be fixed
+        animateScroll.scrollTo({ element: '#marker-scroll-to-bottom', offset: 500 })
     }
 
     const scrollToTop = () => {
         buildSticky = false
         animateScroll.scrollToTop()
+    }
+
+    const getContentHeight = () => {
+        if (process.browser) {
+            const element = document.getElementsByClassName('content')
+            return element[0] ? element[0].offsetHeight : 0
+        }
     }
 
     // only client code
@@ -47,12 +57,11 @@
         if (buildId === '') {
             showBuildError('"build_id" is missing')
         } else {
-
             // TODO ASYNC/WAIT for the .build()
             runmeService().build(buildId)
                 .then(([response]) => {
                     if (response.status === 'done') {
-                        //done(buildId)
+                        done(buildId)
                     }
 
                     // update the store
@@ -70,7 +79,7 @@
 
                         // TODO are we sure we need to do this automatically? e.g. Netlify does not do that
                         if (status === 'done') {
-                            //done(buildId)
+                            done(buildId)
                         }
 
                         if (build_log) {
@@ -83,9 +92,13 @@
 
                         buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
 
-                        // With a timeout, due the content change, we scroll to the bottom
-                        // TODO use some kind of function for scrolling that Netlify also does (div scroll) instead of pageScroll
-                        setTimeout(() => scrollToBottom, 200)
+                        // get the height of the content, to determine if we need to set an extra class for the sticky position
+                        displayActionsAsSticky = getContentHeight() > 300
+
+                        // If needed, we follow the log by scrolling to it
+                        if (buildSticky) {
+                            setTimeout(() => scrollToBottom(), 200)
+                        }
                     });
                 })
                 .catch(() => showBuildError(`Build ID "${buildId}" has not been found`))
@@ -110,52 +123,17 @@
             <h2>Jexia CLI</h2>
         </header>
         <div class="content">
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus porttitor faucibus fringilla. Ut nec egestas sapien. Pellentesque faucibus nisi molestie lectus interdum cursus. Donec sit amet est non neque consectetur bibendum. Proin vitae sem nec eros porttitor malesuada. Vivamus sagittis malesuada leo vel dapibus. Sed ac faucibus erat. Nam tempor nibh ac auctor condimentum. Aliquam rutrum euismod condimentum. Duis vitae cursus mauris. In vel magna luctus, hendrerit augue et, rhoncus metus. Ut in urna turpis. Nulla ac accumsan elit. Nunc quis mattis justo, gravida viverra massa.
-
-            Suspendisse potenti. Pellentesque lacinia odio tellus, quis cursus arcu feugiat in. Cras congue, neque a pharetra pellentesque, elit nibh tincidunt lacus, vitae sodales sapien nisi non augue. Praesent posuere odio in sem eleifend mattis. Nam quis ipsum lacus. Praesent eget ultricies urna. Phasellus laoreet quam ut justo luctus, auctor pharetra neque facilisis. Aenean hendrerit molestie orci eget pulvinar. Mauris vestibulum efficitur diam, quis faucibus mauris auctor et. Ut scelerisque odio eu enim malesuada, non sagittis quam finibus. Morbi molestie feugiat enim vitae porta.
-
-            Integer faucibus est odio, quis viverra purus viverra nec. Proin dolor neque, placerat sit amet interdum nec, iaculis vitae nisi. Nullam tortor nunc, facilisis in commodo quis, venenatis et dui. Morbi ultrices dolor sed purus bibendum, at convallis magna sodales. Donec auctor sagittis sapien, non molestie ligula consequat a. Integer consectetur lectus in sem venenatis posuere. Aliquam ac consectetur tellus. Cras tincidunt lobortis justo quis venenatis. Donec fermentum erat eget dui varius interdum. Vestibulum et aliquet tortor, eget vehicula diam. Nam a euismod nunc.
-
-            Nam vitae tempus quam. Integer sed consequat sem. Donec lectus risus, sagittis vel mollis a, suscipit sed est. Mauris euismod tincidunt ligula, et lobortis dolor viverra eget. Praesent tincidunt vitae tellus consectetur congue. Donec eget ipsum fermentum, lacinia mi in, consequat erat. Vivamus malesuada tortor lacus, a auctor tellus tempor et. Duis mauris tortor, imperdiet vel aliquam ut, convallis vel elit. Aliquam ex diam, finibus non tempor vitae, lacinia non lacus.
-
-            Donec ornare diam vel mauris euismod commodo. Pellentesque cursus molestie urna, sed tincidunt lacus imperdiet vitae. Sed eu elementum orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In consectetur dapibus sem a vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed semper pharetra cursus. Etiam justo mi, sagittis sit amet neque at, volutpat fermentum enim. Phasellus pulvinar erat in sem hendrerit, sed imperdiet justo volutpat. Nullam ut lorem in lacus pellentesque congue. Integer mattis venenatis lorem, in fringilla mi ullamcorper eget. In nec porta dui, sed bibendum elit. Curabitur convallis dictum venenatis. Fusce lacinia ex id lacus semper cursus.
-
-            Etiam eget velit condimentum, faucibus odio eget, pellentesque tellus. Nullam a sodales nunc. In imperdiet lorem id metus tempor, nec vestibulum enim convallis. Praesent ultricies sed mauris at interdum. Vivamus viverra sed nisi sed vulputate. Maecenas lacus odio, blandit eget arcu id, vehicula blandit nisl. Suspendisse orci felis, sollicitudin eget metus at, facilisis sollicitudin nulla. Cras in magna ultrices, volutpat elit sit amet, rhoncus nulla. Nunc a n
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus porttitor faucibus fringilla. Ut nec egestas sapien. Pellentesque faucibus nisi molestie lectus interdum cursus. Donec sit amet est non neque consectetur bibendum. Proin vitae sem nec eros porttitor malesuada. Vivamus sagittis malesuada leo vel dapibus. Sed ac faucibus erat. Nam tempor nibh ac auctor condimentum. Aliquam rutrum euismod condimentum. Duis vitae cursus mauris. In vel magna luctus, hendrerit augue et, rhoncus metus. Ut in urna turpis. Nulla ac accumsan elit. Nunc quis mattis justo, gravida viverra massa.
-
-            Suspendisse potenti. Pellentesque lacinia odio tellus, quis cursus arcu feugiat in. Cras congue, neque a pharetra pellentesque, elit nibh tincidunt lacus, vitae sodales sapien nisi non augue. Praesent posuere odio in sem eleifend mattis. Nam quis ipsum lacus. Praesent eget ultricies urna. Phasellus laoreet quam ut justo luctus, auctor pharetra neque facilisis. Aenean hendrerit molestie orci eget pulvinar. Mauris vestibulum efficitur diam, quis faucibus mauris auctor et. Ut scelerisque odio eu enim malesuada, non sagittis quam finibus. Morbi molestie feugiat enim vitae porta.
-
-            Integer faucibus est odio, quis viverra purus viverra nec. Proin dolor neque, placerat sit amet interdum nec, iaculis vitae nisi. Nullam tortor nunc, facilisis in commodo quis, venenatis et dui. Morbi ultrices dolor sed purus bibendum, at convallis magna sodales. Donec auctor sagittis sapien, non molestie ligula consequat a. Integer consectetur lectus in sem venenatis posuere. Aliquam ac consectetur tellus. Cras tincidunt lobortis justo quis venenatis. Donec fermentum erat eget dui varius interdum. Vestibulum et aliquet tortor, eget vehicula diam. Nam a euismod nunc.
-
-            Nam vitae tempus quam. Integer sed consequat sem. Donec lectus risus, sagittis vel mollis a, suscipit sed est. Mauris euismod tincidunt ligula, et lobortis dolor viverra eget. Praesent tincidunt vitae tellus consectetur congue. Donec eget ipsum fermentum, lacinia mi in, consequat erat. Vivamus malesuada tortor lacus, a auctor tellus tempor et. Duis mauris tortor, imperdiet vel aliquam ut, convallis vel elit. Aliquam ex diam, finibus non tempor vitae, lacinia non lacus.
-
-            Donec ornare diam vel mauris euismod commodo. Pellentesque cursus molestie urna, sed tincidunt lacus imperdiet vitae. Sed eu elementum orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In consectetur dapibus sem a vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed semper pharetra cursus. Etiam justo mi, sagittis sit amet neque at, volutpat fermentum enim. Phasellus pulvinar erat in sem hendrerit, sed imperdiet justo volutpat. Nullam ut lorem in lacus pellentesque congue. Integer mattis venenatis lorem, in fringilla mi ullamcorper eget. In nec porta dui, sed bibendum elit. Curabitur convallis dictum venenatis. Fusce lacinia ex id lacus semper cursus.
-
-            Etiam eget velit condimentum, faucibus odio eget, pellentesque tellus. Nullam a sodales nunc. In imperdiet lorem id metus tempor, nec vestibulum enim convallis. Praesent ultricies sed mauris at interdum. Vivamus viverra sed nisi sed vulputate. Maecenas lacus odio, blandit eget arcu id, vehicula blandit nisl. Suspendisse orci felis, sollicitudin eget metus at, facilisis sollicitudin nulla. Cras in magna ultrices, volutpat elit sit amet, rhoncus nulla. Nunc a n
-
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus porttitor faucibus fringilla. Ut nec egestas sapien. Pellentesque faucibus nisi molestie lectus interdum cursus. Donec sit amet est non neque consectetur bibendum. Proin vitae sem nec eros porttitor malesuada. Vivamus sagittis malesuada leo vel dapibus. Sed ac faucibus erat. Nam tempor nibh ac auctor condimentum. Aliquam rutrum euismod condimentum. Duis vitae cursus mauris. In vel magna luctus, hendrerit augue et, rhoncus metus. Ut in urna turpis. Nulla ac accumsan elit. Nunc quis mattis justo, gravida viverra massa.
-
-            Suspendisse potenti. Pellentesque lacinia odio tellus, quis cursus arcu feugiat in. Cras congue, neque a pharetra pellentesque, elit nibh tincidunt lacus, vitae sodales sapien nisi non augue. Praesent posuere odio in sem eleifend mattis. Nam quis ipsum lacus. Praesent eget ultricies urna. Phasellus laoreet quam ut justo luctus, auctor pharetra neque facilisis. Aenean hendrerit molestie orci eget pulvinar. Mauris vestibulum efficitur diam, quis faucibus mauris auctor et. Ut scelerisque odio eu enim malesuada, non sagittis quam finibus. Morbi molestie feugiat enim vitae porta.
-
-            Integer faucibus est odio, quis viverra purus viverra nec. Proin dolor neque, placerat sit amet interdum nec, iaculis vitae nisi. Nullam tortor nunc, facilisis in commodo quis, venenatis et dui. Morbi ultrices dolor sed purus bibendum, at convallis magna sodales. Donec auctor sagittis sapien, non molestie ligula consequat a. Integer consectetur lectus in sem venenatis posuere. Aliquam ac consectetur tellus. Cras tincidunt lobortis justo quis venenatis. Donec fermentum erat eget dui varius interdum. Vestibulum et aliquet tortor, eget vehicula diam. Nam a euismod nunc.
-
-            Nam vitae tempus quam. Integer sed consequat sem. Donec lectus risus, sagittis vel mollis a, suscipit sed est. Mauris euismod tincidunt ligula, et lobortis dolor viverra eget. Praesent tincidunt vitae tellus consectetur congue. Donec eget ipsum fermentum, lacinia mi in, consequat erat. Vivamus malesuada tortor lacus, a auctor tellus tempor et. Duis mauris tortor, imperdiet vel aliquam ut, convallis vel elit. Aliquam ex diam, finibus non tempor vitae, lacinia non lacus.
-
-            Donec ornare diam vel mauris euismod commodo. Pellentesque cursus molestie urna, sed tincidunt lacus imperdiet vitae. Sed eu elementum orci. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In consectetur dapibus sem a vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed semper pharetra cursus. Etiam justo mi, sagittis sit amet neque at, volutpat fermentum enim. Phasellus pulvinar erat in sem hendrerit, sed imperdiet justo volutpat. Nullam ut lorem in lacus pellentesque congue. Integer mattis venenatis lorem, in fringilla mi ullamcorper eget. In nec porta dui, sed bibendum elit. Curabitur convallis dictum venenatis. Fusce lacinia ex id lacus semper cursus.
-
-            Etiam eget velit condimentum, faucibus odio eget, pellentesque tellus. Nullam a sodales nunc. In imperdiet lorem id metus tempor, nec vestibulum enim convallis. Praesent ultricies sed mauris at interdum. Vivamus viverra sed nisi sed vulputate. Maecenas lacus odio, blandit eget arcu id, vehicula blandit nisl. Suspendisse orci felis, sollicitudin eget metus at, facilisis sollicitudin nulla. Cras in magna ultrices, volutpat elit sit amet, rhoncus nulla. Nunc a n
-
             {@html buildLog}
             {#if building}<BuildLoading intervalTimer="100"/>{/if}
             {#if buildErrorMsg}<div class="not-found">> Error: {buildErrorMsg}</div>{/if}
 
-            <ul class="actions">
-                <li on:click={scrollToBottom}><Icon icon="{faArrowDown}"/></li>
-                <li on:click={scrollToTop}><Icon icon="{faArrowUp}"/></li>
-            </ul>
-            <div id="scroll-to-bottom"></div>
+            {#if building && buildLog}
+                <div class="actions" class:sticky={displayActionsAsSticky}>
+                    <button title="Scroll to bottom" class:active={buildSticky} on:click={scrollToBottom}><Icon icon="{faArrowDown}"/></button>
+                    <button title="Scroll to top" on:click={scrollToTop}><Icon icon="{faArrowUp}"/></button>
+                </div>
+                <div id="marker-scroll-to-bottom"></div>
+            {/if}
         </div>
     </div>
 </main>
@@ -164,6 +142,14 @@
 
 <style lang="sass">
     @import '../assets/style/theme'
+
+    @keyframes flickerAnimation
+        0%
+            opacity: 1
+        50%
+            opacity: .2
+        100%
+            opacity: 1
 
     .build-log
         margin-top: $spacing
@@ -214,16 +200,31 @@
             position: relative
 
             .actions
-                position: sticky
-                bottom: .5rem
+                position: absolute
+                bottom: 1.5rem
+                right: 1.5rem
                 text-align: right
-                display: inline-block
-                float: right
+                display: flex
+                flex-direction: row
+                margin-left: auto
+                width: 7rem
+                align-items: baseline
                 background: #343434
                 border-radius: 2rem
-                padding: 1rem 2rem
+                padding: 1rem
 
-                li
+                &.sticky
+                    position: sticky
 
-                    display: inline-block
+                > button
+                    display: inline-flex
+                    padding: 0 .5rem
+                    cursor: pointer
+                    border: 0
+                    background: transparent
+                    color: $white
+                    outline: none
+
+                    &.active
+                        animation: flickerAnimation 1s infinite
 </style>
