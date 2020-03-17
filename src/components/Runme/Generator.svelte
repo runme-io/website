@@ -140,11 +140,11 @@
     {#if canShowEmbed}
         <div class="embed-result">
             <div class="generated-embed-code">
+                <TextInput rows="4" controlType="textarea" label="Include this code in the Readme.md file of your GitHub repo, to make your repo runnable" value={embedCode}/>
                 <div class="embed-code-options">
                     <label><input bind:group={embedStyle} on:change={showEmbedCode} type="radio" value="markdown"/> Markdown</label>
                     <label><input bind:group={embedStyle} on:change={showEmbedCode} type="radio" value="reStructuredText"/> reStructuredText</label>
                 </div>
-                <TextInput rows="4" controlType="textarea" value={embedCode}/>
             </div>
 
             <h3>Github example</h3>
@@ -175,7 +175,7 @@
 
     .embed-result
         @include dashed-line(top)
-        padding-top: 5rem
+        padding-top: 4rem
         margin-top: 3rem
 
         .generated-embed-code
