@@ -1,6 +1,6 @@
 <script>
     export let href = null
-    export let alt = ''
+    export let alt = 'runme button'
 </script>
 
 <style lang="sass">
