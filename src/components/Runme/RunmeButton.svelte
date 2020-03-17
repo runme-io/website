@@ -1,6 +1,6 @@
 <script>
     export let href = null
-    export let alt = ''
+    export let alt = 'runme button'
 </script>
 
 <style lang="sass">
@@ -11,6 +11,6 @@
         display: inline
 </style>
 
-<a {href} class="runme-button">
+<a {href} class="runme-button" target="_blank">
     <img src="/svg/runmeButton.svg" {alt}>
 </a>

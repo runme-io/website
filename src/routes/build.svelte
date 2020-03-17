@@ -1,5 +1,5 @@
 <script>
-    import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
+    import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
     import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
     import { default as AnsiUp } from 'ansi_up';
     import BuildLoading from '../components/UI/BuildLoading.svelte'
@@ -11,6 +11,7 @@
     import Icon from 'fa-svelte'
     import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
     import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown'
+    import { isBase64 } from '../components/Helpers/Const'
 
     const ansi_up = new AnsiUp();
 
@@ -53,14 +54,46 @@
         let log = []
 
         if (build_log) {
+            if (isBase64(build_log)) {
+                build_log = atob(build_log)
+            }
+
             log.push(build_log)
         }
 
         if (deploy_log) {
+            if (isBase64(deploy_log)) {
+                deploy_log = atob(deploy_log)
+            }
+
             log.push(deploy_log)
         }
 
         buildLog = ansi_up.ansi_to_html(log.join('\r\n')).replace(/[\r\n]/g, "<br />")
+    }
+
+    const process = (response) => {
+        const { status, deploy_log, build_log, id } = response
+
+        if (status === 'fail') {
+            showBuildError(`Build failed`)
+        }
+
+        // TODO are we sure we need to do this automatically? e.g. Netlify does not do that
+        if (status === 'done') {
+            done(id)
+        }
+
+        // collect the log and combine them
+        collectLog(build_log, deploy_log)
+
+        // get the height of the content, to determine if we need to set an extra class for the sticky position
+        displayActionsAsSticky = getContentHeight() > 300
+
+        // If needed, we follow the log by scrolling to it
+        if (buildSticky) {
+            setTimeout(() => scrollToBottom(), 200)
+        }
     }
 
     // only client code
@@ -71,47 +104,18 @@
         if (buildId === '') {
             showBuildError('"build_id" is missing')
         } else {
-            // TODO ASYNC/WAIT for the .build()
             runmeService().build(buildId)
                 .then(([response]) => {
-                    if (response.status === 'done') {
-                        done(buildId)
-                    }
 
-                    if (response.status === 'fail') {
-                        collectLog(atob(response.build_log), atob(response.deploy_log))
-
-                        // TODO we need to scroll down
-                    }
+                    // The Websockets does not return anything when the build failed or has been finished
+                    // Therefore we need to process the data also on the first response
+                    process(response)
 
                     // update the store
                     build.set(response)
 
                     // fire-up the WS
-                    runmeService().wsBuild(buildId, message => {
-
-                        const { status, deploy_log, build_log } = message
-
-                        if (status === 'fail') {
-                            showBuildError(`Build failed`)
-                        }
-
-                        // TODO are we sure we need to do this automatically? e.g. Netlify does not do that
-                        if (status === 'done') {
-                            done(buildId)
-                        }
-
-                        // collect the log and combine them
-                        collectLog(build_log, deploy_log)
-
-                        // get the height of the content, to determine if we need to set an extra class for the sticky position
-                        displayActionsAsSticky = getContentHeight() > 300
-
-                        // If needed, we follow the log by scrolling to it
-                        if (buildSticky) {
-                            setTimeout(() => scrollToBottom(), 200)
-                        }
-                    });
+                    runmeService().wsBuild(buildId, message => process(message));
                 })
                 .catch(() => showBuildError(`Build ID "${buildId}" has not been found`))
         }
@@ -123,7 +127,7 @@
 </svelte:head>
 
 <div class="page-container">
-    <SimpleHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
+    <FixedHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
 
     <div class="container">
         <main>

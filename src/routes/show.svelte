@@ -1,5 +1,5 @@
 <script>
-	import SimpleHeader from '../components/UI/Layout/SimpleHeader.svelte'
+	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
 	import { runmeService } from '../components/Runme/Services'
 	import { build } from '../components/Runme/Stores'
 	import { queryParam } from '../components/Helpers/QueryParam'
@@ -32,7 +32,7 @@
 	<title>Runme.io - </title>
 </svelte:head>
 
-<SimpleHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
+<FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
 
 {#if src}
 	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>

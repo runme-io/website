@@ -18,12 +18,14 @@
     "docker": "docker build -t runme-website ."
   },
   "dependencies": {
+    "@primer/css": "^14.2.0",
+    "@varandas/fetch-readme": "^1.0.5",
     "ansi_up": "^4.0.4",
     "compression": "^1.7.1",
-    "highlight.js": "^9.18.1",
+    "github-url-to-object": "^4.0.4",
+    "marked": "^0.8.0",
     "moment": "^2.24.0",
     "polka": "next",
-    "prismjs": "^1.19.0",
     "sirv": "^0.4.0"
   },
   "devDependencies": {
