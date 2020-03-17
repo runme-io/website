@@ -31,6 +31,7 @@
     header
         position: sticky
         top: 0
+        z-index: 1
         height: 10rem
         padding: 2rem $spacing
         background-color: $primary-color
