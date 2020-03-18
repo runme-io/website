@@ -12,5 +12,5 @@
 </style>
 
 <a {href} class="runme-button" target="_blank">
-    <img src="/svg/runmeButton.svg" {alt}>
+    <img src="/static/button.svg" {alt}>
 </a>
