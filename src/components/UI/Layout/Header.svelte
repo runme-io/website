@@ -19,8 +19,6 @@
     @import "../../../assets/style/mixins"
 
     header
-        padding-left: $spacing
-        padding-right: $spacing
         background-color: $primary-color
         @include dashed-line()
 

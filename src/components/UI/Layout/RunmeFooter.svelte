@@ -7,11 +7,13 @@
     <div class="container">
         <div class="runme-footer">
             <p>If you Like this project, you can show your appreciation by <br>helping us spread the word or making a small donation.</p>
-            <div class="social">
-                <SocialIcons/>
-            </div>
-            <div class="donation">
-                <Donation/>
+            <div class="blocks">
+                <div class="social">
+                    <SocialIcons/>
+                </div>
+                <div class="donation">
+                    <Donation/>
+                </div>
             </div>
         </div>
     </div>
@@ -26,13 +28,7 @@
         margin-top: 10rem
 
         .runme-footer
-            display: flex
-            flex-wrap: wrap
-            flex-direction: row
-            margin: $spacing auto 0 auto
-            justify-content: center
-            padding: $spacing
-            padding-bottom: 0
+            margin: 6rem auto 0 auto
             width: 80%
             font-size: 1.6rem
             text-align: center
@@ -43,12 +39,25 @@
             @media screen and (max-width: 992px)
                 width: 100%
 
-            > div
-                &:first-child
-                    padding-right: $spacing
+            .blocks
+                margin-top: 2rem
+                display: flex
+                flex-wrap: wrap
+                flex-direction: row
+                justify-content: center
 
-                &:last-child
-                    padding-left: $spacing
+                > div
+                    &:first-child
+                        padding-right: $spacing
+
+                    &:last-child
+                        padding-left: $spacing
+
+                @media screen and (max-width: 500px)
+                    flex-direction: column
+
+                    div
+                        padding: 0
 
             .social,
             .donation

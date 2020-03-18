@@ -1,10 +1,20 @@
 <script>
+	import { onDestroy } from 'svelte'
 	import Generator from '../components/Runme/Generator.svelte'
 	import RunmeButton from '../components/Runme/RunmeButton.svelte'
 	import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
 	import Header from '../components/UI/Layout/Header.svelte'
 	import RunmeFooter from '../components/UI/Layout/RunmeFooter.svelte'
 	import { application } from './../components/Runme/Stores'
+
+	let showRunmeFooter = false
+
+	const unsubscribe = application.subscribe(value => {
+		showRunmeFooter = Object.keys(value).length !== 0
+	});
+
+	onDestroy(unsubscribe);
+
 </script>
 <svelte:head>
 	<title>Runme.io - generate your code to deploy</title>
@@ -22,7 +32,7 @@
 		</div>
 	</main>
 
-	{#if $application}<RunmeFooter/>{/if}
+	{#if showRunmeFooter}<RunmeFooter/>{/if}
 	<JexiaFooter/>
 </div>
 
@@ -34,6 +44,9 @@
 		padding-top: 6rem
 		width: 75%
 		margin: 0 auto
+
+		@media screen and (max-width: 800px)
+			width: 100%
 
 		h1
 			text-align: center
