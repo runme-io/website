@@ -12,7 +12,7 @@
                 <li><a href="/how-it-works">How it works</a></li>
             </ul>
         </nav>
-        <p>Runme.io is a project of <a target="_blank" href="https://jexia.com">Jexia</a>. &copy; Copyright {year}. All right reserved.</p>
+        <p>Build for communities that are making impacts with the power of software tools. <br>Runme.io is an initiative of <a target="_blank" href="https://jexia.com">Jexia</a>. © Copyright {year}. All rights reserved.</p>
         <img src="/svg/jexia-logo.svg" alt="jexia logo"/>
     </section>
 </footer>
@@ -33,7 +33,7 @@
 
         nav
             text-align: center
-            margin-bottom: 1.5rem
+            margin-bottom: 3.5rem
 
             ul
                 display: inline-block
