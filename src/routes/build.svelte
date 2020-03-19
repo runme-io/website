@@ -32,10 +32,17 @@
     }
 
     const scrollToBottom = () => {
+        // calculate the offset height based on the header and the viewport height
+        const headerElement = document.getElementsByTagName('header')
+        const headerHeight = headerElement[0] ? headerElement[0].offsetHeight : 0
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+        const offset = - (vh - (headerHeight - 40)) // should be negative
+
+        // mark as sticky
         buildSticky = true
-        // TODO somehow the offset (negative and positive) is not working).
-        // TODO for now this is ok, but in a future release this should be fixed
-        animateScroll.scrollTo({ element: '#marker-scroll-to-bottom', offset: 500 })
+
+        // auto scroll to the last log item
+        animateScroll.scrollTo({ element: '#marker-scroll-to-bottom', offset })
     }
 
     const scrollToTop = () => {
