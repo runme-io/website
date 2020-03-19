@@ -13,8 +13,8 @@
             </ul>
         </nav>
         <p>Build for communities that are making impacts with the power of software tools. <br>Runme.io is an initiative of <a target="_blank" href="https://jexia.com">Jexia</a>. © Copyright {year}. All rights reserved.</p>
-        <img src="/images/jexia-logo-grey.svg" alt="Jexia logo"/>
-        <img src="/images/digital-ocean-logo-grey.svg" alt="Digital Ocean logo"/>
+        <img src="/images/technology/jexia.svg" alt="Jexia logo"/>
+        <img src="/images/technology/digital-ocean.svg" alt="Digital Ocean logo"/>
     </section>
 </footer>
 

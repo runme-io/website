@@ -1,10 +1,58 @@
 <script>
     const logos = [
-      'digital-ocean.png',
-      'digital-ocean.png',
-      'digital-ocean.png',
-      'digital-ocean.png',
+        {
+            alt: 'Jexia',
+            filename: 'jexia.svg',
+            height: '3rem'
+        },
+        {
+            alt: 'digital-ocean',
+            filename: 'digital-ocean.svg',
+            height: '4rem'
+        },
+        {
+            alt: 'docker',
+            filename: 'docker.svg',
+            height: '3rem'
+        },
+        {
+            alt: 'github',
+            filename: 'github.svg',
+            height: '3rem'
+        },
+        {
+            alt: 'gitlab',
+            filename: 'gitlab.svg',
+            height: '4rem'
+        },
+        {
+            alt: 'go',
+            filename: 'go.svg',
+            height: '3rem'
+        },
+        {
+            alt: 'kubernetes',
+            filename: 'kubernetes.svg',
+            height: '4rem'
+        },
+        {
+            alt: 'nodejs',
+            filename: 'nodejs.svg',
+            height: '4rem'
+        },
+        {
+            alt: 'npm',
+            filename: 'npm.svg',
+            height: '2rem'
+        },
+        {
+            alt: 'svelte',
+            filename: 'svelte.svg',
+            height: '4rem'
+        },
     ]
+
+
 </script>
 
 <div class="container">
@@ -12,7 +60,7 @@
         <p>Runme made possible through world impactful technologies</p>
         <div class="logos">
             {#each logos as logo}
-                <div><img alt="logo" src="/images/technology/{logo}"></div>
+                <div><img style="height:{logo.height}" title={logo.alt} alt={logo.alt} src="/images/technology/{logo.filename}"></div>
             {/each}
         </div>
     </section>
@@ -38,7 +86,9 @@
             flex-direction: row
             flex-wrap: wrap
             justify-content: center
+            align-items: center
 
-            img
-                width: 10rem
+            div
+                padding: 0 1.5rem 1rem
+
 </style>
