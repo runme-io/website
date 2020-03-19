@@ -3,7 +3,7 @@
         <div class="logo">
             <div class="logo-svg">
                 <a href="/">
-                    <img src="/svg/jexiaLogo.svg" alt="logo">
+                    <img src="/static/button.svg" alt="logo">
                 </a>
             </div>
             <h1>Run your application from any public Git-repo with one click</h1>
