@@ -4,6 +4,7 @@
 	import { runmeService } from '../components/Runme/Services'
 	import { build } from '../components/Runme/Stores'
 	import { queryParam } from '../components/Helpers/QueryParam'
+	import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
 
 	let src
 	let iframeLoaded = false
@@ -33,24 +34,24 @@
 
 	// run only in client mode
 	if (process.browser) {
-		const buildId = queryParam().get('build_id');
+		const buildId = queryParam().get('build_id')
 		const appId = queryParam().get('app_id')
 
 		if (buildId) {
 			runmeService().build(buildId)
-				.then(([response]) => {
-					build.set(response)
-					loadUrl(`https://${response.app_id}.runme.io`)
-				})
-				.catch(() => {
-					let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
+					.then(([response]) => {
+						build.set(response)
+						loadUrl(`https://${response.app_id}.runme.io`)
+					})
+					.catch(() => {
+						let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
 
-					if(appId) {
-						appendError = `Please rebuild this application by clicking <a href="/run?app_id=${appId}">here</a>.`
-					}
+						if (appId) {
+							appendError = `Please rebuild this application by clicking <a href="/run?app_id=${appId}">here</a>.`
+						}
 
-					showError(`No application has been deployed with this build ID "${buildId}". ${appendError}`)
-				})
+						showError(`No application has been deployed with this build ID "${buildId}". ${appendError}`)
+					})
 		} else {
 			showError('No build_id has been given, please go to the <a href="/">generator</a> page and create a button and run url')
 		}
@@ -66,19 +67,17 @@
 {#if src && iframeLoaded}
 	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
 {:else if !iframeLoaded && !errorMsg}
-	<div class="container">
-		<div class="main-content loading">
+	<ContentLayout>
+		<div class="loading">
 			<Loader size="100" color="#000"/>
 			<p>Your application is loading, please wait a couple of seconds...</p>
 		</div>
-	</div>
+	</ContentLayout>
 {:else if errorMsg}
-	<div class="container">
-		<div class="main-content">
-			<h1>Error</h1>
-			<p>{@html errorMsg}</p>
-		</div>
-	</div>
+	<ContentLayout>
+		<h1>Error</h1>
+		<p>{@html errorMsg}</p>
+	</ContentLayout>
 {/if}
 
 <style lang="sass">
@@ -90,9 +89,6 @@
 		border: none
 		width: 100vw
 		height: calc(100vh - 10rem)
-
-	.main-content
-		text-align: center
 
 	.loading
 		text-align: center
