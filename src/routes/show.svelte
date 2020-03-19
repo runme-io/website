@@ -41,7 +41,6 @@
 					build.set(response)
 					loadUrl(`https://${response.app_id}.runme.io`)
 				})
-				// TODO how to handle when there is no appID?
 				.catch(() => {
 					let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
 
