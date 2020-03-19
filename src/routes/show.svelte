@@ -85,7 +85,6 @@
 
 	.deployed-iframe
 		display: block
-		background: $black
 		border: none
 		width: 100vw
 		height: calc(100vh - 10rem)
