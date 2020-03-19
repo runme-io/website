@@ -13,7 +13,8 @@
             </ul>
         </nav>
         <p>Build for communities that are making impacts with the power of software tools. <br>Runme.io is an initiative of <a target="_blank" href="https://jexia.com">Jexia</a>. © Copyright {year}. All rights reserved.</p>
-        <img src="/svg/jexia-logo.svg" alt="jexia logo"/>
+        <img src="/images/jexia-logo-grey.svg" alt="Jexia logo"/>
+        <img src="/images/digital-ocean-logo-grey.svg" alt="Digital Ocean logo"/>
     </section>
 </footer>
 
@@ -30,6 +31,7 @@
         background-color: #f4f4f4
         text-align: center
         font-family: $font-family-jexia
+        font-size: 1.4rem
 
         nav
             text-align: center
@@ -56,6 +58,8 @@
             color: $text-color
 
         img
-            padding-top: 1rem
+            margin-top: 2rem
+            margin-right: 2rem
             display: inline-block
+            height: 5rem
 </style>

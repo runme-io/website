@@ -23,6 +23,7 @@
     "ansi_up": "^4.0.4",
     "compression": "^1.7.1",
     "github-url-to-object": "^4.0.4",
+    "lorem-ipsum": "^2.0.3",
     "marked": "^0.8.0",
     "moment": "^2.24.0",
     "polka": "next",

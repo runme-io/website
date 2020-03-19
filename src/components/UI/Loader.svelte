@@ -1,7 +1,9 @@
+<script>
+    export let color = '#fff'
+    export let size = '57'
+</script>
 
-<!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->
-<!-- Todo: add easing -->
-<svg width="57" height="57" viewBox="0 0 57 57" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+<svg width={size} height={size} viewBox="0 0 57 57" xmlns="http://www.w3.org/2000/svg" stroke={color}>
     <g fill="none" fill-rule="evenodd">
         <g transform="translate(1 1)" stroke-width="2">
             <circle cx="5" cy="50" r="5">

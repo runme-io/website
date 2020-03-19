@@ -11,7 +11,7 @@
 <header>
     <div class="logo-svg">
         <a href="/">
-            <img src="/svg/jexiaLogo.svg" alt="logo">
+            <img src="/static/button.svg" alt="logo">
         </a>
     </div>
     <h1>{title}</h1>
@@ -34,7 +34,6 @@
         position: sticky
         top: 0
         z-index: 1
-        height: 10rem
         padding: 2rem $spacing
         background-color: $primary-color
         display: flex
@@ -53,15 +52,37 @@
             align-self: center
             margin: 0 auto
 
+            @media screen and (max-width: 720px)
+                padding: 2rem 0 0 0
+                width: 100%
+                text-align: center
+
         .logo-svg
             width: 200px
+
+            @media screen and (max-width: 720px)
+                width: 100%
+                text-align: center
 
             a
                 border: 0
 
+                img
+                    width: 20rem
+                    display: inline-block
+
         .counter
             align-self: center
             text-align: center
+
+            @media screen and (min-width: 500px) and (max-width: 720px)
+                position: absolute
+                top: 2rem
+                right: $spacing
+
+            @media screen and (max-width: 500px)
+                width: 100%
+                margin-top: 2rem
 
             .title
                 display: block

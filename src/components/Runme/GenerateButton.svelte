@@ -1,4 +1,5 @@
 <script>
+    import Loader from '../UI/Loader.svelte'
     export let disabled = false
     export let loading = false
 
@@ -7,7 +8,9 @@
 <button {disabled} class="btn" on:click>
     <slot/>
     {#if loading}
-        <img class="loading" alt="loading" src="/svg/loader.svg">
+        <div class="loading">
+            <Loader size="20" />
+        </div>
     {/if}
 </button>
 

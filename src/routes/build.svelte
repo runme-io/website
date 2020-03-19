@@ -27,15 +27,22 @@
         building = false
     }
 
-    const done = (buildId) => {
-        goto(`/show?build_id=${buildId}`)
+    const done = (buildId, appId) => {
+        goto(`/show?build_id=${buildId}&app_id=${appId}`)
     }
 
     const scrollToBottom = () => {
+        // calculate the offset height based on the header and the viewport height
+        const headerElement = document.getElementsByTagName('header')
+        const headerHeight = headerElement[0] ? headerElement[0].offsetHeight : 0
+        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+        const offset = - (vh - (headerHeight - 40)) // should be negative
+
+        // mark as sticky
         buildSticky = true
-        // TODO somehow the offset (negative and positive) is not working).
-        // TODO for now this is ok, but in a future release this should be fixed
-        animateScroll.scrollTo({ element: '#marker-scroll-to-bottom', offset: 500 })
+
+        // auto scroll to the last log item
+        animateScroll.scrollTo({ element: '#marker-scroll-to-bottom', offset })
     }
 
     const scrollToTop = () => {
@@ -73,15 +80,16 @@
     }
 
     const process = (response) => {
-        const { status, deploy_log, build_log, id } = response
+        const { status, deploy_log, build_log, id, app_id } = response
 
         if (status === 'fail') {
             showBuildError(`Build failed`)
         }
 
-        // TODO are we sure we need to do this automatically? e.g. Netlify does not do that
+        // TODO are we sure we need to do this automatically?
+        //  e.g. Netlify does not do that and shows a button to go to the page
         if (status === 'done') {
-            done(id)
+            done(id, app_id)
         }
 
         // collect the log and combine them
@@ -188,7 +196,7 @@
             h2
                 text-align: center
                 color: $white
-                font-size: 1.2rem
+                font-size: 1.4rem
                 padding: 0
                 margin: 0
                 flex-grow: 1
