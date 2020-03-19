@@ -20,13 +20,12 @@
 
 <style lang="sass">
     @import '../../../assets/style/theme'
-    $text-color: #919191
 
     footer
         margin-top: auto
 
     .jexia-footer
-        margin-top: $spacing
+        margin-top: calc(#{$spacing} * 2)
         padding: $spacing
         background-color: #f4f4f4
         text-align: center
@@ -49,13 +48,13 @@
                         &:after
                             content: '|'
                             padding-left: 1rem
-                            color: $text-color
+                            color: $gray
 
                     a
-                        color: $text-color
+                        color: $gray
 
         p
-            color: $text-color
+            color: $gray
 
         img
             margin-top: 2rem

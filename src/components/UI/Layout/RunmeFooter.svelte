@@ -25,10 +25,10 @@
 
     section
         @include dashed-line(top)
-        margin-top: 10rem
+        margin-top: calc(#{$spacing} * 2)
 
         .runme-footer
-            margin: 6rem auto 0 auto
+            margin: calc(#{$spacing} * 2) auto 0 auto
             width: 80%
             font-size: 1.6rem
             text-align: center
