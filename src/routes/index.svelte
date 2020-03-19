@@ -6,6 +6,7 @@
 	import MainLayout from '../components/UI/Layout/MainLayout.svelte'
 
 	let showRunmeFooter = false
+	let showTechnologyIcons = true
 
 	const unsubscribe = application.subscribe(value => showRunmeFooter = Object.keys(value).length !== 0)
 
@@ -13,7 +14,7 @@
 
 </script>
 
-<MainLayout {showRunmeFooter} title="Run your application from any public Git-repo with one click">
+<MainLayout {showRunmeFooter} {showTechnologyIcons} title="Run your application from any public Git-repo with one click">
 	<div class="generator-page">
 		<h1>Generate <RunmeButton/>  button for your repo.</h1>
 		<Generator/>
