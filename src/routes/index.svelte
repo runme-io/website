@@ -17,7 +17,7 @@
 
 </script>
 <svelte:head>
-	<title>Runme.io - generate your code to deploy</title>
+	<title>Runme.io - Run your application from any public Git-repo with one click</title>
 </svelte:head>
 
 <div class="page-container">

@@ -26,7 +26,7 @@
 				src = url
 				iframeLoaded = true
 			} else {
-				pollingUrl = setInterval(() => loadUrl(url), 1000)
+				pollingUrl = setInterval(() => loadUrl(url), 5000)
 			}
 		})
 	}
@@ -56,9 +56,9 @@
 		}
 	}
 </script>
+
 <svelte:head>
-	<!-- TODO show the repo url in the title? -->
-	<title>Runme.io - </title>
+	<title>Runme.io - Run your application from any public Git-repo with one click</title>
 </svelte:head>
 
 <FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
