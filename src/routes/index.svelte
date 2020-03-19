@@ -2,40 +2,24 @@
 	import { onDestroy } from 'svelte'
 	import Generator from '../components/Runme/Generator.svelte'
 	import RunmeButton from '../components/Runme/RunmeButton.svelte'
-	import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
-	import Header from '../components/UI/Layout/Header.svelte'
-	import RunmeFooter from '../components/UI/Layout/RunmeFooter.svelte'
 	import { application } from './../components/Runme/Stores'
+	import MainLayout from '../components/UI/Layout/MainLayout.svelte'
 
 	let showRunmeFooter = false
+	let showTechnologyIcons = true
 
-	const unsubscribe = application.subscribe(value => {
-		showRunmeFooter = Object.keys(value).length !== 0
-	});
+	const unsubscribe = application.subscribe(value => showRunmeFooter = Object.keys(value).length !== 0)
 
-	onDestroy(unsubscribe);
+	onDestroy(unsubscribe)
 
 </script>
-<svelte:head>
-	<title>Runme.io - generate your code to deploy</title>
-</svelte:head>
 
-<div class="page-container">
-	<Header/>
-
-	<main>
-		<div class="container">
-			<div class="generator-page">
-				<h1>Generate <RunmeButton/>  button for your repo.</h1>
-				<Generator/>
-			</div>
-		</div>
-	</main>
-
-	{#if showRunmeFooter}<RunmeFooter/>{/if}
-	<JexiaFooter/>
-</div>
-
+<MainLayout {showRunmeFooter} {showTechnologyIcons} title="Run your application from any public Git-repo with one click">
+	<div class="generator-page">
+		<h1>Generate <RunmeButton/>  button for your repo.</h1>
+		<Generator/>
+	</div>
+</MainLayout>
 
 <style lang="sass">
 	@import '../assets/style/theme'

@@ -13,20 +13,19 @@
             </ul>
         </nav>
         <p>Build for communities that are making impacts with the power of software tools. <br>Runme.io is an initiative of <a target="_blank" href="https://jexia.com">Jexia</a>. © Copyright {year}. All rights reserved.</p>
-        <img src="/images/jexia-logo-grey.svg" alt="Jexia logo"/>
-        <img src="/images/digital-ocean-logo-grey.svg" alt="Digital Ocean logo"/>
+        <img src="/images/technology/jexia.svg" alt="Jexia logo"/>
+        <img src="/images/technology/digital-ocean.svg" alt="Digital Ocean logo"/>
     </section>
 </footer>
 
 <style lang="sass">
     @import '../../../assets/style/theme'
-    $text-color: #919191
 
     footer
         margin-top: auto
 
     .jexia-footer
-        margin-top: $spacing
+        margin-top: calc(#{$spacing} * 2)
         padding: $spacing
         background-color: #f4f4f4
         text-align: center
@@ -49,13 +48,13 @@
                         &:after
                             content: '|'
                             padding-left: 1rem
-                            color: $text-color
+                            color: $gray
 
                     a
-                        color: $text-color
+                        color: $gray
 
         p
-            color: $text-color
+            color: $gray
 
         img
             margin-top: 2rem

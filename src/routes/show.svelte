@@ -4,6 +4,7 @@
 	import { runmeService } from '../components/Runme/Services'
 	import { build } from '../components/Runme/Stores'
 	import { queryParam } from '../components/Helpers/QueryParam'
+	import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
 
 	let src
 	let iframeLoaded = false
@@ -26,14 +27,14 @@
 				src = url
 				iframeLoaded = true
 			} else {
-				pollingUrl = setInterval(() => loadUrl(url), 1000)
+				pollingUrl = setInterval(() => loadUrl(url), 5000)
 			}
 		})
 	}
 
 	// run only in client mode
 	if (process.browser) {
-		const buildId = queryParam().get('build_id');
+		const buildId = queryParam().get('build_id')
 		const appId = queryParam().get('app_id')
 
 		if (buildId) {
@@ -45,7 +46,7 @@
 				.catch(() => {
 					let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
 
-					if(appId) {
+					if (appId) {
 						appendError = `Please rebuild this application by clicking <a href="/run?app_id=${appId}">here</a>.`
 					}
 
@@ -56,9 +57,9 @@
 		}
 	}
 </script>
+
 <svelte:head>
-	<!-- TODO show the repo url in the title? -->
-	<title>Runme.io - </title>
+	<title>Runme.io - Run your application from any public Git-repo with one click</title>
 </svelte:head>
 
 <FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
@@ -66,19 +67,17 @@
 {#if src && iframeLoaded}
 	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
 {:else if !iframeLoaded && !errorMsg}
-	<div class="container">
-		<div class="main-content loading">
+	<ContentLayout>
+		<div class="loading">
 			<Loader size="100" color="#000"/>
 			<p>Your application is loading, please wait a couple of seconds...</p>
 		</div>
-	</div>
+	</ContentLayout>
 {:else if errorMsg}
-	<div class="container">
-		<div class="main-content">
-			<h1>Error</h1>
-			<p>{@html errorMsg}</p>
-		</div>
-	</div>
+	<ContentLayout>
+		<h1>Error</h1>
+		<p>{@html errorMsg}</p>
+	</ContentLayout>
 {/if}
 
 <style lang="sass">
@@ -90,9 +89,6 @@
 		border: none
 		width: 100vw
 		height: calc(100vh - 10rem)
-
-	.main-content
-		text-align: center
 
 	.loading
 		text-align: center
