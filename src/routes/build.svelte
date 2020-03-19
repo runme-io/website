@@ -27,8 +27,8 @@
         building = false
     }
 
-    const done = (buildId) => {
-        goto(`/show?build_id=${buildId}`)
+    const done = (buildId, appId) => {
+        goto(`/show?build_id=${buildId}&app_id=${appId}`)
     }
 
     const scrollToBottom = () => {
@@ -73,15 +73,16 @@
     }
 
     const process = (response) => {
-        const { status, deploy_log, build_log, id } = response
+        const { status, deploy_log, build_log, id, app_id } = response
 
         if (status === 'fail') {
             showBuildError(`Build failed`)
         }
 
-        // TODO are we sure we need to do this automatically? e.g. Netlify does not do that
+        // TODO are we sure we need to do this automatically?
+        //  e.g. Netlify does not do that and shows a button to go to the page
         if (status === 'done') {
-            done(id)
+            done(id, app_id)
         }
 
         // collect the log and combine them
