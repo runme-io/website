@@ -51,8 +51,6 @@
             height: '4rem'
         },
     ]
-
-
 </script>
 
 <div class="container">
@@ -65,7 +63,6 @@
         </div>
     </section>
 </div>
-
 
 <style lang="sass">
     @import '../../../assets/style/mixins'
@@ -90,5 +87,4 @@
 
             div
                 padding: 0 1.5rem 1rem
-
 </style>

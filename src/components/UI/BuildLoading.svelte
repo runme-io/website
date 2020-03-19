@@ -10,7 +10,7 @@
     }, intervalTimer)
 </script>
 
-<div class="build-progress">Build in progress ...{dots}</div>
+<div class="build-progress">> Build in progress ...{dots}</div>
 
 <style lang="sass">
     .build-progress
