@@ -11,7 +11,7 @@
 <header>
     <div class="logo-svg">
         <a href="/">
-            <img src="/svg/jexiaLogo.svg" alt="logo">
+            <img src="/static/button.svg" alt="logo">
         </a>
     </div>
     <h1>{title}</h1>

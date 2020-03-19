@@ -1,4 +1,5 @@
 <script>
+	import Loader from '../components/UI/Loader.svelte'
 	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
 	import { runmeService } from '../components/Runme/Services'
 	import { build } from '../components/Runme/Stores'
@@ -67,7 +68,7 @@
 {:else if !iframeLoaded && !errorMsg}
 	<div class="container">
 		<div class="main-content loading">
-			<img alt="loading" src="/svg/loaderBlack.svg">
+			<Loader size="100" color="#000"/>
 			<p>Your application is loading, please wait a couple of seconds...</p>
 		</div>
 	</div>
@@ -90,12 +91,11 @@
 		width: 100vw
 		height: calc(100vh - 10rem)
 
-	.loading
+	.main-content
 		text-align: center
 
-		img
-			display: inline
-			height: 10rem
+	.loading
+		text-align: center
 
 		p
 			padding-top: $spacing
