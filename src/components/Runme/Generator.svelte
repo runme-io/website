@@ -11,6 +11,7 @@
     import { queryParam } from '../Helpers/QueryParam'
     import { getCurrentUrl } from '../Helpers/Const'
     import { application } from './Stores'
+    import RunmeButton from './RunmeButton.svelte'
 
     // form fields
     let embedStyle = 'markdown'
@@ -86,7 +87,7 @@
             isLoading(false)
             showEmbedCode()
 
-        } catch(error) {
+        } catch (error) {
             setError('There is a problem with creating your button. Please try again later')
             isLoading(false)
         }
@@ -147,7 +148,7 @@
                 </div>
             </div>
 
-            <h3>Your Readme.md (with runme button)</h3>
+            <h3>Your Readme.md (with <RunmeButton/> button)</h3>
             <GithubReadme/>
         </div>
     {/if}
@@ -186,7 +187,7 @@
                 cursor: pointer
 
         h3
-            margin-top: 3rem
+            margin-top: 4rem
             font-weight: bold
             font-size: 2rem
             margin-bottom: 2rem

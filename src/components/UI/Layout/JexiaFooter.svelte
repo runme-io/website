@@ -31,6 +31,7 @@
         background-color: #f4f4f4
         text-align: center
         font-family: $font-family-jexia
+        font-size: 1.4rem
 
         nav
             text-align: center

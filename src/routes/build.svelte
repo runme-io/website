@@ -189,7 +189,7 @@
             h2
                 text-align: center
                 color: $white
-                font-size: 1.2rem
+                font-size: 1.4rem
                 padding: 0
                 margin: 0
                 flex-grow: 1
