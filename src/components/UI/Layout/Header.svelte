@@ -33,7 +33,7 @@
         margin-left: auto
         vertical-align: top
 
-        @media screen and (max-width: 670px)
+        @media screen and (max-width: 720px)
             display: none
 
         @media screen and (max-width: 850px)
@@ -50,9 +50,10 @@
         width: 50%
         padding-bottom: $spacing
 
-        @media screen and (max-width: 670px)
+        @media screen and (max-width: 720px)
             text-align: center
             width: 100%
+            padding-bottom: 2rem
 
         h2
             line-height: 4rem
@@ -61,7 +62,7 @@
             @media screen and (max-width: 992px)
                 font-size: 2rem
 
-            @media screen and (max-width: 780px)
+            @media screen and (max-width: 70px)
                 font-size: 1.8rem
 
         .logo-svg
@@ -69,9 +70,11 @@
             margin-top: 7.5rem
             margin-bottom: 4rem
 
-            @media screen and (max-width: 670px)
+            @media screen and (max-width: 720px)
                 margin-left: auto
                 margin-right: auto
+                margin-top: $spacing
+                margin-bottom: 2rem
 
             a
                 border: 0
