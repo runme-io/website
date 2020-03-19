@@ -9,7 +9,7 @@
             <h1>Run your application from any public Git-repo with one click</h1>
         </div>
         <div class="header-image">
-            <img src="/svg/runmeHeaderImage.svg" alt="header image">
+            <img src="/images/runmeHeaderImage.svg" alt="header image">
         </div>
     </div>
 </header>
