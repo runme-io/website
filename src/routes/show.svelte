@@ -39,19 +39,19 @@
 
 		if (buildId) {
 			runmeService().build(buildId)
-					.then(([response]) => {
-						build.set(response)
-						loadUrl(`https://${response.app_id}.runme.io`)
-					})
-					.catch(() => {
-						let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
+				.then(([response]) => {
+					build.set(response)
+					loadUrl(`https://${response.app_id}.runme.io`)
+				})
+				.catch(() => {
+					let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
 
-						if (appId) {
-							appendError = `Please rebuild this application by clicking <a href="/run?app_id=${appId}">here</a>.`
-						}
+					if (appId) {
+						appendError = `Please rebuild this application by clicking <a href="/run?app_id=${appId}">here</a>.`
+					}
 
-						showError(`No application has been deployed with this build ID "${buildId}". ${appendError}`)
-					})
+					showError(`No application has been deployed with this build ID "${buildId}". ${appendError}`)
+				})
 		} else {
 			showError('No build_id has been given, please go to the <a href="/">generator</a> page and create a button and run url')
 		}
