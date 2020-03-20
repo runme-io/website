@@ -1,11 +1,6 @@
 <script>
     const logos = [
         {
-            alt: 'Jexia',
-            filename: 'jexia.svg',
-            height: '3rem'
-        },
-        {
             alt: 'digital-ocean',
             filename: 'digital-ocean.svg',
             height: '4rem'
@@ -13,6 +8,11 @@
         {
             alt: 'docker',
             filename: 'docker.svg',
+            height: '3rem'
+        },
+        {
+            alt: 'Jexia',
+            filename: 'jexia.svg',
             height: '3rem'
         },
         {
