@@ -117,6 +117,7 @@
             validityMessage="Please enter a valid Repository url."
             value={repoUrl}
             placeholder="https://github.com/jexia/test-node-app.git"
+            on:enter={generateEmbedCode}
             on:input={event => (repoUrl = event.target.value)} />
     </div>
 
