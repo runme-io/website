@@ -15,7 +15,7 @@
 
     // form fields
     let embedStyle = 'markdown'
-    let repoUrl = 'https://github.com/jexia/jexia-vue-todo.git' // TODO remove it later
+    let repoUrl = ''
     let repoBranch = 'master'
     let dockerImage = ''
 
