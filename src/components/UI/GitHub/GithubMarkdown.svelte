@@ -5,7 +5,7 @@
     import marked from 'marked'
     import { application } from '../../Runme/Stores'
     import { onDestroy } from 'svelte'
-    import { getCurrentUrl } from '../../Helpers/Const'
+    import { setUrl } from '../../Helpers/Const'
 
     let content
     let runUrl
@@ -25,8 +25,6 @@
     vel urna. Praesent placerat odio in interdum accumsan. Vivamus auctor turpis ac dui dignissim, et maximus ex consectetur.
     In vitae ornare ipsum, eu luctus turpis.</p>`
 
-    const CurrentUrl = getCurrentUrl()
-
     const unsubscribe = application.subscribe(({ repo_url, id, repo_name }) => {
         if (process.browser) {
             const github = parseGithub(repo_url)
@@ -41,7 +39,7 @@
                     .catch(() => content = `<h1>${repo_name}</h1><p>${ipsum}</p>`)
 
             // set the run url to build the application
-            runUrl = `${CurrentUrl}/run?app_id=${id}`
+            runUrl = setUrl(`run?app_id=${id}`)
         }
     });
 

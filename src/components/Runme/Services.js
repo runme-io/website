@@ -1,6 +1,9 @@
+import { setApiUrl } from '../Helpers/Const'
+
 export function runmeService() {
   async function create(repo_url, repo_branch = 'master', docker_image = '') {
-    const response = await fetch(`https://svc.runme.io/v1/apps`, {
+    const url = setApiUrl(`v1/apps`)
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -17,7 +20,8 @@ export function runmeService() {
   }
 
   async function start(app_id) {
-    const response = await fetch(`https://svc.runme.io/v1/apps/${app_id}/run`, {
+    const url = setApiUrl(`v1/apps/${app_id}/run`)
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +33,8 @@ export function runmeService() {
   }
 
   async function build(build_id) {
-    const response = await fetch(`https://svc.runme.io/v1/builds/${build_id}`, {
+    const url = setApiUrl(`v1/builds/${build_id}`)
+    const response = await fetch(url, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -42,7 +47,8 @@ export function runmeService() {
   }
 
   function wsBuild(build_id, callback) {
-    const ws = new WebSocket('wss://svc.runme.io/ws');
+    const url = setApiUrl(`ws`, 'ws')
+    const ws = new WebSocket(url);
 
     ws.onopen = function(){
       ws.send(JSON.stringify({ "command": "subscribe", "payload": {"build_id": build_id} }))
