@@ -41,7 +41,7 @@
 			runmeService().build(buildId)
 				.then(([response]) => {
 					build.set(response)
-					loadUrl(`https://${response.app_id}.runme.io`)
+					loadUrl(`https://${response.id}.runme.io`)
 				})
 				.catch(() => {
 					let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
