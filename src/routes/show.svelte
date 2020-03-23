@@ -1,23 +1,30 @@
 <script>
 	import Loader from '../components/UI/Loader.svelte'
 	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
-	import { runmeService } from '../components/Runme/Services'
 	import { build } from '../components/Stores/Build'
+	import { application } from '../components/Stores/Application'
 	import { queryParam } from '../components/Helpers/QueryParam'
 	import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
+	import { onDestroy } from 'svelte'
 
 	let src
 	let iframeLoaded = false
 	let errorMsg
 	let pollingInterval = null
+	let repoName
+
+	const buildId = queryParam().get('build_id')
+	const appId = queryParam().get('app_id')
 
 	const showError = (msg) => {
 		errorMsg = msg
 	}
 
 	const urlExists = async (url) => {
-		const response = await fetch(url)
-		return response.status === 200
+		if (process.browser) {
+			const response = await fetch(url)
+			return response.status === 200
+		}
 	}
 
 	const loadUrl = (url) => {
@@ -32,34 +39,36 @@
 		})
 	}
 
-	// run only in client mode
+	const unsubscribe = build.subscribe(({ error }) => {
+		if (error) {
+			let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
+
+			if (appId) {
+				appendError = `Please rebuild this application by clicking <a href="/run?app_id=${appId}">here</a>.`
+			}
+
+			showError(`No application has been deployed with this build ID "${buildId}". ${appendError}`)
+		} else {
+			loadUrl(`https://${buildId}.runme.io`)
+		}
+	})
+
 	if (process.browser) {
-		const buildId = queryParam().get('build_id')
-		const appId = queryParam().get('app_id')
+		// fetching the application from the Jexia Dataset
+		application.get(appId)
 
 		if (buildId) {
-			runmeService().build(buildId)
-				.then(([response]) => {
-					build.set(response)
-					loadUrl(`https://${response.id}.runme.io`)
-				})
-				.catch(() => {
-					let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
-
-					if (appId) {
-						appendError = `Please rebuild this application by clicking <a href="/run?app_id=${appId}">here</a>.`
-					}
-
-					showError(`No application has been deployed with this build ID "${buildId}". ${appendError}`)
-				})
+			build.get(buildId)
 		} else {
 			showError('No build_id has been given, please go to the <a href="/">generator</a> page and create a button and run url')
 		}
 	}
+
+	onDestroy(unsubscribe)
 </script>
 
 <svelte:head>
-	<title>Runme.io</title>
+	<title>Runme.io - {repoName} Repository</title>
 </svelte:head>
 
 <FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>

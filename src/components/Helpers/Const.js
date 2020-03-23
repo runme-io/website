@@ -13,8 +13,10 @@ export const displayTimer = (totalSeconds) => {
 }
 
 export const redirectWithError = (errorMsg, path = '/') => {
-  const error = encodeURI(errorMsg)
-  goto(`${path}?error=${error}`)
+  if (process.browser) {
+    const error = encodeURI(errorMsg)
+    goto(`${path}?error=${error}`)
+  }
 }
 
 export const isBase64 = (str) => {
@@ -44,4 +46,17 @@ export const setApiUrl = (path, protocol = 'http') => {
 
   // remove double slashes
   return removeDoubleSlashes(url)
+}
+
+export const run = async (url, method = 'GET', body = null) => {
+  const response = await fetch(setApiUrl(url), {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: body ? JSON.stringify(body) : null,
+  })
+
+  return await response.json()
 }

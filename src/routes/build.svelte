@@ -5,15 +5,16 @@
     import BuildLoading from '../components/UI/BuildLoading.svelte'
     import * as animateScroll from 'svelte-scrollto'
     import { goto } from '@sapper/app'
-    import { runmeService } from '../components/Runme/Services'
     import { build } from '../components/Stores/Build'
     import { queryParam } from '../components/Helpers/QueryParam'
     import Icon from 'fa-svelte'
     import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
     import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown'
     import { isBase64 } from '../components/Helpers/Const'
+    import { onDestroy } from 'svelte'
 
     const ansi_up = new AnsiUp();
+    const buildId = queryParam().get('build_id')
 
     let building = true
     let buildLog = ''
@@ -28,21 +29,25 @@
     }
 
     const done = (buildId, appId) => {
-        goto(`/show?build_id=${buildId}&app_id=${appId}`)
+        if (process.browser) {
+            goto(`/show?build_id=${buildId}&app_id=${appId}`)
+        }
     }
 
     const scrollToBottom = () => {
-        // calculate the offset height based on the header and the viewport height
-        const headerElement = document.getElementsByTagName('header')
-        const headerHeight = headerElement[0] ? headerElement[0].offsetHeight : 0
-        const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-        const offset = - (vh - (headerHeight - 40)) // should be negative
+        if (process.browser) {
+            // calculate the offset height based on the header and the viewport height
+            const headerElement = document.getElementsByTagName('header')
+            const headerHeight = headerElement[0] ? headerElement[0].offsetHeight : 0
+            const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+            const offset = -(vh - (headerHeight - 40)) // should be negative
 
-        // mark as sticky
-        buildSticky = true
+            // mark as sticky
+            buildSticky = true
 
-        // auto scroll to the last log item
-        animateScroll.scrollTo({ element: '#marker-scroll-to-bottom', offset })
+            // auto scroll to the last log item
+            animateScroll.scrollTo({ element: '#marker-scroll-to-bottom', offset })
+        }
     }
 
     const scrollToTop = () => {
@@ -96,7 +101,7 @@
         collectLog(build_log, deploy_log)
 
         // get the height of the content, to determine if we need to set an extra class for the sticky position
-        displayActionsAsSticky = getContentHeight() > 300
+        setTimeout(() => displayActionsAsSticky = getContentHeight() > 300, 200)
 
         // If needed, we follow the log by scrolling to it
         if (buildSticky) {
@@ -104,30 +109,23 @@
         }
     }
 
-    // only client code
-    if (process.browser) {
-        const buildId = queryParam().get('build_id')
-
-        // no repo url? Redirect back
-        if (buildId === '') {
-            showBuildError('"build_id" is missing')
+    const unsubscribe = build.subscribe(({ error, ...response }) => {
+        if (error) {
+            showBuildError(`Build ID "${buildId}" has not been found`)
         } else {
-            runmeService().build(buildId)
-                .then(([response]) => {
-
-                    // The Websockets does not return anything when the build failed or has been finished
-                    // Therefore we need to process the data also on the first response
-                    process(response)
-
-                    // update the store
-                    build.set(response)
-
-                    // fire-up the WS
-                    runmeService().wsBuild(buildId, message => process(message));
-                })
-                .catch(() => showBuildError(`Build ID "${buildId}" has not been found`))
+            process(response)
         }
+    })
+
+    // no repo url? Redirect back
+    if (buildId === '') {
+        showBuildError('"build_id" is missing')
+    } else {
+        // start fetching the log
+        build.get(buildId, true)
     }
+
+    onDestroy(unsubscribe)
 </script>
 
 <svelte:head>
