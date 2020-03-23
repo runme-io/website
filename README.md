@@ -1,12 +1,13 @@
 # Runme Website
-This is the FE part for the runme.io
+This is the Website part for the runme.io project
 
 ### Running the project
 
-However you get the code, you can install dependencies and run the project in development mode with:
+First you need to add your own `.env` file (see `.env.example`) to setup the correct endpoints to the API.
+
+After that you can run you project by
 
 ```bash
-cd my-app
 npm install # or yarn
 npm run dev
 ```
