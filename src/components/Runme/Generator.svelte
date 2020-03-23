@@ -9,7 +9,7 @@
     import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
     import { runmeService } from './Services'
     import { queryParam } from '../Helpers/QueryParam'
-    import { application } from './Stores'
+    import { application } from '../Stores/Application'
     import RunmeButton from './RunmeButton.svelte'
     import { setUrl } from '../Helpers/Const'
 

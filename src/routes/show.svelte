@@ -2,14 +2,14 @@
 	import Loader from '../components/UI/Loader.svelte'
 	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
 	import { runmeService } from '../components/Runme/Services'
-	import { build } from '../components/Runme/Stores'
+	import { build } from '../components/Stores/Build'
 	import { queryParam } from '../components/Helpers/QueryParam'
 	import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
 
 	let src
 	let iframeLoaded = false
 	let errorMsg
-	let pollingUrl
+	let pollingInterval = null
 
 	const showError = (msg) => {
 		errorMsg = msg
@@ -23,11 +23,11 @@
 	const loadUrl = (url) => {
 		urlExists(url).then(exists => {
 			if (exists) {
-				clearInterval(pollingUrl)
+				clearInterval(pollingInterval)
 				src = url
 				iframeLoaded = true
 			} else {
-				pollingUrl = setInterval(() => loadUrl(url), 5000)
+				pollingInterval = setInterval(() => loadUrl(url), 5000)
 			}
 		})
 	}
@@ -59,7 +59,7 @@
 </script>
 
 <svelte:head>
-	<title>Runme.io - Run your application from any public Git-repo with one click</title>
+	<title>Runme.io</title>
 </svelte:head>
 
 <FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>

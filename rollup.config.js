@@ -7,11 +7,16 @@ import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
-import sapperEnv from 'sapper-environment';
+import { config as dotenvConfig} from 'dotenv';
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+
+// setup the correct variables from the .env file
+const envVars = Object.entries(dotenvConfig().parsed)
+	.map(([key, value]) => [`process.env.${key}`, `'${value}'`])
+	.reduce((r, [k, v]) => ({ ...r, [k]: v }), {})
 
 const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 
@@ -30,7 +35,7 @@ export default {
 		output: config.client.output(),
 		plugins: [
 			replace({
-				...sapperEnv('RUNME_'),
+				...envVars,
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
 			}),

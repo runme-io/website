@@ -6,7 +6,7 @@
     import * as animateScroll from 'svelte-scrollto'
     import { goto } from '@sapper/app'
     import { runmeService } from '../components/Runme/Services'
-    import { build } from '../components/Runme/Stores'
+    import { build } from '../components/Stores/Build'
     import { queryParam } from '../components/Helpers/QueryParam'
     import Icon from 'fa-svelte'
     import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'

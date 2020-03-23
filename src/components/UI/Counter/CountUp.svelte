@@ -1,6 +1,6 @@
 <script>
     import moment from 'moment'
-    import { build } from '../../Runme/Stores'
+    import { build } from '../../Stores/Build'
     import { displayTimer } from '../../Helpers/Const'
     import { onDestroy } from 'svelte'
 
