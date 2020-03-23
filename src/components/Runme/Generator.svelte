@@ -9,9 +9,9 @@
     import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
     import { runmeService } from './Services'
     import { queryParam } from '../Helpers/QueryParam'
-    import { getCurrentUrl } from '../Helpers/Const'
     import { application } from './Stores'
     import RunmeButton from './RunmeButton.svelte'
+    import { setUrl } from '../Helpers/Const'
 
     // form fields
     let embedStyle = 'markdown'
@@ -33,8 +33,6 @@
     $: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
     $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
     $: formIsValid = repoUrlValid && dockerImageValid
-
-    const CurrentUrl = getCurrentUrl()
 
     const setError = (error, type = 'warning') => {
         errorType = type
@@ -94,11 +92,15 @@
     }
 
     function showEmbedCode () {
+        // Global statement: we need this var evaluation also in our template
         canShowEmbed = repoUrl !== '' && repoBranch !== '' && appId !== ''
+
+        const runUrl = setUrl(`run?app_id=${appId}`)
+
         if (canShowEmbed && embedStyle === 'markdown') {
-            embedCode = `[![Runme](https://svc.runme.io/static/button.svg)](${CurrentUrl}/run?app_id=${appId})`
+            embedCode = `[![Runme](https://svc.runme.io/static/button.svg)](${runUrl})`
         } else if (canShowEmbed && embedStyle === 'reStructuredText') {
-            embedCode = `.. image:: https://svc.runme.io/static/button.svg\n    :target: ${CurrentUrl}/run?app_id=${appId}`
+            embedCode = `.. image:: https://svc.runme.io/static/button.svg\n    :target: ${runUrl}`
         }
     }
 </script>

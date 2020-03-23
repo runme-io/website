@@ -2,6 +2,8 @@ import { goto } from '@sapper/app'
 
 export const zeroPad = (num, places) => String(num).padStart(places, '0')
 
+export const removeDoubleSlashes = (path) => path.replace(/([^:])(\/\/+)/g, '$1/')
+
 export const displayTimer = (totalSeconds) => {
   const hour = Math.floor(totalSeconds / 3600)
   const minutes = Math.floor((totalSeconds - hour * 3600) / 60)
@@ -15,10 +17,6 @@ export const redirectWithError = (errorMsg, path = '/') => {
   goto(`${path}?error=${error}`)
 }
 
-export const getCurrentUrl = () => {
-  return process.browser ? `${location.protocol}//${location.host}` : ''
-}
-
 export const isBase64 = (str) => {
   if (str === '' || str.trim() === ''){
     return false
@@ -29,4 +27,21 @@ export const isBase64 = (str) => {
   } catch (err) {
     return false;
   }
+}
+
+export const setUrl = (path) => {
+  if (process.browser) {
+    const url = `${location.protocol}//${location.host}/${path}`
+
+    // remove double slashes
+    return removeDoubleSlashes(url)
+  }
+}
+
+export const setApiUrl = (path, protocol = 'http') => {
+  const secure = process.env.RUNME_SSL ? 's' : ''
+  const url = `${protocol}${secure}://${process.env.RUNME_API_HOST}/${path}`
+
+  // remove double slashes
+  return removeDoubleSlashes(url)
 }
