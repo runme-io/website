@@ -132,6 +132,7 @@
                     validityMessage="Please enter a valid Docker image url."
                     value={dockerImage}
                     placeholder="<image>:<tag>"
+                    on:enter={generateEmbedCode}
                     on:input={event => (dockerImage = event.target.value)} />
             </div>
         {/if}
