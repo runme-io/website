@@ -1,4 +1,5 @@
 import { goto } from '@sapper/app'
+import axios from 'axios'
 
 export const zeroPad = (num, places) => String(num).padStart(places, '0')
 
@@ -13,8 +14,10 @@ export const displayTimer = (totalSeconds) => {
 }
 
 export const redirectWithError = (errorMsg, path = '/') => {
-  const error = encodeURI(errorMsg)
-  goto(`${path}?error=${error}`)
+  if (process.browser) {
+    const error = encodeURI(errorMsg)
+    goto(`${path}?error=${error}`)
+  }
 }
 
 export const isBase64 = (str) => {
@@ -44,4 +47,19 @@ export const setApiUrl = (path, protocol = 'http') => {
 
   // remove double slashes
   return removeDoubleSlashes(url)
+}
+
+export const runApiRequest = (url, method = 'GET', data = null) => {
+  const instance = axios.create({
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+  });
+
+  return instance({
+    method,
+    url: setApiUrl(url),
+    data
+  });
 }

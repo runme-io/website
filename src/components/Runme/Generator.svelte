@@ -7,11 +7,11 @@
     import { isDockerUrl, isEmpty, isGitUrl } from '../Helpers/Validation'
     import Alert from '../UI/Alert.svelte'
     import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
-    import { runmeService } from './Services'
     import { queryParam } from '../Helpers/QueryParam'
     import { application } from '../Stores/Application'
     import RunmeButton from './RunmeButton.svelte'
     import { setUrl } from '../Helpers/Const'
+    import { onDestroy } from 'svelte'
 
     // form fields
     let embedStyle = 'markdown'
@@ -63,32 +63,33 @@
         }
     }
 
+    const unsubscribe = application.subscribe(({ id, error }) => {
+        if (error) {
+            setError('There is a problem with creating your button. Please try again later')
+            isLoading(false)
+        }
+
+        if (id) {
+            appId = id
+            isLoading(false)
+            showEmbedCode()
+        }
+    })
+
     function toggleAdvanced () {
         showAdvancedOptions = !showAdvancedOptions
         dropDownIcon = showAdvancedOptions ? faSortDown : faSortUp
     }
 
-    async function generateEmbedCode () {
+    function generateEmbedCode () {
         // set the button to loading
         isLoading(true)
 
         // clear previous errors
         clearError()
 
-        try {
-            let response = await runmeService().create(repoUrl, repoBranch, dockerImage)
-            appId = response.id
-
-            // Save the application response
-            application.set(response)
-
-            isLoading(false)
-            showEmbedCode()
-
-        } catch (error) {
-            setError('There is a problem with creating your button. Please try again later')
-            isLoading(false)
-        }
+        // create an application and assign it to the store
+        application.create(repoUrl, repoBranch, dockerImage)
     }
 
     function showEmbedCode () {
@@ -103,10 +104,11 @@
             embedCode = `.. image:: https://svc.runme.io/static/button.svg\n    :target: ${runUrl}`
         }
     }
+
+    onDestroy(unsubscribe)
 </script>
 
 <section class="generator">
-    <!-- TODO move this to a global component for every page -->
     {#if errorMsg}<Alert type={errorType}>{errorMsg}</Alert>{/if}
 
     <div id="repo-url">
