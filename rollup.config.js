@@ -14,13 +14,7 @@ const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 // setup the correct variables from the .env file
-const { parsed } = dotenvConfig()
-let envVars = {}
-if (parsed) {
-	envVars = Object.entries(parsed)
-		.map(([key, value]) => [`process.env.${key}`, `'${value}'`])
-		.reduce((r, [k, v]) => ({ ...r, [k]: v }), {})
-}
+const { parsed: { RUNME_API_HOST, RUNME_API_SECURE, APPLICATION_PROJECT_ID, API_KEY, API_SECRET } } = dotenvConfig()
 
 const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 
@@ -39,9 +33,13 @@ export default {
 		output: config.client.output(),
 		plugins: [
 			replace({
-				...envVars,
 				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				'runme-api-host': RUNME_API_HOST,
+				'runme-api-secure': RUNME_API_SECURE,
+				'jexia-application-project-id': APPLICATION_PROJECT_ID,
+				'jexia-key': API_KEY,
+				'jexia-secret': API_SECRET,
 			}),
 			svelte({
 				dev,

@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store'
 import { dataOperations, jexiaClient } from 'jexia-sdk-js/browser'
 import { runApiRequest } from '../Helpers/Const'
+import { JEXIA_CREDENTIALS } from '../../env'
 
 function createApplication() {
   const { subscribe, set } = writable({})
@@ -27,9 +28,9 @@ function createApplication() {
         const dataModule = dataOperations()
 
         const credentials = {
-          projectID: process.env.APPLICATION_PROJECT_ID,
-          key: process.env.API_KEY,
-          secret: process.env.API_SECRET,
+          projectID: JEXIA_CREDENTIALS.applicationProjectID,
+          key: JEXIA_CREDENTIALS.key,
+          secret: JEXIA_CREDENTIALS.secret,
         };
 
         jexiaClient().init(credentials, dataModule)

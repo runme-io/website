@@ -1,5 +1,6 @@
 import { goto } from '@sapper/app'
 import axios from 'axios'
+import { RUNME_API } from '../../env'
 
 export const zeroPad = (num, places) => String(num).padStart(places, '0')
 
@@ -42,8 +43,8 @@ export const setUrl = (path) => {
 }
 
 export const setApiUrl = (path, protocol = 'http') => {
-  const secure = process.env.RUNME_API_SSL ? 's' : ''
-  const url = `${protocol}${secure}://${process.env.RUNME_API_HOST}/${path}`
+  const secure = RUNME_API.secure ? 's' : ''
+  const url = `${protocol}${secure}://${RUNME_API.host}/${path}`
 
   // remove double slashes
   return removeDoubleSlashes(url)
