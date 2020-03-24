@@ -14,9 +14,13 @@ const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 // setup the correct variables from the .env file
-const envVars = Object.entries(dotenvConfig().parsed)
-	.map(([key, value]) => [`process.env.${key}`, `'${value}'`])
-	.reduce((r, [k, v]) => ({ ...r, [k]: v }), {})
+const { parsed } = dotenvConfig()
+let envVars = {}
+if (parsed) {
+	envVars = Object.entries(parsed)
+		.map(([key, value]) => [`process.env.${key}`, `'${value}'`])
+		.reduce((r, [k, v]) => ({ ...r, [k]: v }), {})
+}
 
 const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 

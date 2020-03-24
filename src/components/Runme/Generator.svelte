@@ -64,7 +64,6 @@
     }
 
     const unsubscribe = application.subscribe(({ id, error }) => {
-      console.log(id)
         if (error) {
             setError('There is a problem with creating your button. Please try again later')
             isLoading(false)
