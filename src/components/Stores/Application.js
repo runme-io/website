@@ -40,7 +40,7 @@ function createApplication() {
           .select()
           .where(field => field('id').isEqualTo(app_id))
           .subscribe(
-            ([result]) => set(result),
+            ([result]) => set(result || {}),
             () => {} // ignore error for now
           )
       }

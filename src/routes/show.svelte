@@ -42,9 +42,7 @@
 	const unsubscribe = build.subscribe(({ error, id }) => {
 		// is there an error or is the build_id undefined, show the error
 		if (error || id === undefined) {
-			let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
-
-			showError(`No application has been deployed with this build ID "${buildId}". ${appendError}`)
+			showError(`Go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.`)
 		} else {
 			loadUrl(`https://${buildId}.runme.io`)
 		}
