@@ -2,19 +2,17 @@
 	import Loader from '../components/UI/Loader.svelte'
 	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
 	import { build } from '../components/Stores/Build'
-	import { application } from '../components/Stores/Application'
 	import { queryParam } from '../components/Helpers/QueryParam'
 	import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
 	import { onDestroy } from 'svelte'
+	import axios from 'axios'
 
 	let src
 	let iframeLoaded = false
 	let errorMsg
 	let pollingInterval = null
-	let repoName
 
 	const buildId = queryParam().get('build_id')
-	const appId = queryParam().get('app_id')
 
 	const showError = (msg) => {
 		errorMsg = msg
@@ -22,30 +20,30 @@
 
 	const urlExists = async (url) => {
 		if (process.browser) {
-			const response = await fetch(url)
+			const response = await axios(url)
 			return response.status === 200
 		}
 	}
 
 	const loadUrl = (url) => {
-		urlExists(url).then(exists => {
-			if (exists) {
-				clearInterval(pollingInterval)
-				src = url
-				iframeLoaded = true
-			} else {
-				pollingInterval = setInterval(() => loadUrl(url), 5000)
-			}
-		})
+		if (process.browser) {
+			urlExists(url).then(exists => {
+				if (exists) {
+					clearInterval(pollingInterval)
+					src = url
+					iframeLoaded = true
+				} else {
+					pollingInterval = setInterval(() => loadUrl(url), 5000)
+				}
+			})
+		}
 	}
 
-	const unsubscribe = build.subscribe(({ error }) => {
-		if (error) {
+	const unsubscribe = build.subscribe(({ error, id }) => {
+		// is there an error or is the build_id undefined, show the error
+		console.log(id)
+		if (error || id === undefined) {
 			let appendError = `<br>Please go to the <a href="/">generator</a> page and create a button and run url.`
-
-			if (appId) {
-				appendError = `Please rebuild this application by clicking <a href="/run?app_id=${appId}">here</a>.`
-			}
 
 			showError(`No application has been deployed with this build ID "${buildId}". ${appendError}`)
 		} else {
@@ -54,9 +52,6 @@
 	})
 
 	if (process.browser) {
-		// fetching the application from the Jexia Dataset
-		application.get(appId)
-
 		if (buildId) {
 			build.get(buildId)
 		} else {
@@ -68,7 +63,7 @@
 </script>
 
 <svelte:head>
-	<title>Runme.io - {repoName} Repository</title>
+	<title>Runme.io</title>
 </svelte:head>
 
 <FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>

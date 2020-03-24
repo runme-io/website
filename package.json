@@ -21,6 +21,7 @@
     "@primer/css": "^14.2.0",
     "@varandas/fetch-readme": "^1.0.5",
     "ansi_up": "^4.0.4",
+    "axios": "^0.19.2",
     "compression": "^1.7.1",
     "dotenv": "^8.2.0",
     "github-url-to-object": "^4.0.4",

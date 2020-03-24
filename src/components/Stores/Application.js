@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 import { dataOperations, jexiaClient } from 'jexia-sdk-js/browser'
-import { run } from '../Helpers/Const'
+import { runApiRequest } from '../Helpers/Const'
 
 function createApplication() {
   const { subscribe, set } = writable({})
@@ -10,7 +10,7 @@ function createApplication() {
     set,
     create: async (repo_url, repo_branch = 'master', docker_image = '') => {
       try {
-        const application = await run('v1/apps', 'POST', {
+        const { data: application } = await runApiRequest('v1/apps', 'POST', {
           repo_url,
           repo_branch,
           docker_image

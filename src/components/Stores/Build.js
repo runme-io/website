@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { run } from '../Helpers/Const'
+import { runApiRequest } from '../Helpers/Const'
 import { wsBuild } from '../Helpers/WebSocket'
 
 function createBuild () {
@@ -10,12 +10,12 @@ function createBuild () {
     set,
     get: async (build_id, startWebSocket = false) => {
       try {
-        const [build] = await run(`v1/builds/${build_id}`, 'GET')
+        const { data: [build] } = await runApiRequest(`v1/builds/${build_id}`, 'GET')
 
         set(build)
 
+        // fireup the WebSocket to get realtime updates
         if (startWebSocket) {
-          // fireup the WebSocket to get realtime updates
           wsBuild(build_id, message => set(message))
         }
       } catch (error) {
@@ -24,7 +24,7 @@ function createBuild () {
     },
     start: async (app_id) => {
       try {
-        const build = await run(`v1/apps/${app_id}/run`, 'POST')
+        const { data: build } = await runApiRequest(`v1/apps/${app_id}/run`, 'POST')
 
         set(build)
       } catch (error) {
