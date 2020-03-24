@@ -14,7 +14,14 @@ const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
 // setup the correct variables from the .env file
-const { parsed: { RUNME_API_HOST, RUNME_API_SECURE, APPLICATION_PROJECT_ID, API_KEY, API_SECRET } } = dotenvConfig()
+const { parsed: envVars = {} } = dotenvConfig()
+const {
+	RUNME_API_HOST = 'RUNME_API_HOST',
+	RUNME_API_SECURE = 'RUNME_API_SECURE',
+	APPLICATION_PROJECT_ID = 'APPLICATION_PROJECT_ID',
+	API_KEY = 'API_KEY',
+	API_SECRET = 'API_SECRET',
+} = envVars
 
 const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 
@@ -35,11 +42,11 @@ export default {
 			replace({
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode),
-				'runme-api-host': RUNME_API_HOST,
-				'runme-api-secure': RUNME_API_SECURE,
-				'jexia-application-project-id': APPLICATION_PROJECT_ID,
-				'jexia-key': API_KEY,
-				'jexia-secret': API_SECRET,
+				'RUNME_API_HOST': RUNME_API_HOST,
+				'RUNME_API_SECURE': RUNME_API_SECURE,
+				'APPLICATION_PROJECT_ID': APPLICATION_PROJECT_ID,
+				'API_KEY': API_KEY,
+				'API_SECRET': API_SECRET,
 			}),
 			svelte({
 				dev,

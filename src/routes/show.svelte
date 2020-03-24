@@ -5,7 +5,6 @@
 	import { queryParam } from '../components/Helpers/QueryParam'
 	import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
 	import { onDestroy } from 'svelte'
-	import axios from 'axios'
 
 	let src
 	let iframeLoaded = false
@@ -20,7 +19,7 @@
 
 	const urlExists = async (url) => {
 		if (process.browser) {
-			const response = await axios(url)
+			const response = await fetch(url)
 			return response.status === 200
 		}
 	}

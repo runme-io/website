@@ -1,10 +1,10 @@
 export const JEXIA_CREDENTIALS = {
-  applicationProjectID: 'jexia-application-project-id',
-  key: 'jexia-key',
-  secret: 'jexia-secret',
+  applicationProjectID: 'APPLICATION_PROJECT_ID',
+  key: 'API_KEY',
+  secret: 'API_SECRET',
 }
 
 export const RUNME_API = {
-  host: 'runme-api-host',
-  secure: 'runme-api-secure',
+  host: 'RUNME_API_HOST',
+  secure: 'RUNME_API_SECURE',
 }

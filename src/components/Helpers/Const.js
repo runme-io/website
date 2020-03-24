@@ -1,5 +1,4 @@
 import { goto } from '@sapper/app'
-import axios from 'axios'
 import { RUNME_API } from '../../env'
 
 export const zeroPad = (num, places) => String(num).padStart(places, '0')
@@ -50,17 +49,18 @@ export const setApiUrl = (path, protocol = 'http') => {
   return removeDoubleSlashes(url)
 }
 
-export const runApiRequest = (url, method = 'GET', data = null) => {
-  const instance = axios.create({
+export const runApiRequest = async (url, method = 'GET', body = null) => {
+  body = body ? JSON.stringify(body) : null
+  url = setApiUrl(url)
+
+  const response = await fetch(url, {
+    method,
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     },
-  });
+    body,
+  })
 
-  return instance({
-    method,
-    url: setApiUrl(url),
-    data
-  });
+  return await response.json()
 }

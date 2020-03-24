@@ -11,7 +11,7 @@ function createApplication() {
     set,
     create: async (repo_url, repo_branch = 'master', docker_image = '') => {
       try {
-        const { data: application } = await runApiRequest('v1/apps', 'POST', {
+        const application = await runApiRequest('v1/apps', 'POST', {
           repo_url,
           repo_branch,
           docker_image
