@@ -1,16 +1,13 @@
 <script>
+    import Menu from '../Menu.svelte'
+
     const date = new Date()
     const year = date.getFullYear()
 </script>
 
 <footer>
     <section class="jexia-footer">
-        <nav>
-            <ul>
-                <li><a href="/">Generate</a></li>
-                <li><a href="/how-it-works">How it works</a></li>
-            </ul>
-        </nav>
+        <Menu />
         <p>Build for communities that are making impacts with the power of software tools. <br>Runme.io is initiated by <a target="_blank" href="https://jexia.com">Jexia</a> in cooperation with <a target="_blank" href="https://www.digitalocean.com/">Digital Ocean</a>. © Copyright {year}. All rights reserverd.</p>
         <img src="/images/technology/jexia.svg" alt="Jexia logo"/>
         <img src="/images/technology/digital-ocean.svg" alt="Digital Ocean logo"/>
@@ -31,28 +28,8 @@
         font-family: $font-family-jexia
         font-size: 1.4rem
 
-        nav
-            text-align: center
-            margin-bottom: 3.5rem
-
-            ul
-                display: inline-block
-                list-style: none
-
-                li
-                    display: inline-block
-                    padding: 0 .5rem
-
-                    &:not(:last-child)
-                        &:after
-                            content: '|'
-                            padding-left: 1rem
-                            color: $gray
-
-                    a
-                        color: $gray
-
         p
+            margin-top: 3.5rem
             color: $gray
 
         img
