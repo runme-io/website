@@ -39,7 +39,6 @@
 	}
 
 	const unsubscribe = build.subscribe(({ error }) => {
-		// is there an error or is the build_id undefined, show the error
 		if (error) {
 			showError(`Go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.`)
 		} else {
