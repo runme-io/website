@@ -1,18 +1,11 @@
 FROM node:12.10.0
 
-RUN apt-get update
-RUN apt-get install -y gettext-base
-
-ARG RUNME_API_HOST
-ARG RUNME_API_SECURE
-ARG APPLICATION_PROJECT_ID
-ARG API_KEY
-ARG API_SECRET
-
-# Create app directory
 WORKDIR /usr/src/app
 
-# Copy application source
+RUN apt-get update && \
+    apt-get install -y gettext-base && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY . .
 
 RUN npm install && \
@@ -20,8 +13,8 @@ RUN npm install && \
 
 EXPOSE 80
 
-COPY entrypoint.sh /
+COPY run.sh /
 
-RUN chmod +x /entrypoint.sh
+CMD ["/bin/bash", "/run.sh" ]
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+
