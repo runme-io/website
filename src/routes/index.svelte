@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte'
 	import Generator from '../components/Runme/Generator.svelte'
 	import RunmeButton from '../components/Runme/RunmeButton.svelte'
-	import { application } from './../components/Runme/Stores'
+	import { application } from './../components/Stores/Application'
 	import MainLayout from '../components/UI/Layout/MainLayout.svelte'
 
 	let showRunmeFooter = false

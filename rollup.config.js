@@ -7,11 +7,28 @@ import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 import sveltePreprocess from 'svelte-preprocess';
-import sapperEnv from 'sapper-environment';
+import { config as dotenvConfig} from 'dotenv';
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+
+// TODO simplify the way of getting env vars
+// setup the correct variables from the .env file for local usage
+const { parsed: envVars = {} } = dotenvConfig()
+
+// we also need to check the process env for getting the env var from a docker build command
+// e.g. docker build --build-arg RUNME_API_HOST=svc.runme.io
+const keys = ['RUNME_API_HOST', 'RUNME_API_SECURE', 'APPLICATION_PROJECT_ID', 'API_KEY', 'API_SECRET'];
+keys.forEach(key => process.env[key] ? envVars[key] = process.env[key] : key)
+
+const {
+	RUNME_API_HOST = '$RUNME_API_HOST',
+	RUNME_API_SECURE = '$RUNME_API_SECURE',
+	APPLICATION_PROJECT_ID = '$APPLICATION_PROJECT_ID',
+	API_KEY = '$API_KEY',
+	API_SECRET = '$API_SECRET',
+} = envVars
 
 const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 
@@ -30,9 +47,13 @@ export default {
 		output: config.client.output(),
 		plugins: [
 			replace({
-				...sapperEnv('RUNME_'),
 				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+				'process.env.NODE_ENV': JSON.stringify(mode),
+				'runme-api-host': RUNME_API_HOST,
+				'runme-api-secure': RUNME_API_SECURE,
+				'jexia-application-project-id': APPLICATION_PROJECT_ID,
+				'jexia-api-key': API_KEY,
+				'jexia-api-secret': API_SECRET,
 			}),
 			svelte({
 				dev,

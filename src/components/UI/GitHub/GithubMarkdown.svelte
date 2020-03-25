@@ -3,7 +3,7 @@
     import parseGithub from 'github-url-to-object'
     import { fetchReadme } from '@varandas/fetch-readme'
     import marked from 'marked'
-    import { application } from '../../Runme/Stores'
+    import { application } from '../../Stores/Application'
     import { onDestroy } from 'svelte'
     import { setUrl } from '../../Helpers/Const'
 

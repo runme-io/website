@@ -1,4 +1,14 @@
+<script>
+    import Menu from '../Menu.svelte'
+</script>
+
 <header>
+    <div class="top-header">
+        <div class="container">
+            <Menu textColorLight={true} />
+        </div>
+    </div>
+
     <div class="container">
         <div class="logo">
             <div class="logo-svg">
@@ -27,6 +37,14 @@
             flex-direction: row
             flex-wrap: wrap
             justify-content: flex-start
+
+    .top-header
+        background: #555
+        padding: .5rem 0
+
+        .container
+            display: flex
+            justify-content: flex-end
 
     .header-image
         align-self: flex-end
@@ -66,7 +84,6 @@
                 font-size: 1.8rem
 
         .logo-svg
-            width: 25rem
             margin-top: 7.5rem
             margin-bottom: 4rem
 
@@ -78,4 +95,7 @@
 
             a
                 border: 0
+
+            img
+                width: 25rem
 </style>

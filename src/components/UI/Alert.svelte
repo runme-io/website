@@ -2,7 +2,7 @@
     export let type = ''
 
     function classType(){
-      switch (type) {
+        switch (type) {
           case 'success':
             return 'alert--success'
 
@@ -14,7 +14,7 @@
 
           case 'info':
               return 'alert--info'
-      }
+        }
     }
 </script>
 
