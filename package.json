@@ -14,19 +14,16 @@
     "start": "PORT=80 node __sapper__/build",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "test": "run-p --race dev cy:run",
-    "docker": "docker build -t runme-website ."
+    "test": "run-p --race dev cy:run"
   },
   "dependencies": {
     "@primer/css": "^14.2.0",
     "@varandas/fetch-readme": "^1.0.5",
     "ansi_up": "^4.0.4",
-    "axios": "^0.19.2",
     "compression": "^1.7.1",
     "dotenv": "^8.2.0",
     "github-url-to-object": "^4.0.4",
     "jexia-sdk-js": "^4.8.0",
-    "lorem-ipsum": "^2.0.3",
     "marked": "^0.8.0",
     "moment": "^2.24.0",
     "polka": "next",
