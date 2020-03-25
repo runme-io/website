@@ -11,7 +11,7 @@
                 <li><a href="/how-it-works">How it works</a></li>
             </ul>
         </nav>
-        <p>Build for communities that are making impacts with the power of software tools. <br>Runme.io is an initiative of <a target="_blank" href="https://jexia.com">Jexia</a>. © Copyright {year}. All rights reserved.</p>
+        <p>Build for communities that are making impacts with the power of software tools. <br>Runme.io is initiated by <a target="_blank" href="https://jexia.com">Jexia</a> in cooperation with <a target="_blank" href="https://www.digitalocean.com/">Digital Ocean</a>. © Copyright {year}. All rights reserverd.</p>
         <img src="/images/technology/jexia.svg" alt="Jexia logo"/>
         <img src="/images/technology/digital-ocean.svg" alt="Digital Ocean logo"/>
     </section>
