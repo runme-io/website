@@ -66,7 +66,6 @@
                 font-size: 1.8rem
 
         .logo-svg
-            width: 25rem
             margin-top: 7.5rem
             margin-bottom: 4rem
 
@@ -78,4 +77,7 @@
 
             a
                 border: 0
+
+            img
+                width: 25rem
 </style>
