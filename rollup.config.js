@@ -13,8 +13,15 @@ const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 
-// setup the correct variables from the .env file
+// TODO simplify the way of getting env vars
+// setup the correct variables from the .env file for local usage
 const { parsed: envVars = {} } = dotenvConfig()
+
+// we also need to check the process env for getting the env var from a docker build command
+// e.g. docker build --build-arg RUNME_API_HOST=svc.runme.io
+const keys = ['RUNME_API_HOST', 'RUNME_API_SECURE', 'APPLICATION_PROJECT_ID', 'API_KEY', 'API_SECRET'];
+keys.forEach(key => process.env[key] ? envVars[key] = process.env[key] : key)
+
 const {
 	RUNME_API_HOST = 'RUNME_API_HOST',
 	RUNME_API_SECURE = 'RUNME_API_SECURE',
