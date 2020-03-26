@@ -50,17 +50,29 @@ export const setApiUrl = (path, protocol = 'http') => {
 }
 
 export const runApiRequest = async (url, method = 'GET', body = null) => {
-  body = body ? JSON.stringify(body) : null
-  url = setApiUrl(url)
+  if (process.browser) {
+    body = body ? JSON.stringify(body) : null
+    url = setApiUrl(url)
 
-  const response = await fetch(url, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body,
-  })
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body,
+    })
 
-  return await response.json()
+    const result = await response.json()
+
+    if (response.status !== 200) {
+      if (result.message) {
+        throw result.message
+      } else {
+        throw 'No result found'
+      }
+    }
+
+    return result
+  }
 }

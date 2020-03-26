@@ -15,6 +15,7 @@
 
 	const showError = (msg) => {
 		errorMsg = msg
+		clearInterval(pollingInterval)
 	}
 
 	const urlExists = async (url) => {
