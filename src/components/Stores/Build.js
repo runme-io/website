@@ -12,7 +12,7 @@ function createBuild () {
       try {
         const [build] = await runApiRequest(`v1/builds/${build_id}`, 'GET')
 
-        set(build)
+        set(build || {})
 
         // fireup the WebSocket to get realtime updates
         if (startWebSocket) {
@@ -26,7 +26,7 @@ function createBuild () {
       try {
         const build = await runApiRequest(`v1/apps/${app_id}/run`, 'POST')
 
-        set(build)
+        set(build || {})
       } catch (error) {
         set({ error })
       }

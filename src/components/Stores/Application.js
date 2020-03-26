@@ -17,7 +17,7 @@ function createApplication() {
           docker_image
         })
 
-        set(application)
+        set(application || {})
       }
       catch (error) {
         set({ error })
