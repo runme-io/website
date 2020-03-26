@@ -10,7 +10,7 @@ function createBuild () {
     set,
     get: async (build_id, startWebSocket = false) => {
       try {
-        const [build] = await runApiRequest(`v1/builds/${build_id}`, 'GET')
+        const build = await runApiRequest(`v1/builds/${build_id}`, 'GET')
 
         set(build || {})
 
