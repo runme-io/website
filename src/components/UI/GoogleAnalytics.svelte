@@ -1,7 +1,7 @@
 <script>
     import { stores } from '@sapper/app'
 
-   const id = 'G-1DQC7725C0'
+   const id = 'UA-56976398-6'
 
     if (typeof window !== 'undefined') {
         window.dataLayer = window.dataLayer || []
