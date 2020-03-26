@@ -12,6 +12,7 @@
     import RunmeButton from './RunmeButton.svelte'
     import { setUrl } from '../Helpers/Const'
     import { onDestroy } from 'svelte'
+    import OptionEnvVars from './OptionEnvVars.svelte'
 
     // form fields
     let embedStyle = 'markdown'
@@ -137,6 +138,8 @@
                     placeholder="<image>:<tag>"
                     on:enter={generateEmbedCode}
                     on:input={event => (dockerImage = event.target.value)} />
+
+                <OptionEnvVars />
             </div>
         {/if}
     </div>
