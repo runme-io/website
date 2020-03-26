@@ -12,12 +12,14 @@
     import RunmeButton from './RunmeButton.svelte'
     import { setUrl } from '../Helpers/Const'
     import { onDestroy } from 'svelte'
+    import OptionEnvVars from './OptionEnvVars.svelte'
 
     // form fields
     let embedStyle = 'markdown'
     let repoUrl = ''
     let repoBranch = 'master'
     let dockerImage = ''
+    let envVars = {}
 
     // others
     let showAdvancedOptions = false
@@ -29,10 +31,11 @@
     let errorMsg = ''
     let appId = ''
     let errorType = 'warning'
+    let envVarsValid = true //true by default as this is optional
 
     $: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
     $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
-    $: formIsValid = repoUrlValid && dockerImageValid
+    $: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
 
     const setError = (error, type = 'warning') => {
         errorType = type
@@ -90,7 +93,7 @@
         clearError()
 
         // create an application and assign it to the store
-        application.create(repoUrl, repoBranch, dockerImage)
+        application.create(repoUrl, repoBranch, dockerImage, envVars)
     }
 
     function showEmbedCode () {
@@ -137,6 +140,8 @@
                     placeholder="<image>:<tag>"
                     on:enter={generateEmbedCode}
                     on:input={event => (dockerImage = event.target.value)} />
+
+                <OptionEnvVars on:items={event => envVars = event.detail} on:valid={event => envVarsValid = event.detail} />
             </div>
         {/if}
     </div>
