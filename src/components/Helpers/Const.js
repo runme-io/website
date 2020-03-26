@@ -69,7 +69,7 @@ export const runApiRequest = async (url, method = 'GET', body = null) => {
       if (result.message) {
         throw result.message
       } else {
-        throw 'No result found'
+        throw 'unknown error occur'
       }
     }
 
