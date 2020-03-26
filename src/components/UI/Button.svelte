@@ -2,8 +2,8 @@
     export let type = 'button'
     export let href = null
     export let mode = null
-    export let color = null
     export let disabled = false
+    export let flex = false
 </script>
 
 <style lang="sass">
@@ -16,7 +16,7 @@
         background: $buttonBackground
         padding: .5rem 1rem
         color: $white
-        border-radius: .5rem
+        border-radius: .3rem
         box-shadow: .2rem .2rem .5rem rgba(0, 0, 0, .4)
         transition: .3s all
         cursor: pointer
@@ -26,17 +26,22 @@
         &:active
             box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .4)
 
-    button:focus
-        outline: none
+    button
+        &.flex
+            display: flex
+            align-items: center
 
-    button:disabled,
-    button:disabled:hover,
-    button:disabled:active
-        background: #ccc
-        border-color: #ccc
-        color: #959595
-        box-shadow: none
-        cursor: not-allowed
+        &:focus
+            outline: none
+
+        &:disabled,
+        &:disabled:hover,
+        &:disabled:active
+            background: #ccc
+            border-color: #ccc
+            color: #959595
+            box-shadow: none
+            cursor: not-allowed
 
     /*.success*/
     /*    background: #01a129*/
@@ -52,22 +57,23 @@
         color: $buttonBackground
         box-shadow: none
 
-    .outline:hover,
-    .outline:active
-        background: #ffc7de
-        box-shadow: none
+        &:hover,
+        &:active
+            background: #ffc7de
+            box-shadow: none
 
-    .outline:disabled,
-    .outline:disabled:hover,
-    .outline:disabled:active
-        background: transparent
-        color: #ccc
+        &:disabled,
+        &:disabled:hover,
+        &:disabled:active
+            background: transparent
+            color: #ccc
 
     .default
         background: transparent
         color: $buttonBackground
         box-shadow: none !important
         border: none !important
+        padding: 0 !important
 
     /*.outline.success*/
     /*    border-color: #01a129*/
@@ -83,7 +89,7 @@
         <slot />
     </a>
 {:else}
-    <button class="{mode} {color}" {type} on:click {disabled}>
+    <button class:flex class="{mode}" {type} on:click {disabled}>
         <slot />
     </button>
 {/if}

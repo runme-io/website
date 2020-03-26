@@ -9,12 +9,13 @@ function createApplication() {
   return {
     subscribe,
     set,
-    create: async (repo_url, repo_branch = 'master', docker_image = '') => {
+    create: async (repo_url, repo_branch = 'master', docker_image = '', env_variables = {}) => {
       try {
         const application = await runApiRequest('v1/apps', 'POST', {
           repo_url,
           repo_branch,
-          docker_image
+          docker_image,
+          env_variables,
         })
 
         set(application || {})

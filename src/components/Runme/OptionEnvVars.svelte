@@ -3,25 +3,14 @@
     import Button from '../UI/Button.svelte'
     import Icon from 'fa-svelte'
     import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
+    import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
     import { createEventDispatcher } from 'svelte'
 
     const dispatch = createEventDispatcher()
-    const trashIcon = faTrash
+    const removeIcon = faTrash
+    const addIcon = faPlusCircle
 
-    let envVars = [
-        {
-            key: '1PI_KEY',
-            value: 'afasdfi294ulknrl23h4',
-        },
-        {
-            key: 'A2PI_KEY',
-            value: 'afasdfi294ulknrl23h4',
-        },
-        {
-            key: '3API_KEY',
-            value: 'afasdfi294ulknrl23h4',
-        }
-    ]
+    let envVars = []
 
     const perpareVars = () => envVars.reduce((accumulator, currentValue) => {
         accumulator[currentValue['key']] = currentValue['value']
@@ -39,7 +28,7 @@
         envVars = envVars.filter((elem, index) => index !== removeIndex)
     }
 
-    $: dispatch('valid', envVars.every(item => notEmpty(item.key) && validKey(item.key) && notEmpty(item.value) ))
+    $: dispatch('valid', envVars.every(item => notEmpty(item.key) && validKey(item.key) && notEmpty(item.value)))
     $: dispatch('items', perpareVars(envVars))
 </script>
 
@@ -51,7 +40,7 @@
                 <TextInput
                     value={envVar.key}
                     valid={notEmpty(envVar.key) && validKey(envVar.key)}
-                    validityMessage="This field is required"
+                    validityMessage="Invalid value for the key"
                     placeholder="Your key"
                     on:input={event => (envVar.key = event.target.value)} />
             </div>
@@ -59,25 +48,35 @@
                 <TextInput
                     value={envVar.value}
                     valid={notEmpty(envVar.value)}
-                    validityMessage="This field is required"
+                    validityMessage="Invalid value for the value"
                     placeholder="Your value"
                     on:input={event => (envVar.value = event.target.value)} />
             </div>
             <div>
                 <Button on:click={() => remove(i)} mode="default">
-                    <Icon icon={trashIcon}/>
+                    <Icon icon={removeIcon}/>
                 </Button>
             </div>
         </div>
     {/each}
 
-    <Button on:click={add} mode="outline">Add variable</Button>
+    <div class="add-button">
+        <Button flex={true} on:click={add} mode="outline">
+            <span class="button-icon"><Icon icon={addIcon}/></span> Add
+        </Button>
+    </div>
 </div>
 
 <style lang="sass">
+    .add-button
+        margin-top: 1rem
 
     .env-vars
         margin: 1rem 0 2rem
+
+    .button-icon
+        display: inline-flex
+        padding-right: 1rem
 
     label
         display: block
@@ -100,7 +99,8 @@
                 padding-left: 1rem
 
             &:last-child
-                width: auto
+                width: 10%
                 flex-grow: 1
                 text-align: center
+                align-self: center
 </style>

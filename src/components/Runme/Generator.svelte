@@ -19,7 +19,7 @@
     let repoUrl = ''
     let repoBranch = 'master'
     let dockerImage = ''
-    let envVars = []
+    let envVars = {}
 
     // others
     let showAdvancedOptions = false
@@ -31,7 +31,7 @@
     let errorMsg = ''
     let appId = ''
     let errorType = 'warning'
-    let envVarsValid = false
+    let envVarsValid = true //true by default as this is optional
 
     $: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
     $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
@@ -93,7 +93,7 @@
         clearError()
 
         // create an application and assign it to the store
-        application.create(repoUrl, repoBranch, dockerImage)
+        application.create(repoUrl, repoBranch, dockerImage, envVars)
     }
 
     function showEmbedCode () {
