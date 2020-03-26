@@ -22,14 +22,12 @@
         cursor: pointer
         text-decoration: none
 
+        &:hover,
+        &:active
+            box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .4)
+
     button:focus
         outline: none
-
-    button:hover,
-    button:active,
-    a:hover,
-    a:active
-        box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .4)
 
     button:disabled,
     button:disabled:hover,
@@ -64,6 +62,12 @@
     .outline:disabled:active
         background: transparent
         color: #ccc
+
+    .default
+        background: transparent
+        color: $buttonBackground
+        box-shadow: none !important
+        border: none !important
 
     /*.outline.success*/
     /*    border-color: #01a129*/

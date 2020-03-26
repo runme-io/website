@@ -19,6 +19,7 @@
     let repoUrl = ''
     let repoBranch = 'master'
     let dockerImage = ''
+    let envVars = []
 
     // others
     let showAdvancedOptions = false
@@ -30,10 +31,11 @@
     let errorMsg = ''
     let appId = ''
     let errorType = 'warning'
+    let envVarsValid = false
 
     $: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
     $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
-    $: formIsValid = repoUrlValid && dockerImageValid
+    $: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
 
     const setError = (error, type = 'warning') => {
         errorType = type
@@ -139,7 +141,7 @@
                     on:enter={generateEmbedCode}
                     on:input={event => (dockerImage = event.target.value)} />
 
-                <OptionEnvVars />
+                <OptionEnvVars on:items={event => envVars = event.detail} on:valid={event => envVarsValid = event.detail} />
             </div>
         {/if}
     </div>
