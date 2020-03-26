@@ -4,6 +4,7 @@
     export let mode = null
     export let disabled = false
     export let flex = false
+    export let big = false
 </script>
 
 <style lang="sass">
@@ -27,6 +28,10 @@
             box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .4)
 
     button
+        &.big
+            font-size: 1.8rem
+            padding: .5rem 1.5rem
+
         &.flex
             display: flex
             align-items: center
@@ -42,15 +47,6 @@
             color: #959595
             box-shadow: none
             cursor: not-allowed
-
-    /*.success*/
-    /*    background: #01a129*/
-    /*    border-color: #01a129*/
-
-    /*.success:hover,*/
-    /*.success:active*/
-    /*    background: #1ac745*/
-    /*    border-color: #1ac745*/
 
     .outline
         background: transparent
@@ -74,14 +70,6 @@
         box-shadow: none !important
         border: none !important
         padding: 0 !important
-
-    /*.outline.success*/
-    /*    border-color: #01a129*/
-    /*    color: #01a129*/
-
-    /*.outline.success:hover,*/
-    /*.outline.success:active*/
-    /*    background: #c2ffd1*/
 </style>
 
 {#if href}
@@ -89,7 +77,7 @@
         <slot />
     </a>
 {:else}
-    <button class:flex class="{mode}" {type} on:click {disabled}>
+    <button class:flex class:big class="{mode}" {type} on:click {disabled}>
         <slot />
     </button>
 {/if}

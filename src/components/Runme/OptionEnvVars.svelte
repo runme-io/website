@@ -12,7 +12,7 @@
 
     let envVars = []
 
-    const perpareVars = () => envVars.reduce((accumulator, currentValue) => {
+    const prepareVars = () => envVars.reduce((accumulator, currentValue) => {
         accumulator[currentValue['key']] = currentValue['value']
         return accumulator
     }, {})
@@ -29,7 +29,7 @@
     }
 
     $: dispatch('valid', envVars.every(item => notEmpty(item.key) && validKey(item.key) && notEmpty(item.value)))
-    $: dispatch('items', perpareVars(envVars))
+    $: dispatch('items', prepareVars(envVars))
 </script>
 
 <div class="env-vars">
@@ -40,7 +40,7 @@
                 <TextInput
                     value={envVar.key}
                     valid={notEmpty(envVar.key) && validKey(envVar.key)}
-                    validityMessage="Invalid value for the key"
+                    validityMessage="Invalid key given"
                     placeholder="Your key"
                     on:input={event => (envVar.key = event.target.value)} />
             </div>
@@ -48,7 +48,7 @@
                 <TextInput
                     value={envVar.value}
                     valid={notEmpty(envVar.value)}
-                    validityMessage="Invalid value for the value"
+                    validityMessage="Invalid value given"
                     placeholder="Your value"
                     on:input={event => (envVar.value = event.target.value)} />
             </div>
