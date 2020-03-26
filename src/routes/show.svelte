@@ -15,6 +15,7 @@
 
 	const showError = (msg) => {
 		errorMsg = msg
+		clearInterval(pollingInterval)
 	}
 
 	const urlExists = async (url) => {
@@ -38,9 +39,8 @@
 		}
 	}
 
-	const unsubscribe = build.subscribe(({ error, id }) => {
-		// is there an error or is the build_id undefined, show the error
-		if (error || id === undefined) {
+	const unsubscribe = build.subscribe(({ error }) => {
+		if (error) {
 			showError(`Go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.`)
 		} else {
 			loadUrl(`https://${buildId}.runme.io`)

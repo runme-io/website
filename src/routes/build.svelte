@@ -111,7 +111,7 @@
 
     const unsubscribe = build.subscribe(({ error, ...response }) => {
         if (error) {
-            showBuildError(`Build ID "${buildId}" has not been found`)
+            showBuildError(error)
         } else {
             process(response)
         }
