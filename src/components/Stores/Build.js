@@ -25,7 +25,6 @@ function createBuild () {
     start: async (app_id) => {
       try {
         const build = await runApiRequest(`v1/apps/${app_id}/run`, 'POST')
-
         set(build || {})
       } catch (error) {
         set({ error })

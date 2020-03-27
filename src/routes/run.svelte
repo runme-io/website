@@ -4,23 +4,30 @@
     import { redirectWithError } from '../components/Helpers/Const'
     import { onDestroy } from 'svelte'
     import { build } from '../components/Stores/Build'
+    import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
+    import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
+    import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
 
     const app_id = queryParam().get('app_id')
 
-    const unsubscribe = build.subscribe(({ build_id, message, error }) => {
+    const unsubscribe = build.subscribe(({ build_id, error }) => {
+        console.log(error)
         if (error) {
-            redirectWithError(`No app has been found with ID "${app_id}". Please (re)generate a new button in order to run your application.`)
-        }
 
-        if (build_id) {
-            if (process.browser) {
-                goto(`/build?build_id=${build_id}`)
-            }
         }
-
-        if (message) {
-            redirectWithError(message)
-        }
+        // if (error) {
+        //     redirectWithError(`No app has been found with ID "${app_id}". Please (re)generate a new button in order to run your application.`)
+        // }
+        //
+        // if (build_id) {
+        //     if (process.browser) {
+        //         goto(`/build?build_id=${build_id}`)
+        //     }
+        // }
+        //
+        // if (message) {
+        //     redirectWithError(message)
+        // }
     })
 
     if (!app_id) {
@@ -32,3 +39,15 @@
 
     onDestroy(unsubscribe)
 </script>
+
+<svelte:head>
+    <title>Runme.io</title>
+</svelte:head>
+
+<FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
+
+<ContentLayout>
+    <LoadingBlock>
+        tst
+    </LoadingBlock>
+</ContentLayout>
