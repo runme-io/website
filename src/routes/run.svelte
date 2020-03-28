@@ -7,19 +7,15 @@
 
     const app_id = queryParam().get('app_id')
 
-    const unsubscribe = build.subscribe(({ build_id, message, error }) => {
-        if (error) {
-            redirectWithError(`No app has been found with ID "${app_id}". Please (re)generate a new button in order to run your application.`)
-        }
-
+    const unsubscribe = build.subscribe(({ build_id, error }) => {
         if (build_id) {
             if (process.browser) {
                 goto(`/build?build_id=${build_id}`)
             }
-        }
-
-        if (message) {
-            redirectWithError(message)
+        } else if (error && error.message) {
+            redirectWithError(error.message)
+        } else if (error) {
+            redirectWithError(`No app has been found with ID "${app_id}". Please (re)generate a new button in order to run your application.`)
         }
     })
 
