@@ -4,12 +4,12 @@
     import { displayTimer } from '../../Helpers/Const'
     import { onDestroy } from 'svelte'
 
-    let display = 0
+    let display = '00:00'
     let totalSeconds = 0;
     let interval = null
 
-    const unsubscribe = build.subscribe(({ created_at, status }) => {
-        if (created_at && status !== 'fail') {
+    const unsubscribe = build.subscribe(({ created_at }) => {
+        if (created_at) {
             const deployedTime = moment.utc(created_at)
             const now = moment()
             totalSeconds = now.diff(deployedTime, 'seconds')

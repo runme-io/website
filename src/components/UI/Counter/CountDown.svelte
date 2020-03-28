@@ -4,7 +4,7 @@
     import { displayTimer } from '../../Helpers/Const'
     import { onDestroy } from 'svelte'
 
-    let display = 0
+    let display = '00:00'
     let totalSeconds = 0
     let interval = null
     const appAliveInSeconds = 10 * 60

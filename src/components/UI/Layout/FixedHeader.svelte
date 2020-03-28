@@ -1,11 +1,30 @@
 <script>
     import CountDown from '../Counter/CountDown.svelte'
     import CountUp from '../Counter/CountUp.svelte'
+    import { build } from '../../Stores/Build'
+    import { onDestroy } from 'svelte'
 
     export let countDown = false
     export let countUp = false
     export let title = null
     export let timerTitle = ''
+
+    let buildFailed = false
+    let showBlock = true
+
+    const unsubscribe = build.subscribe(({ status, error }) => {
+        buildFailed = status === 'fail'
+
+        if (buildFailed) {
+            timerTitle = 'Status'
+        }
+
+        if (error) {
+            showBlock = false
+        }
+    })
+
+    onDestroy(unsubscribe)
 </script>
 
 <header>
@@ -15,12 +34,17 @@
         </a>
     </div>
     <h1>{title}</h1>
-    {#if timerTitle}
+    {#if showBlock}
         <div class="counter">
             <span class="title">{timerTitle}</span>
             <span class="timer">
-                {#if countDown}<CountDown/>{/if}
-                {#if countUp}<CountUp/>{/if}
+                {#if buildFailed}
+                    <span class="error">Failed</span>
+                {:else if countDown}
+                    <CountDown/>
+                {:else if countUp}
+                    <CountUp/>
+                {/if}
             </span>
         </div>
     {/if}
@@ -86,4 +110,7 @@
 
             .title
                 display: block
+
+            .error
+                color: $warning
 </style>

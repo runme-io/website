@@ -111,7 +111,7 @@
 
     const unsubscribe = build.subscribe(({ error, ...response }) => {
         if (error) {
-            showBuildError(error)
+            showBuildError(error.message)
         } else {
             process(response)
         }
