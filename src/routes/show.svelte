@@ -66,7 +66,7 @@
 	<title>Runme.io</title>
 </svelte:head>
 
-<FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
+<FixedHeader timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
 
 {#if src && iframeLoaded}
 	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
