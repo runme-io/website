@@ -1,6 +1,6 @@
 <script>
-    import Loader from '../UI/Loader/Loader.svelte'
-    import Button from '../UI/Button.svelte'
+    import Loader from '../../UI/Loader/Loader.svelte'
+    import Button from '../../UI/Button.svelte'
 
     export let disabled = false
     export let loading = false
@@ -18,7 +18,7 @@
 </div>
 
 <style lang="sass">
-    @import '../../assets/style/theme'
+    @import '../../../assets/style/theme'
 
     .generate-button
         margin: 2rem 0

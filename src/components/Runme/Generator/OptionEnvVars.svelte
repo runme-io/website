@@ -1,6 +1,6 @@
 <script>
-    import TextInput from '../UI/TextInput.svelte'
-    import Button from '../UI/Button.svelte'
+    import TextInput from '../../UI/TextInput.svelte'
+    import Button from '../../UI/Button.svelte'
     import Icon from 'fa-svelte'
     import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
     import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
@@ -42,7 +42,8 @@
                     valid={notEmpty(envVar.key) && validKey(envVar.key)}
                     validityMessage="Invalid key given"
                     placeholder="Your key"
-                    on:input={event => (envVar.key = event.target.value)} />
+                    on:input={event => (envVar.key = event.target.value)}
+                />
             </div>
             <div>
                 <TextInput
@@ -50,7 +51,8 @@
                     valid={notEmpty(envVar.value)}
                     validityMessage="Invalid value given"
                     placeholder="Your value"
-                    on:input={event => (envVar.value = event.target.value)} />
+                    on:input={event => (envVar.value = event.target.value)}
+                />
             </div>
             <div>
                 <Button on:click={() => remove(i)} mode="default">
