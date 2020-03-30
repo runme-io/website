@@ -1,21 +1,17 @@
 import { writable } from 'svelte/store'
 
-function createCounter () {
-  const { subscribe, update } = writable({ countDown: null, countUp: null })
+function createHeader () {
+  const { subscribe, update } = writable({ countDown: false, countUp: false, timerTitle: '', failed: false, failedStatus: '' })
 
-  const setCounter = (value, type) => {
-    update(currentValue => {
-      if (currentValue[type]) {
-        currentValue[type] = value
-      }
-    })
-  }
+  const setHeaderValues = (newValue) => update(currentValue => ({ ...currentValue, ...newValue }))
 
   return {
     subscribe,
-    setCountDown: (value) => setCounter(value, 'countdown'),
-    setCountUp: (value) => setCounter(value, 'countup'),
+    showCountDown: (countDown) => setHeaderValues({ countDown, countUp: false }),
+    showCountUp: (countUp) => setHeaderValues({ countUp, countDown: false }),
+    setTimerTitle: (timerTitle) => setHeaderValues({ timerTitle }),
+    setFailed: (failed = true, failedStatus = 'Failed') => setHeaderValues({ failed, failedStatus }),
   }
 }
 
-export const counter = createCounter()
+export const header = createHeader()

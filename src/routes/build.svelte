@@ -6,6 +6,7 @@
     import * as animateScroll from 'svelte-scrollto'
     import { goto } from '@sapper/app'
     import { build } from '../components/Stores/Build'
+    import { header } from '../components/Stores/Header'
     import { queryParam } from '../components/Helpers/QueryParam'
     import Icon from 'fa-svelte'
     import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp'
@@ -88,6 +89,7 @@
         const { status, deploy_log, build_log, id } = response
 
         if (status === 'fail') {
+            header.setFailed(true)
             showBuildError(`Build failed`)
         }
 
@@ -111,8 +113,13 @@
 
     const unsubscribe = build.subscribe(({ error, ...response }) => {
         if (error) {
+            header.setFailed(true)
             showBuildError(error.message)
         } else {
+            // update the header values
+            header.showCountUp(response.created_at)
+
+            // fireup the process
             process(response)
         }
     })
@@ -133,7 +140,7 @@
 </svelte:head>
 
 <div class="page-container">
-    <FixedHeader timerTitle="Build time" countUp="{true}" title="Run your application from any public Git-repo with one click"/>
+    <FixedHeader timerTitle="Build time" title="Run your application from any public Git-repo with one click"/>
 
     <div class="container">
         <main>

@@ -11,7 +11,6 @@
 	const unsubscribe = application.subscribe(value => showRunmeFooter = Object.keys(value).length !== 0)
 
 	onDestroy(unsubscribe)
-
 </script>
 
 <MainLayout {showRunmeFooter} {showTechnologyIcons} title="Run your application from any public Git-repo with one click">

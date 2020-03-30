@@ -2,6 +2,7 @@
 	import Loader from '../components/UI/Loader/Loader.svelte'
 	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
 	import { build } from '../components/Stores/Build'
+	import { header } from '../components/Stores/Header'
 	import { queryParam } from '../components/Helpers/QueryParam'
 	import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
 	import { onDestroy } from 'svelte'
@@ -40,10 +41,12 @@
 		}
 	}
 
-	const unsubscribe = build.subscribe(({ error }) => {
+	const unsubscribe = build.subscribe(({ error, updated_at }) => {
 		if (error) {
 			showError(`Go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.`)
+			header.setFailed(true, 'Error')
 		} else {
+			header.showCountDown(updated_at)
 			loadUrl(`https://${buildId}.runme.io`)
 		}
 	})

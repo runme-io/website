@@ -8,18 +8,23 @@
     import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
     import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
 
+    let timeToRestart
+    let showCountDown = false
+    let showCountDownBlock = false
+
+
     const app_id = queryParam().get('app_id')
 
     const unsubscribe = build.subscribe(({ build_id, error }) => {
-        // if (build_id) {
-        //     if (process.browser) {
-        //         goto(`/build?build_id=${build_id}`)
-        //     }
-        // } else if (error && error.message) {
-        //     redirectWithError(error.message)
-        // } else if (error) {
-        //     redirectWithError(`No app has been found with ID "${app_id}". Please (re)generate a new button in order to run your application.`)
-        // }
+        if (build_id) {
+            if (process.browser) {
+                goto(`/build?build_id=${build_id}`)
+            }
+        } else if (error && error.message) {
+            redirectWithError(error.message)
+        } else if (error) {
+            redirectWithError(`No app has been found with ID "${app_id}". Please (re)generate a new button in order to run your application.`)
+        }
     })
 
     if (!app_id) {
@@ -36,10 +41,10 @@
     <title>Runme.io</title>
 </svelte:head>
 
-<FixedHeader countDown={true} timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
+<FixedHeader title="This application will stay available for 10 minutes."/>
 
 <ContentLayout>
     <LoadingBlock>
-        tst
+        You application is firing up, please hang with us so we can collect your repo info and start building your application.
     </LoadingBlock>
 </ContentLayout>
