@@ -30,7 +30,7 @@
             errorMsg = error.message
 
             if (error.nextBuild) {
-                errorMsg = 'You are trying to run to many builds after each other. Please wait until we can run a new build for you'
+                errorMsg = 'There are to many build triggerd after each other. Please wait until we can run a new build for you'
                 showDefaultErrorMsg = false
                 header.showCountDown(error.nextBuild, 'Next build in')
             }

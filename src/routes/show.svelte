@@ -43,7 +43,7 @@
 
 	const unsubscribe = build.subscribe(({ error, updated_at }) => {
 		if (error) {
-			showError(`Go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.`)
+			showError(`No application found, go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.`)
 			header.isFailed(true, 'Error')
 		} else {
 			header.showCountDown(updated_at, 'Countdown', 600) // the app will be alive for 10 min (600s)
