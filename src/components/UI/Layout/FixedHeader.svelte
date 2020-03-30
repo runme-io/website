@@ -4,7 +4,7 @@
     import { header } from '../../Stores/Header'
     import { onDestroy } from 'svelte'
 
-    export let title = null
+    export let title = 'Run your application from any public Git-repo with one click'
     export let timerTitle = ''
 
     let showBlock = false

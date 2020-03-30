@@ -44,9 +44,9 @@
 	const unsubscribe = build.subscribe(({ error, updated_at }) => {
 		if (error) {
 			showError(`Go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.`)
-			header.setFailed(true, 'Error')
+			header.isFailed(true, 'Error')
 		} else {
-			header.showCountDown(updated_at)
+			header.showCountDown(updated_at, 'Countdown', 600) // the app will be alive for 10 min (600s)
 			loadUrl(`https://${buildId}.runme.io`)
 		}
 	})
@@ -66,7 +66,7 @@
 	<title>Runme.io</title>
 </svelte:head>
 
-<FixedHeader timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
+<FixedHeader title="This application will stay available for 10 minutes."/>
 
 {#if src && iframeLoaded && !errorMsg}
 	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
