@@ -89,7 +89,7 @@
         const { status, deploy_log, build_log, id } = response
 
         if (status === 'fail') {
-            header.setFailed(true)
+            header.isFailed(true)
             showBuildError(`Build failed`)
         }
 
@@ -113,11 +113,11 @@
 
     const unsubscribe = build.subscribe(({ error, ...response }) => {
         if (error) {
-            header.setFailed(true)
+            header.isFailed(true)
             showBuildError(error.message)
         } else {
             // update the header values
-            header.showCountUp(response.created_at)
+            header.showCountUp(response.created_at, 'Build time')
 
             // fireup the process
             process(response)
@@ -140,7 +140,7 @@
 </svelte:head>
 
 <div class="page-container">
-    <FixedHeader timerTitle="Build time" title="Run your application from any public Git-repo with one click"/>
+    <FixedHeader/>
 
     <div class="container">
         <main>
