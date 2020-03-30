@@ -13,7 +13,6 @@
     let failed = false
     let failedStatus = ''
 
-
     const unsubscribe = header.subscribe(header => {
         countDown = header.countDown
         countUp = header.countUp
@@ -42,7 +41,10 @@
             <img src="/static/button.svg" alt="logo">
         </a>
     </div>
-    <h1>{title}</h1>
+    <div class="titles">
+        <h1>{title}</h1>
+    </div>
+
     {#if showBlock}
         <div class="counter">
             <span class="title">{timerTitle}</span>
@@ -76,23 +78,34 @@
         align-items: center
         @include dashed-line()
 
-        h1
+        .titles
             padding-left: $spacing
             padding-right: $spacing
-            line-height: 3rem
-            font-size: 1.8rem
-            width: 50%
+            width: 60%
             align-self: center
             margin: 0 auto
 
+            @media screen and (max-width: 1200px)
+                width: 70%
+
             @media screen and (max-width: 720px)
-                padding: 2rem 0 0 0
                 width: 100%
-                text-align: center
+                padding: 1rem 0 0 0
+
+            h1
+                line-height: 3rem
+                font-size: 1.8rem
+
+                @media screen and (max-width: 1200px)
+                    font-size: 1.6rem
+                    line-height: 2rem
+
+                @media screen and (max-width: 720px)
+                    text-align: center
+                    font-size: 1.4rem
+                    line-height: 1.8rem
 
         .logo-svg
-            width: 200px
-
             @media screen and (max-width: 720px)
                 width: 100%
                 text-align: center
@@ -104,9 +117,18 @@
                     width: 20rem
                     display: inline-block
 
+                    @media screen and (max-width: 1200px)
+                        width: 17rem
+
+                    @media screen and (max-width: 900px)
+                        width: 15rem
+
         .counter
             align-self: center
             text-align: center
+
+            @media screen and (max-width: 1200px)
+                font-size: 1.4rem
 
             @media screen and (min-width: 500px) and (max-width: 720px)
                 position: absolute
@@ -115,7 +137,8 @@
 
             @media screen and (max-width: 500px)
                 width: 100%
-                margin-top: 2rem
+                margin-top: 1rem
+                font-size: 1.2rem
 
             .title
                 display: block
