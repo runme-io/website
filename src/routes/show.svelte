@@ -68,7 +68,7 @@
 
 <FixedHeader timerTitle="Countdown" title="This application will stay available for 10 minutes."/>
 
-{#if src && iframeLoaded}
+{#if src && iframeLoaded && !errorMsg}
 	<iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
 {:else if !iframeLoaded && !errorMsg}
 	<ContentLayout>
