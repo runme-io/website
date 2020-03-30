@@ -30,7 +30,7 @@
             errorMsg = error.message
 
             if (error.nextBuild) {
-                errorMsg = 'You are trying to run to many builds after each other. Please go to the <a href="/">last</a> build or wait until we can run a new build for you'
+                errorMsg = 'You are trying to run to many builds after each other. Please wait until we can run a new build for you'
                 showDefaultErrorMsg = false
                 header.showCountDown(error.nextBuild, 'Next build in')
             }
