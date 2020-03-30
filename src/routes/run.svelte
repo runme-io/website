@@ -4,6 +4,14 @@
     import { redirectWithError } from '../components/Helpers/Const'
     import { onDestroy } from 'svelte'
     import { build } from '../components/Stores/Build'
+    import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
+    import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
+    import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
+
+    let timeToRestart
+    let showCountDown = false
+    let showCountDownBlock = false
+
 
     const app_id = queryParam().get('app_id')
 
@@ -28,3 +36,15 @@
 
     onDestroy(unsubscribe)
 </script>
+
+<svelte:head>
+    <title>Runme.io</title>
+</svelte:head>
+
+<FixedHeader title="This application will stay available for 10 minutes."/>
+
+<ContentLayout>
+    <LoadingBlock>
+        You application is firing up, please hang with us so we can collect your repo info and start building your application.
+    </LoadingBlock>
+</ContentLayout>

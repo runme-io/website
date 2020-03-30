@@ -1,5 +1,5 @@
 <script>
-    import Loader from '../UI/Loader.svelte'
+    import Loader from '../UI/Loader/Loader.svelte'
     import Button from '../UI/Button.svelte'
 
     export let disabled = false
