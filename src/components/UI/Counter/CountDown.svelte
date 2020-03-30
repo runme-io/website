@@ -1,24 +1,30 @@
 <script>
     import moment from 'moment'
-    import { build } from '../../Stores/Build'
+    import { header } from '../../Stores/Header'
     import { displayTimer } from '../../Helpers/Const'
     import { onDestroy } from 'svelte'
 
-    let display = 0
+    let display = '00:00'
     let totalSeconds = 0
     let interval = null
-    const appAliveInSeconds = 10 * 60
 
     const clear = () => {
         clearInterval(interval)
         display = '00:00'
     }
 
-    const unsubscribe = build.subscribe(({ updated_at }) => {
-        if (updated_at) {
-            const deployedTime = moment.utc(updated_at)
+    const unsubscribe = header.subscribe(({ countDown, countDownFixed }) => {
+        if (countDown) {
+            const time = moment.utc(countDown)
             const now = moment()
-            totalSeconds = appAliveInSeconds - now.diff(deployedTime, 'seconds')
+
+            // Deal with an offset, se we can countdown from a date. The value of countDownFixed is the number of second to countdown
+            // but also handle the current given time
+            if (countDownFixed) {
+                totalSeconds = countDownFixed - now.diff(time, 'seconds')
+            } else {
+                totalSeconds = time.diff(now, 'seconds')
+            }
 
             // first clearing the old interval
             clearInterval(interval)
@@ -28,6 +34,7 @@
                 if (totalSeconds > 0) {
                   display = displayTimer(--totalSeconds)
                 } else {
+                  header.setCountDownFinish()
                   clear()
                 }
             }, 1000)
@@ -37,7 +44,7 @@
     });
 
     onDestroy(() => {
-        clearInterval(interval)
+        clear()
         unsubscribe()
     })
 </script>

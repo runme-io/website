@@ -1,32 +1,41 @@
 <script>
     import moment from 'moment'
-    import { build } from '../../Stores/Build'
+    import { header } from '../../Stores/Header'
     import { displayTimer } from '../../Helpers/Const'
     import { onDestroy } from 'svelte'
 
-    let display = 0
+    let display = '00:00'
     let totalSeconds = 0;
     let interval = null
+    let countUpCheckValue
 
-    const unsubscribe = build.subscribe(({ created_at, status }) => {
-        if (created_at && status !== 'fail') {
-            const deployedTime = moment.utc(created_at)
-            const now = moment()
-            totalSeconds = now.diff(deployedTime, 'seconds')
+    const clear = () => {
+        clearInterval(interval)
+        display = '00:00'
+    }
 
-            // first clearing the old interval
-            clearInterval(interval)
+    const unsubscribe = header.subscribe(({ countUp }) => {
+        if (countUp) {
+            if (countUp !== countUpCheckValue) {
+                countUpCheckValue = countUp //check value
 
-            // start the counter
-            interval = setInterval(() => display = displayTimer(++totalSeconds), 1000)
+                const deployedTime = moment.utc(countUp)
+                const now = moment()
+                totalSeconds = now.diff(deployedTime, 'seconds')
+
+                // first clearing the old interval
+                clearInterval(interval)
+
+                // start the counter
+                interval = setInterval(() => display = displayTimer(++totalSeconds), 1000)
+            }
         } else {
-            clearInterval(interval)
-            display = '00:00'
+           clear()
         }
     });
 
     onDestroy(() => {
-        clearInterval(interval)
+        clear()
         unsubscribe()
     })
 </script>

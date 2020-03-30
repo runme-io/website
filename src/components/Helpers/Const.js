@@ -8,9 +8,9 @@ export const removeDoubleSlashes = (path) => path.replace(/([^:])(\/\/+)/g, '$1/
 export const displayTimer = (totalSeconds) => {
   const hour = Math.floor(totalSeconds / 3600)
   const minutes = Math.floor((totalSeconds - hour * 3600) / 60)
-  const seconds = totalSeconds - ((hour * 3600) + (minutes * 60));
+  const seconds = totalSeconds - ((hour * 3600) + (minutes * 60))
 
-  return zeroPad(minutes, 2) + ":" + zeroPad(seconds, 2)
+  return zeroPad(minutes, 2) + ':' + zeroPad(seconds, 2)
 }
 
 export const redirectWithError = (errorMsg, path = '/') => {
@@ -21,14 +21,14 @@ export const redirectWithError = (errorMsg, path = '/') => {
 }
 
 export const isBase64 = (str) => {
-  if (str === '' || str.trim() === ''){
+  if (str === '' || str.trim() === '') {
     return false
   }
 
   try {
-    return btoa(atob(str)) == str;
+    return btoa(atob(str)) == str
   } catch (err) {
-    return false;
+    return false
   }
 }
 
@@ -65,14 +65,29 @@ export const runApiRequest = async (url, method = 'GET', body = null) => {
 
     const result = await response.json()
 
-    if (response.status !== 200) {
-      if (result.message) {
-        throw result.message
-      } else {
-        throw 'unknown error occur'
-      }
-    }
+    // handle errors
+    switch (response.status) {
+      case 200:
+        return result
 
-    return result
+      case 404:
+      case 400:
+      case 500:
+        throw {
+          message: result.message
+        }
+
+      case 409:
+        throw {
+          message: result.message,
+          lastBuild: result.last_build_at,
+          nextBuild: result.next_build_since,
+        }
+
+      default:
+        throw {
+          message: 'unknown error occur',
+        }
+    }
   }
 }

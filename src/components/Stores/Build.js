@@ -1,4 +1,4 @@
-import { writable, derived } from 'svelte/store'
+import { writable } from 'svelte/store'
 import { runApiRequest } from '../Helpers/Const'
 import { wsBuild } from '../Helpers/WebSocket'
 
@@ -35,9 +35,3 @@ function createBuild () {
 }
 
 export const build = createBuild()
-
-export const appId = derived(
-  build,
-  ({ app_id }) => app_id
-)
-

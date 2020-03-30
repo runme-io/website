@@ -23,6 +23,8 @@
 </div>
 
 <style lang="sass">
+    @import "../../assets/style/theme"
+
     .alert
         position: relative
         padding: 1rem 2rem !important
@@ -33,22 +35,22 @@
         font-size: 1.4rem
 
     .alert--success
-        color: #155724
+        color: $success
         background-color: #d4edda
         border-color: #c3e6cb
 
     .alert--danger
-        color: #721c24
+        color: $danger
         background-color: #f8d7da
         border-color: #f5c6cb
 
     .alert--warning
-        color: #856404
+        color: $warning
         background-color: #fff3cd
         border-color: #ffeeba
 
     .alert--info
-        color: #0c5460
+        color: $info
         background-color: #d1ecf1
         border-color: #bee5eb
 </style>
