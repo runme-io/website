@@ -23,7 +23,7 @@
                 <pre>
                     <code>
 npm install
-npm build
+npm run build
 npm run start
                     </code>
                 </pre>

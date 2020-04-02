@@ -8,7 +8,7 @@
     <ul>
         <li><a href="/">Generate</a></li>
         <li><a href="/how-it-works">How it works</a></li>
-        <li><a href="/about-us">About us</a></li>
+        <li><a href="/about">About</a></li>
     </ul>
 </nav>
 
