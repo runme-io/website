@@ -4,36 +4,15 @@
 
 <MainLayout title="About us">
     <div class="main-content">
-        <h1>About Us</h1>
+        <h1>Hello professional!</h1>
 
-        <p>Hello professional!</p>
+        <p>Runme is initiated by <a href="https://jexia.com" target="_blank">Jexia</a> in cooperation with <a href="https://www.digitalocean.com/" target="_blank">Digital Ocean</a> to provide a new opportunity and experience to run an applications.</p>
 
-        <p>RunMe is an initiative of Jexia and DigitalOcean to provide developers an opportunity to run applications in an easy way.
-            We want to give next-level experience in deployment for applications as well as the possibility to make quick test and sharing your app with your friends, colleagues, and visitors of your repo.</p>
+        <p>As the name already explains: Runme makes it possible to build, deploy and launch an application with just one click. </p>
 
-        <p><a href="https://jexia.com" target="_blank">Jexia</a> - it is a platform, which is providing the set of highly integrated services for your backend, as well as hosting for your applications.</p>
+        <p>So you can have a running application in a few minutes without the need to setup any environment. You just need to "Runme" and test your running application. If needed you can share your running application with clients, friends or colleagues, or even visitors of your Git repo. The application will run for 10 minutes and be removed afterwards. </p>
 
-        <p>Next services are available:</p>
-
-        <h2>Dataset</h2>
-        <p>is used to store your application data. You can create as many Dataset as you need as well as set up relations between them. No needs to worry about security, scalability, and performance. We will take care of this.</p>
-
-        <h2>Fileset</h2>
-        <p>is used to manage files for your application. We have integration with DigitalOcean and Amazon S3.</p>
-
-        <h2>Channels</h2>
-        <p>is used to organize <strong>Pub/Sub</strong> solutions. With this module, you can have real-time notification when your data will be changed.</p>
-
-        <h2>Project Users</h2>
-        <p>module provides functions, which you need for user management in your application. For example <strong>change password</strong>, <strong>sing up</strong>, <strong>sign in</strong>, <strong>groups</strong>, others.</p>
-
-        <h2>Automation</h2>
-        <p>this module allows you to set an actions that will run based on some event.</p>
-
-        <h2>API-Keys</h2>
-        <p>module allow you to generate API-Keys for your application and organize access to your data for 3rd party applications.</p>
-
-        <h2>Policy</h2>
-        <p>this module allow you to configure access rule to your data. We support actions and filters, so you can make a flexible granular setup.</p>
+        <h2>Contributing</h2>
+        <p>Thank you for your interest in contributing to Runme! We ❤ open-source and welcome everyone to contribute. Whether it's in the form of code, documentation, bug reports, feature requests, or anything else. We encourage you to experiment with the project and make contributions to help evolve it and meet your needs!</p>
     </div>
 </MainLayout>
