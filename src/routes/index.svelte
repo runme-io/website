@@ -6,6 +6,7 @@
 	import Icon from 'fa-svelte'
 	import { faSortDown } from '@fortawesome/free-solid-svg-icons/faSortDown'
 	import { faSortUp } from '@fortawesome/free-solid-svg-icons/faSortUp'
+	import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
 	import GenerateButton from '../components/Runme/Generator/GenerateButton.svelte'
 	import TextInput from '../components/UI/TextInput.svelte'
 	import { isDockerUrl, isEmpty, isGitUrl } from '../components/Helpers/Validation'
@@ -34,6 +35,8 @@
 	let errorType = 'warning'
 	let envVarsValid = true //true by default as this is optional
 	let showRunmeFooter = false
+
+	const exclamationIcon = faExclamationCircle
 
 	$: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
 	$: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
@@ -159,6 +162,15 @@
 				<GenerateButton {loading} disabled={!formIsValid} on:click={generateEmbedCode}>{buttonText}</GenerateButton>
 			</div>
 
+			<div class="requirements">
+				<h3><div class="requirements__icon"><Icon icon={exclamationIcon} /></div> Requirements</h3>
+				<p>In order to run your application properly, there should be at least one requirement applied to your repository. See <a href="/how-it-works">this</a> page for more information.</p>
+				<ul>
+					<li>your repo has a Dockerfile in the root directory</li>
+					<li>your repo has a package.json with 3 main commands <code>npm install</code>, <code>npm run build</code> and <code>npm run start</code></li>
+				</ul>
+			</div>
+
 			{#if canShowEmbed}
 				<div class="embed-result">
 					<div class="generated-embed-code">
@@ -227,5 +239,33 @@
 			font-size: 2rem
 			margin-bottom: 2rem
 
+	.requirements
+		margin-top: 5rem
 
+		&__icon
+			margin-right: .5rem
+			height: 1em
+
+		h3
+			font-size: 1.6rem
+			display: inline-flex
+			align-items: center
+
+		p
+			font-size: 1.2rem
+
+		code
+			padding: .2rem .4rem
+			color: #c7254e
+			background-color: #f9f2f4
+			border-radius: .4rem
+
+		ul
+			list-style: disc
+			padding-left: 1.5rem
+			margin-top: .5rem
+
+			li
+				list-style: disc
+				font-size: 1.2rem
 </style>
