@@ -6,7 +6,7 @@
     <div class="main-content">
         <h1>Hello!</h1>
 
-        <p>Runme is created by <a href="https://jexia.com">Jexia</a> in cooperation with <a href="https://www.digitalocean.com/">Digital Ocean</a to provide developers a new opportunity and experience to run applications.</p>
+        <p>Runme is created by <a href="https://jexia.com">Jexia</a> in cooperation with <a href="https://www.digitalocean.com/">Digital Ocean</a> to provide developers a new opportunity and experience to run applications.</p>
 
         <p>As the name already implies: Runme makes it possible to build, deploy and launch an application with just one click.</p>
 
