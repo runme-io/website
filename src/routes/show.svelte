@@ -27,16 +27,18 @@
 	}
 
 	const loadUrl = (url) => {
+		clearInterval(pollingInterval)
+
 		if (process.browser) {
-			urlExists(url).then(exists => {
-				if (exists) {
-					clearInterval(pollingInterval)
-					src = url
-					iframeLoaded = true
-				} else {
-					pollingInterval = setInterval(() => loadUrl(url), 5000)
-				}
-			})
+			pollingInterval = setInterval(() => {
+				urlExists(url).then(exists => {
+					if (exists) {
+						clearInterval(pollingInterval)
+						src = url
+						iframeLoaded = true
+					}
+				})
+			}, 5000)
 		}
 	}
 
