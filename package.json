@@ -26,6 +26,7 @@
     "jexia-sdk-js": "^4.8.0",
     "marked": "^0.8.2",
     "moment": "^2.24.0",
+    "perfect-scrollbar": "^1.5.0",
     "polka": "next",
     "sirv": "^0.4.0"
   },
@@ -51,7 +52,6 @@
     "sapper": "^0.27.11",
     "sass": "^1.26.3",
     "svelte": "^3.20.1",
-    "svelte-preprocess": "^3.6.0",
-    "svelte-scrollto": "^0.1.1"
+    "svelte-preprocess": "^3.6.0"
   }
 }
