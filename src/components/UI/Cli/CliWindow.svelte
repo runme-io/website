@@ -26,7 +26,9 @@
     $: loadingPrefix = `${workingOn} in progress`
 
     onMount(() => {
-        ps = new PerfectScrollbar('#perfectScrollbar')
+        ps = new PerfectScrollbar('#perfectScrollbar', {
+            wheelPropagation: false
+        })
         psContainer = document.querySelector('#perfectScrollbar')
 
         // check if we need to stick to the bottom
