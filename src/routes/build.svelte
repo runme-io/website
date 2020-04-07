@@ -18,6 +18,7 @@
     let buildErrorMsg
     let countFrom = 0
     let dockerRunmeImage = ''
+    let workingOn = 'Build'
 
     const showBuildError = (error) => {
         buildErrorMsg = error
@@ -42,6 +43,8 @@
         }
 
         if (deploy_log) {
+            workingOn = 'Deployment'
+
             if (isBase64(deploy_log)) {
                 deploy_log = atob(deploy_log)
             }
@@ -105,7 +108,7 @@
 
     <div class="container">
         <main>
-            <CliWindow working={building} error={buildErrorMsg} log={buildLog}/>
+            <CliWindow {workingOn} working={building} error={buildErrorMsg} log={buildLog}/>
 
             {#if dockerRunmeImage}
                 <div class="docker-image">

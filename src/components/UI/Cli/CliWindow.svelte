@@ -7,9 +7,11 @@
     export let log = ''
     export let error
     export let working = false
+    export let workingOn = 'Build'
 
     const ansi_up = new AnsiUp()
     let formattedLog = ''
+    let loadingPrefix = ''
     let ps = null
     let stickyToBottom = true
     let psContainer = null
@@ -20,6 +22,8 @@
     $: if (error) {
       log = `${log}\r\n> Error: ${error}`
     }
+
+    $: loadingPrefix = `${workingOn} in progress`
 
     onMount(() => {
         ps = new PerfectScrollbar('#perfectScrollbar')
@@ -61,7 +65,7 @@
     </header>
     <div id="perfectScrollbar" class="content ps">
         <div class="log">{@html formattedLog}</div>
-        {#if working}<CliLoading intervalTimer="100"/>{/if}
+        {#if working}<CliLoading prefix={loadingPrefix} intervalTimer="100"/>{/if}
     </div>
 </div>
 

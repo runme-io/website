@@ -1,5 +1,7 @@
 <script>
     export let intervalTimer = 1000
+    export let prefix = ''
+
     let dots = '';
 
     setInterval(() => {
@@ -10,7 +12,7 @@
     }, intervalTimer)
 </script>
 
-<div class="build-progress">> Build in progress ...{dots}</div>
+<div class="build-progress">> {prefix} ...{dots}</div>
 
 <style lang="sass">
     .build-progress
