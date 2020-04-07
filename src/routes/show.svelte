@@ -59,7 +59,10 @@
 		}
 	}
 
-	onDestroy(unsubscribe)
+	onDestroy(() => {
+		unsubscribe()
+		clearInterval(pollingInterval)
+	})
 </script>
 
 <svelte:head>
