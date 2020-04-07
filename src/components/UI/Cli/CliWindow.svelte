@@ -1,31 +1,34 @@
 <script>
     import CliLoading from './CliLoading.svelte'
     import PerfectScrollbar from 'perfect-scrollbar'
-    import { afterUpdate } from 'svelte'
+    import { afterUpdate, onMount } from 'svelte'
     import { default as AnsiUp } from 'ansi_up'
 
     export let log = ''
     export let error
     export let working = false
 
-    const psContainer = process.browser ? document.querySelector('#perfectScrollbar') : null
-    const ps = process.browser ? new PerfectScrollbar('#perfectScrollbar') : null
     const ansi_up = new AnsiUp()
-
+    let formattedLog = ''
+    let ps = null
     let stickyToBottom = true
+    let psContainer = null
 
-    // check if we need to stick to the bottom
-    if (process.browser) {
-        psContainer.addEventListener('ps-scroll-up', () => stickyToBottom = false)
-        psContainer.addEventListener('ps-y-reach-end', () => stickyToBottom = true)
-    }
-
-    $: log = ansi_up.ansi_to_html(log).replace(/[\r\n]/g, "<br />")
+    $: formattedLog = ansi_up.ansi_to_html(log).replace(/[\r\n]/g, "<br />")
 
     // Append errors to the log
     $: if (error) {
       log = `${log}\r\n> Error: ${error}`
     }
+
+    onMount(() => {
+        ps = new PerfectScrollbar('#perfectScrollbar')
+        psContainer = document.querySelector('#perfectScrollbar')
+
+        // check if we need to stick to the bottom
+        psContainer.addEventListener('ps-scroll-up', () => stickyToBottom = false)
+        psContainer.addEventListener('ps-y-reach-end', () => stickyToBottom = true)
+    })
 
     afterUpdate(() => {
         ps.update()
@@ -57,7 +60,7 @@
         <h2>Jexia CLI</h2>
     </header>
     <div id="perfectScrollbar" class="content ps">
-        <div class="log">{@html log}</div>
+        <div class="log">{@html formattedLog}</div>
         {#if working}<CliLoading intervalTimer="100"/>{/if}
     </div>
 </div>
