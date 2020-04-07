@@ -13,6 +13,7 @@
     import { faArrowDown } from '@fortawesome/free-solid-svg-icons/faArrowDown'
     import { isBase64 } from '../components/Helpers/Const'
     import { onDestroy } from 'svelte'
+    import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
 
     const ansi_up = new AnsiUp();
     const buildId = queryParam().get('build_id')
@@ -23,6 +24,7 @@
     let buildErrorMsg
     let countFrom = 0
     let displayActionsAsSticky = false
+    let dockerRunmeImage = ''
 
     const showBuildError = (error) => {
         buildErrorMsg = error
@@ -111,7 +113,11 @@
         }
     }
 
-    const unsubscribe = build.subscribe(({ error, ...response }) => {
+    const unsubscribe = build.subscribe(({ error, docker_image, ...response }) => {
+        if (docker_image) {
+            dockerRunmeImage = docker_image
+        }
+
         if (error) {
             header.isFailed(true)
             showBuildError(error.message)
@@ -167,6 +173,12 @@
                     {/if}
                 </div>
             </div>
+
+            {#if dockerRunmeImage}
+                <div class="docker-image">
+                    <Icon icon={faExclamationCircle} /> Run this application local? Use <code>docker pull {dockerRunmeImage}</code> on your local machine (image is only for 10 min available)
+                </div>
+            {/if}
         </main>
     </div>
 
@@ -260,4 +272,8 @@
 
                     &.active
                         animation: flickerAnimation 1s infinite
+
+    .docker-image
+        font-size: 1.2rem
+        margin-top: 2rem
 </style>
