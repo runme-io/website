@@ -33,7 +33,7 @@
 
     const done = (buildId) => {
         if (process.browser) {
-            //goto(`/show?build_id=${buildId}`)
+            goto(`/show?build_id=${buildId}`)
         }
     }
 
