@@ -1,5 +1,4 @@
 <script>
-	import Loader from '../components/UI/Loader/Loader.svelte'
 	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
 	import { build } from '../components/Stores/Build'
 	import { header } from '../components/Stores/Header'
