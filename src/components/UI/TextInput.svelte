@@ -32,7 +32,7 @@
         border: 1px solid #bfbfbf
         background: white
         padding: 1rem 1.5rem
-        transition: border-color 0.1s ease-out
+        transition: border-color .1s ease-out
 
         &:focus
             border-color: #e40763
@@ -43,14 +43,14 @@
 
     label
         display: block
-        margin-bottom: 0.5rem
+        margin-bottom: .5rem
         width: 100%
         font-size: 1.4rem
 
     .form-control
-        padding: 0.5rem 0
+        padding: .5rem 0
         width: 100%
-        margin: 0.25rem 0
+        margin: .25rem 0
 
     .invalid
         border-color: red
@@ -58,7 +58,7 @@
 
     .error-message
         color: red
-        margin: 0.25rem 0
+        margin: .25rem 0
 </style>
 
 <div class="form-control">
