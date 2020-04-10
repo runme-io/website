@@ -1,5 +1,4 @@
 <script>
-	import Loader from '../components/UI/Loader/Loader.svelte'
 	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
 	import { build } from '../components/Stores/Build'
 	import { header } from '../components/Stores/Header'
@@ -28,16 +27,18 @@
 	}
 
 	const loadUrl = (url) => {
+		clearInterval(pollingInterval)
+
 		if (process.browser) {
-			urlExists(url).then(exists => {
-				if (exists) {
-					clearInterval(pollingInterval)
-					src = url
-					iframeLoaded = true
-				} else {
-					pollingInterval = setInterval(() => loadUrl(url), 5000)
-				}
-			})
+			pollingInterval = setInterval(() => {
+				urlExists(url).then(exists => {
+					if (exists) {
+						clearInterval(pollingInterval)
+						src = url
+						iframeLoaded = true
+					}
+				})
+			}, 5000)
 		}
 	}
 
@@ -59,7 +60,10 @@
 		}
 	}
 
-	onDestroy(unsubscribe)
+	onDestroy(() => {
+		unsubscribe()
+		clearInterval(pollingInterval)
+	})
 </script>
 
 <svelte:head>
