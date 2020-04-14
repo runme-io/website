@@ -33,8 +33,11 @@
 	let errorMsg = ''
 	let appId = ''
 	let errorType = 'warning'
-	let envVarsValid = true //true by default as this is optional
+	let envVarsValid = true // true by default as this is optional
 	let showRunmeFooter = false
+	let repoUrlValid
+	let dockerImageValid
+	let formIsValid
 
 	const exclamationIcon = faExclamationCircle
 
