@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store'
-import { dataOperations, jexiaClient } from 'jexia-sdk-js/browser'
 import { runApiRequest } from '../Helpers/Const'
 import { JEXIA_CREDENTIALS } from '../../env'
 
@@ -26,25 +25,27 @@ function createApplication() {
     },
     get: app_id => {
       if (process.browser) {
-        const dataModule = dataOperations()
+        import('jexia-sdk-js/browser').then(jexiaModule => {
+          const dataModule = jexiaModule.dataOperations()
 
-        const credentials = {
-          projectID: JEXIA_CREDENTIALS.applicationProjectID,
-          key: JEXIA_CREDENTIALS.key,
-          secret: JEXIA_CREDENTIALS.secret,
-        };
+          const credentials = {
+            projectID: JEXIA_CREDENTIALS.applicationProjectID,
+            key: JEXIA_CREDENTIALS.key,
+            secret: JEXIA_CREDENTIALS.secret,
+          };
 
-        jexiaClient().init(credentials, dataModule)
+          jexiaModule.jexiaClient().init(credentials, dataModule)
 
-        const appsDataset = dataModule.dataset('applications')
+          const appsDataset = dataModule.dataset('applications')
 
-        appsDataset
-          .select()
-          .where(field => field('id').isEqualTo(app_id))
-          .subscribe(
-            ([result]) => set(result || {}),
-            () => {} // ignore error for now
-          )
+          appsDataset
+            .select()
+            .where(field => field('id').isEqualTo(app_id))
+            .subscribe(
+              ([result]) => set(result || {}),
+              () => {} // TODO handle errors
+            )
+        })
       }
     }
   }

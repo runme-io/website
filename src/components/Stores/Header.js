@@ -5,6 +5,7 @@ function createHeader () {
     countDown: false,
     countUp: false,
     timerTitle: '',
+    deployUrl: '',
     failed: false,
     failedStatus: '',
     countDownFinish: false,
@@ -18,6 +19,7 @@ function createHeader () {
     showCountDown: (countDown, timerTitle = 'Countdown', countDownFixed = null) => setHeaderValues({ countDown, countUp: false, timerTitle, countDownFixed }),
     showCountUp: (countUp, timerTitle = 'Progress time') => setHeaderValues({ countUp, countDown: false, timerTitle }),
     setTimerTitle: (timerTitle) => setHeaderValues({ timerTitle }),
+    setDeploymentUrl: (deployUrl) => setHeaderValues({ deployUrl }),
     isFailed: (failed = true, failedStatus = 'Failed') => setHeaderValues({ failed, failedStatus }),
     setCountDownFinish: (countDownFinish = true) => setHeaderValues({ countDownFinish }),
   }

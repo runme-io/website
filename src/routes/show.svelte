@@ -1,5 +1,6 @@
 <script>
 	import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
+	import { application } from '../components/Stores/Application'
 	import { build } from '../components/Stores/Build'
 	import { header } from '../components/Stores/Header'
 	import { queryParam } from '../components/Helpers/QueryParam'
@@ -12,10 +13,12 @@
 	let errorMsg
 	let pollingInterval
 	let pollingAttempt = 0
+    let appId
 
 	const maxPollingAttempt = 10
 	const intervalTimer = 5000
 	const buildId = queryParam().get('build_id')
+	const unsubscribe = {}
 
 	const showError = (msg) => {
 		errorMsg = msg
@@ -40,6 +43,7 @@
 		pollingInterval = setInterval(async () => {
 			try {
 				await urlExists(url)
+                application.get(appId)
 				src = url
 				iframeLoaded = true
 			} catch (e) {
@@ -50,13 +54,32 @@
 		}, intervalTimer)
 	}
 
-	const unsubscribe = build.subscribe(({ error, updated_at }) => {
+	const toQueryString = (object, separator = '&') =>
+			Object.entries(object).map(([key, value]) => `${key}=${value}`).join(separator)
+
+	unsubscribe.build = build.subscribe(({ error, updated_at, app_id }) => {
 		if (error) {
 			showError(`No application found, go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.`)
 			header.isFailed(true, 'Error')
 		} else {
+			appId = app_id
 			header.showCountDown(updated_at, 'Countdown', 600) // the app will be alive for 10 min (600s)
 			loadUrl(`https://${buildId}.runme.io`)
+		}
+	})
+
+	unsubscribe.application = application.subscribe(({ repo_branch, repo_url, env_variables }) => {
+		if (repo_branch && repo_url) {
+			const queryParam = {
+				repo_url,
+				repo_branch,
+				env_vars: env_variables
+					? toQueryString(env_variables, ',')
+					: null,
+			}
+			const queryString = toQueryString(queryParam)
+
+			header.setDeploymentUrl(`https://app.jexia.com/runme?${queryString}`)
 		}
 	})
 
@@ -69,7 +92,8 @@
 	}
 
 	onDestroy(() => {
-		unsubscribe()
+		unsubscribe.build()
+		unsubscribe.application()
 		clearInterval(pollingInterval)
 	})
 </script>
