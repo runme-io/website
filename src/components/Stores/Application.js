@@ -23,29 +23,28 @@ function createApplication() {
         set({ error })
       }
     },
-    get: app_id => {
+    get: async (app_id) => {
       if (process.browser) {
-        import('jexia-sdk-js/browser').then(jexiaModule => {
-          const dataModule = jexiaModule.dataOperations()
 
-          const credentials = {
-            projectID: JEXIA_CREDENTIALS.applicationProjectID,
-            key: JEXIA_CREDENTIALS.key,
-            secret: JEXIA_CREDENTIALS.secret,
-          };
+        const { jexiaClient, dataOperations } = await import('jexia-sdk-js/browser')
+        const dataModule = dataOperations()
+        const credentials = {
+          projectID: JEXIA_CREDENTIALS.applicationProjectID,
+          key: JEXIA_CREDENTIALS.key,
+          secret: JEXIA_CREDENTIALS.secret,
+        }
 
-          jexiaModule.jexiaClient().init(credentials, dataModule)
+        jexiaClient().init(credentials, dataModule)
 
-          const appsDataset = dataModule.dataset('applications')
+        const appsDataset = dataModule.dataset('applications')
 
-          appsDataset
-            .select()
-            .where(field => field('id').isEqualTo(app_id))
-            .subscribe(
-              ([result]) => set(result || {}),
-              () => {} // TODO handle errors
-            )
-        })
+        appsDataset
+          .select()
+          .where(field => field('id').isEqualTo(app_id))
+          .subscribe(
+            ([result]) => set(result || {}),
+            () => {} // TODO handle errors
+          )
       }
     }
   }

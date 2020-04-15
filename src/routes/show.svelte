@@ -55,7 +55,7 @@
 	}
 
 	const toQueryString = (object, separator = '&') =>
-			Object.entries(object).map(([key, value]) => `${key}=${value}`).join(separator)
+			Object.entries(object).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join(separator)
 
 	unsubscribe.build = build.subscribe(({ error, updated_at, app_id }) => {
 		if (error) {
