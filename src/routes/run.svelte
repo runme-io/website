@@ -78,7 +78,7 @@
             {/if}
 
             {#if generalError}
-                No app has been found with ID "{app_id}. Please (re)generate a new button <a href="/">here</a> in order to run your application.
+                No app has been found with ID "{app_id}. Please <a href="/">(re)generate a new button</a> in order to run your application.
             {/if}
 
             {#if showDefaultErrorMsg}Please go back to the <a href="/">generator</a> page and create a button and run url.{/if}
