@@ -10,35 +10,31 @@
 	let src
 	let iframeLoaded = false
 	let errorMsg
-	let pollingInterval = null
 
 	const buildId = queryParam().get('build_id')
 
 	const showError = (msg) => {
 		errorMsg = msg
-		clearInterval(pollingInterval)
 	}
 
 	const urlExists = async (url) => {
 		if (process.browser) {
 			const response = await fetch(url)
-			return response.status === 200
+			return response.status < 400
 		}
 	}
 
 	const loadUrl = (url) => {
-		clearInterval(pollingInterval)
-
 		if (process.browser) {
-			pollingInterval = setInterval(() => {
-				urlExists(url).then(exists => {
-					if (exists) {
-						clearInterval(pollingInterval)
-						src = url
-						iframeLoaded = true
-					}
-				})
-			}, 5000)
+
+			urlExists(url).then(exists => {
+				if (exists) {
+					src = url
+					iframeLoaded = true
+				} else {
+					showError('Your application cannot be loaded.')
+				}
+			})
 		}
 	}
 
@@ -60,10 +56,7 @@
 		}
 	}
 
-	onDestroy(() => {
-		unsubscribe()
-		clearInterval(pollingInterval)
-	})
+	onDestroy(unsubscribe)
 </script>
 
 <svelte:head>
