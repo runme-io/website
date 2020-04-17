@@ -41,7 +41,7 @@
 <header>
     <div class="logo-svg">
         <a href="/">
-            <img src="/static/button.svg" alt="logo">
+            <img src="/static/button-beta.svg" alt="logo">
         </a>
     </div>
     <div class="titles">
