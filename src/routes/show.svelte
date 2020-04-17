@@ -29,7 +29,7 @@
     const urlExists = async (url) => {
         if (!process.browser) { return }
 
-        const response = await fetch(url)
+        const response = await fetch(url, { redirect: 'manual' })
         if (response.status > 400) {
             throw 'Failed to fetch'
         }
