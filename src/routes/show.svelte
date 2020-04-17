@@ -75,8 +75,8 @@
                 repo_url,
                 repo_branch,
                 env_vars: env_variables
-                        ? toQueryString(env_variables, ',')
-                        : null,
+                    ? toQueryString(env_variables, ',')
+                    : null,
             }
             const queryString = toQueryString(queryParam)
 
