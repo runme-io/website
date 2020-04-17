@@ -14,7 +14,7 @@
 	let pollingAttempt = 0
 
 	const maxPollingAttempt = 10
-
+	const intervalTimer = 5000
 	const buildId = queryParam().get('build_id')
 
 	const showError = (msg) => {
@@ -23,31 +23,31 @@
 	}
 
 	const urlExists = async (url) => {
-		if (process.browser) {
-			const response = await fetch(url)
-			if (response.status > 400) {
-				throw 'Failed to fetch'
-			}
+		if (!process.browser) { return }
+
+		const response = await fetch(url)
+		if (response.status > 400) {
+			throw 'Failed to fetch'
 		}
 	}
 
 	const loadUrl = (url) => {
-		if (process.browser) {
-			clearInterval(pollingInterval) // clear previous interval
-			pollingAttempt = 1 // reset value
+		if (!process.browser) { return }
 
-			pollingInterval = setInterval(async () => {
-				try {
-					await urlExists(url)
-					src = url
-					iframeLoaded = true
-				} catch (e) {
-					if (pollingAttempt++ > maxPollingAttempt) {
-						showError('Your application cannot be loaded.')
-					}
+		clearInterval(pollingInterval) // clear previous interval
+		pollingAttempt = 1 // reset value
+
+		pollingInterval = setInterval(async () => {
+			try {
+				await urlExists(url)
+				src = url
+				iframeLoaded = true
+			} catch (e) {
+				if (pollingAttempt++ > maxPollingAttempt) {
+					showError('Your application cannot be loaded.')
 				}
-			}, 5000)
-		}
+			}
+		}, intervalTimer)
 	}
 
 	const unsubscribe = build.subscribe(({ error, updated_at }) => {
