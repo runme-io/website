@@ -14,7 +14,7 @@
 	let errorMsg
 	let pollingInterval
 	let pollingAttempt = 0
-    let appId
+	let appId
 
 	const maxPollingAttempt = 10
 	const intervalTimer = 5000
