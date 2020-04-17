@@ -10,32 +10,44 @@
 	let src
 	let iframeLoaded = false
 	let errorMsg
+	let pollingInterval
+	let pollingAttempt = 0
 
+	const maxPollingAttempt = 10
+	const intervalTimer = 5000
 	const buildId = queryParam().get('build_id')
 
 	const showError = (msg) => {
 		errorMsg = msg
+		clearInterval(pollingInterval)
 	}
 
 	const urlExists = async (url) => {
-		if (process.browser) {
-			const response = await fetch(url)
-			return response.status < 400
+		if (!process.browser) { return }
+
+		const response = await fetch(url)
+		if (response.status > 400) {
+			throw 'Failed to fetch'
 		}
 	}
 
 	const loadUrl = (url) => {
-		if (process.browser) {
+		if (!process.browser) { return }
 
-			urlExists(url).then(exists => {
-				if (exists) {
-					src = url
-					iframeLoaded = true
-				} else {
+		clearInterval(pollingInterval) // clear previous interval
+		pollingAttempt = 1 // reset value
+
+		pollingInterval = setInterval(async () => {
+			try {
+				await urlExists(url)
+				src = url
+				iframeLoaded = true
+			} catch (e) {
+				if (pollingAttempt++ > maxPollingAttempt) {
 					showError('Your application cannot be loaded.')
 				}
-			})
-		}
+			}
+		}, intervalTimer)
 	}
 
 	const unsubscribe = build.subscribe(({ error, updated_at }) => {
@@ -56,7 +68,10 @@
 		}
 	}
 
-	onDestroy(unsubscribe)
+	onDestroy(() => {
+		unsubscribe()
+		clearInterval(pollingInterval)
+	})
 </script>
 
 <svelte:head>
