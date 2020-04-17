@@ -19,12 +19,13 @@ const { parsed: envVars = {} } = dotenvConfig()
 
 // we also need to check the process env for getting the env var from a docker build command
 // e.g. docker build --build-arg RUNME_API_HOST=svc.runme.io
-const keys = ['RUNME_API_HOST', 'RUNME_API_SECURE', 'APPLICATION_PROJECT_ID', 'API_KEY', 'API_SECRET'];
+const keys = ['RUNME_API_HOST', 'RUNME_API_SECURE', 'DEPLOYMENT_HOST', 'APPLICATION_PROJECT_ID', 'API_KEY', 'API_SECRET'];
 keys.forEach(key => process.env[key] ? envVars[key] = process.env[key] : key)
 
 const {
 	RUNME_API_HOST = '$RUNME_API_HOST',
 	RUNME_API_SECURE = '$RUNME_API_SECURE',
+	DEPLOYMENT_HOST = '$DEPLOYMENT_HOST',
 	APPLICATION_PROJECT_ID = '$APPLICATION_PROJECT_ID',
 	API_KEY = '$API_KEY',
 	API_SECRET = '$API_SECRET',
@@ -51,6 +52,7 @@ export default {
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				'runme-api-host': RUNME_API_HOST,
 				'runme-api-secure': RUNME_API_SECURE,
+				'deployment-host': DEPLOYMENT_HOST,
 				'jexia-application-project-id': APPLICATION_PROJECT_ID,
 				'jexia-api-key': API_KEY,
 				'jexia-api-secret': API_SECRET,
