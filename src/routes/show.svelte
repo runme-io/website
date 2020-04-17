@@ -7,6 +7,7 @@
 	import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
 	import { onDestroy } from 'svelte'
 	import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
+	import { DEPLOYMENT } from '../env'
 
 	let src
 	let iframeLoaded = false
@@ -79,7 +80,7 @@
 			}
 			const queryString = toQueryString(queryParam)
 
-			header.setDeploymentUrl(`https://app.jexia.com/runme?${queryString}`)
+			header.setDeploymentUrl(`https://${DEPLOYMENT.host}/runme?${queryString}`)
 		}
 	})
 
