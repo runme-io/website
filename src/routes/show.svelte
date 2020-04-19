@@ -44,7 +44,11 @@
         pollingInterval = setInterval(async () => {
             try {
                 await urlExists(url)
+
+                clearInterval(pollingInterval)
                 application.get(appId)
+
+                // update the template variables
                 src = url
                 iframeLoaded = true
             } catch (e) {
