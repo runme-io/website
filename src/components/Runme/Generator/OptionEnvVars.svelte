@@ -35,7 +35,7 @@
     }, [])
 
     const convertEnvVarsToText = (envVars) => {
-      return envVars.reduce((accumulator, currentValue) => [...accumulator, `${currentValue.value}=${currentValue.key}`], []).join('\n')
+      return envVars.reduce((accumulator, currentValue) => [...accumulator, `${currentValue.key}=${currentValue.value}`], []).join('\n')
     }
 
     const prepareVars = () => envVars.reduce((accumulator, currentValue) => {
@@ -72,7 +72,7 @@
 
     {#if useTextarea}
         <TextInput
-            placeholder="YOUR_ENV_VAR_KEY:example value (put every variable on a new line)"
+            placeholder="YOUR_ENV_VAR_KEY=example value (put every variable on a new line)"
             controlType="textarea"
             valid={envVarsAsTextValid}
             validityMessage="Invalid values"

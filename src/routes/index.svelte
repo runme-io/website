@@ -33,12 +33,17 @@
 	let errorMsg = ''
 	let appId = ''
 	let errorType = 'warning'
-	let envVarsValid = true //true by default as this is optional
+	let envVarsValid = true // true by default as this is optional
 	let showRunmeFooter = false
+	let repoUrlValid
+	let repoBranchValid
+	let dockerImageValid
+	let formIsValid
 
 	const exclamationIcon = faExclamationCircle
 
 	$: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
+	$: repoBranchValid = repoBranch !== ''
 	$: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
 	$: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
 
@@ -143,7 +148,16 @@
 				{#if showAdvancedOptions}
 					<div class="spacing-top">
 						<TextInput
-							id="title"
+							id="repo-branch"
+							label="What branch should we use?"
+							valid={repoBranchValid}
+							validityMessage="Please enter a valid branch."
+							value={repoBranch}
+							placeholder="master"
+							on:input={event => (repoBranch = event.target.value)}
+						/>
+						<TextInput
+							id="docker-image"
 							label="Copy your docker image in format <image>:<tag> (optional)"
 							valid={dockerImageValid}
 							validityMessage="Please enter a valid Docker image url."
@@ -152,7 +166,6 @@
 							on:enter={generateEmbedCode}
 							on:input={event => (dockerImage = event.target.value)}
 						/>
-
 						<OptionEnvVars on:items={event => envVars = event.detail} on:valid={event => envVarsValid = event.detail} />
 					</div>
 				{/if}

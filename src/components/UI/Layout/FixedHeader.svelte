@@ -3,6 +3,7 @@
     import CountUp from '../Counter/CountUp.svelte'
     import { header } from '../../Stores/Header'
     import { onDestroy } from 'svelte'
+    import Button from '../Button.svelte'
 
     export let title = 'Run your application from any public Git-repo with one click'
     export let timerTitle = ''
@@ -12,12 +13,14 @@
     let countUp = false
     let failed = false
     let failedStatus = ''
+    let deployUrl
 
     const unsubscribe = header.subscribe(header => {
         countDown = header.countDown
         countUp = header.countUp
         failed = header.failed
         failedStatus = header.failedStatus
+        deployUrl = header.deployUrl
 
         if (header.timerTitle) {
             timerTitle = header.timerTitle
@@ -38,11 +41,12 @@
 <header>
     <div class="logo-svg">
         <a href="/">
-            <img src="/static/button.svg" alt="logo">
+            <img src="/static/button-beta.svg" alt="logo">
         </a>
     </div>
     <div class="titles">
         <h1>{title}</h1>
+        {#if deployUrl}<Button title="Deploy your application to Jexia" target="_blank" href={deployUrl}>Deploy on Jexia</Button>{/if}
     </div>
 
     {#if showBlock}
@@ -84,6 +88,7 @@
             width: 60%
             align-self: center
             margin: 0 auto
+            text-align: center
 
             @media screen and (max-width: 1200px)
                 width: 70%
@@ -95,6 +100,7 @@
             h1
                 line-height: 3rem
                 font-size: 1.8rem
+                margin-bottom: 1rem
 
                 @media screen and (max-width: 1200px)
                     font-size: 1.6rem

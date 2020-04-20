@@ -1,6 +1,8 @@
 <script>
     export let type = 'button'
     export let href = null
+    export let target = null
+    export let title = null
     export let mode = null
     export let disabled = false
     export let flex = false
@@ -73,11 +75,11 @@
 </style>
 
 {#if href}
-    <a {href}>
+    <a {href} {target} {title}>
         <slot />
     </a>
 {:else}
-    <button class:flex class:big class="{mode}" {type} on:click {disabled}>
+    <button class:flex class:big class="{mode}" {type} on:click {disabled} {title}>
         <slot />
     </button>
 {/if}

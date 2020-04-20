@@ -8,3 +8,7 @@ export const RUNME_API = {
   host: 'runme-api-host',
   secure: 'runme-api-secure',
 }
+
+export const DEPLOYMENT = {
+  host: 'deployment-host',
+}

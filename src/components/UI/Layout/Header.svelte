@@ -13,7 +13,7 @@
         <div class="logo">
             <div class="logo-svg">
                 <a href="/">
-                    <img src="/static/button.svg" alt="logo">
+                    <img src="/static/button-beta.svg" alt="logo">
                 </a>
             </div>
             <h2>Run your application from any public Git-repo with one click</h2>
