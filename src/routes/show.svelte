@@ -84,8 +84,9 @@
             }
             const queryString = toQueryString(queryParam)
 
-            if (DEPLOYMENT.host) {
-                header.setDeploymentUrl(`https://${DEPLOYMENT.host}/runme?${queryString}`)
+            const deploymentUrl = DEPLOYMENT.host.trim()
+            if (deploymentUrl) {
+                header.setDeploymentUrl(`https://${deploymentUrl}/runme?${queryString}`)
             }
         }
     })
