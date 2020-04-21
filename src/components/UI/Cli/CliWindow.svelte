@@ -10,14 +10,28 @@
     export let workingOn = 'Build'
     export let title = 'Terminal'
 
-    const ansi_up = new AnsiUp()
-    let formattedLog = ''
+    let logItems = []
     let loadingPrefix = ''
     let ps = null
     let stickyToBottom = true
     let psContainer = null
+    let currentPointer = 0
 
-    $: formattedLog = ansi_up.ansi_to_html(log).replace(/[\r\n]/g, "<br />")
+    const ansi_up = new AnsiUp()
+
+    const parseLogs = (givenLog) => {
+        if (currentPointer < givenLog.length) {
+            const append_log = givenLog.slice(currentPointer)
+            logItems = [...logItems, append_log]
+            currentPointer = givenLog.length
+        }
+    }
+
+    const prettify = (logValue) => {
+      return ansi_up.ansi_to_html(logValue)
+    }
+
+    $: parseLogs(log)
 
     // Append errors to the log
     $: if (error) {
@@ -67,7 +81,12 @@
         <h2>{title}</h2>
     </header>
     <div id="perfectScrollbar" class="content ps">
-        <div class="log">{@html formattedLog}</div>
+        <div class="log">
+            {#each logItems as logItem}
+                {@html prettify(logItem)}
+                <br>
+            {/each}
+        </div>
         {#if working}<CliLoading prefix={loadingPrefix} intervalTimer="100"/>{/if}
     </div>
 </div>
@@ -131,4 +150,8 @@
             position: relative
             min-height: calc(100vh - 25rem)
             height: calc(100vh - 25rem)
+
+            .log
+                word-wrap: break-word
+                white-space: pre-wrap
 </style>
