@@ -5,10 +5,8 @@
     import { build } from '../components/Stores/Build'
     import { header } from '../components/Stores/Header'
     import { queryParam } from '../components/Helpers/QueryParam'
-    import Icon from 'fa-svelte'
     import { isBase64 } from '../components/Helpers/Const'
     import { onDestroy } from 'svelte'
-    import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
     import CliWindow from '../components/UI/Cli/CliWindow.svelte'
 
     const buildId = queryParam().get('build_id')
@@ -17,7 +15,6 @@
     let buildLog = ''
     let buildErrorMsg
     let countFrom = 0
-    let dockerRunmeImage = ''
     let workingOn = 'Build'
 
     const showBuildError = (error) => {
@@ -71,11 +68,7 @@
         collectLog(build_log, deploy_log)
     }
 
-    const unsubscribe = build.subscribe(({ error, docker_image, ...response }) => {
-        if (docker_image) {
-            dockerRunmeImage = docker_image
-        }
-
+    const unsubscribe = build.subscribe(({ error, ...response }) => {
         if (error) {
             header.isFailed(true)
             showBuildError(error.message)
@@ -109,20 +102,8 @@
     <div class="container">
         <main>
             <CliWindow {workingOn} working={building} error={buildErrorMsg} log={buildLog}/>
-
-            {#if dockerRunmeImage}
-                <div class="docker-image">
-                    <Icon icon={faExclamationCircle} /> Run this application local? Use <code>docker pull {dockerRunmeImage}</code> on your local machine (image is only for 10 min available)
-                </div>
-            {/if}
         </main>
     </div>
 
     <JexiaFooter/>
 </div>
-
-<style lang="sass">
-    .docker-image
-        font-size: 1.2rem
-        margin-top: 2rem
-</style>
