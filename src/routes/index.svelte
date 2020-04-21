@@ -13,15 +13,22 @@
 	import Alert from '../components/UI/Alert.svelte'
 	import GithubReadme from '../components/UI/GitHub/GithubReadme.svelte'
 	import { queryParam } from '../components/Helpers/QueryParam'
-	import { setUrl } from '../components/Helpers/Const'
+	import { parseGitUrl, setUrl } from '../components/Helpers/Const'
 	import { onDestroy } from 'svelte'
 
 	// form fields
 	let embedStyle = 'markdown'
 	let repoUrl = ''
+	let repoUrlParsed = ''
 	let repoBranch = 'master'
 	let dockerImage = ''
 	let envVars = {}
+
+	// form states
+	let repoUrlValid
+	let repoBranchValid
+	let dockerImageValid
+	let formIsValid
 
 	// others
 	let showAdvancedOptions = false
@@ -35,14 +42,14 @@
 	let errorType = 'warning'
 	let envVarsValid = true // true by default as this is optional
 	let showRunmeFooter = false
-	let repoUrlValid
-	let repoBranchValid
-	let dockerImageValid
-	let formIsValid
 
 	const exclamationIcon = faExclamationCircle
 
-	$: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
+	// ensure correct GIT url
+	$: repoUrlParsed = parseGitUrl(repoUrl)
+
+	// check if the fields are valid
+	$: repoUrlValid = !isEmpty(repoUrlParsed)
 	$: repoBranchValid = repoBranch !== ''
 	$: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
 	$: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
@@ -102,7 +109,7 @@
 		clearError()
 
 		// create an application and assign it to the store
-		application.create(repoUrl, repoBranch, dockerImage, envVars)
+		application.create(repoUrlParsed, repoBranch, dockerImage, envVars)
 	}
 
 	function showEmbedCode () {
@@ -133,7 +140,7 @@
 			<div id="repo-url">
 				<TextInput
 					id="repo-url"
-					label="Copy your repo URL below. (URL format http://<repo URL>.git)"
+					label="Copy your repo URL below."
 					valid={repoUrlValid}
 					validityMessage="Please enter a valid Repository url."
 					value={repoUrl}
