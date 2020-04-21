@@ -1,5 +1,6 @@
 <script>
     import { menuItems } from '../../Data/menu'
+
     export let textColorLight = false
 
     let textColorClass = textColorLight ? 'light' : ''
