@@ -8,6 +8,7 @@
     export let error
     export let working = false
     export let workingOn = 'Build'
+    export let title = 'Terminal'
 
     const ansi_up = new AnsiUp()
     let formattedLog = ''
@@ -63,7 +64,7 @@
             <li class="orange"></li>
             <li class="green"></li>
         </ul>
-        <h2>Jexia CLI</h2>
+        <h2>{title}</h2>
     </header>
     <div id="perfectScrollbar" class="content ps">
         <div class="log">{@html formattedLog}</div>

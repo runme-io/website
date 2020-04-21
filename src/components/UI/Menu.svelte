@@ -1,14 +1,18 @@
 <script>
+    import { menuItems } from '../../Data/menu'
+
     export let textColorLight = false
 
     let textColorClass = textColorLight ? 'light' : ''
+
+    const items = menuItems
 </script>
 
 <nav class="{textColorClass}">
     <ul>
-        <li><a href="/">Generate</a></li>
-        <li><a href="/how-it-works">How it works</a></li>
-        <li><a href="/about">About</a></li>
+        {#each items as item}
+            <li><a target={item.newWindow ? 'target="_blank"' : null} href={item.link}>{item.label}</a></li>
+        {/each}
     </ul>
 </nav>
 
