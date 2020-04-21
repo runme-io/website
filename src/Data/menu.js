@@ -15,6 +15,11 @@ export const menuItems = [
     newWindow: false,
   },
   {
+    label: 'Terms & conditions',
+    link: '/terms-and-conditions',
+    newWindow: false,
+  },
+  {
     label: 'Discord',
     link: 'https://discord.gg/3ZYKHu',
     newWindow: true,
