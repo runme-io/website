@@ -9,19 +9,24 @@
 	import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
 	import GenerateButton from '../components/Runme/Generator/GenerateButton.svelte'
 	import TextInput from '../components/UI/TextInput.svelte'
-	import { isDockerUrl, isEmpty, isGitUrl } from '../components/Helpers/Validation'
+	import { isDockerUrl, isEmpty, isGitUrl, queryParam, parseGitUrl, setUrl } from '../Helpers'
 	import Alert from '../components/UI/Alert.svelte'
 	import GithubReadme from '../components/UI/GitHub/GithubReadme.svelte'
-	import { queryParam } from '../components/Helpers/QueryParam'
-	import { setUrl } from '../components/Helpers/Const'
 	import { onDestroy } from 'svelte'
 
 	// form fields
 	let embedStyle = 'markdown'
 	let repoUrl = ''
+	let repoUrlParsed = ''
 	let repoBranch = 'master'
 	let dockerImage = ''
 	let envVars = {}
+
+	// form states
+	let repoUrlValid
+	let repoBranchValid
+	let dockerImageValid
+	let formIsValid
 
 	// others
 	let showAdvancedOptions = false
@@ -35,14 +40,14 @@
 	let errorType = 'warning'
 	let envVarsValid = true // true by default as this is optional
 	let showRunmeFooter = false
-	let repoUrlValid
-	let repoBranchValid
-	let dockerImageValid
-	let formIsValid
 
 	const exclamationIcon = faExclamationCircle
 
-	$: repoUrlValid = !isEmpty(repoUrl) && isGitUrl(repoUrl)
+	// ensure correct GIT url
+	$: parseGitUrl(repoUrl).then(url => repoUrlParsed = url)
+
+	// check if the fields are valid
+	$: repoUrlValid = !isEmpty(repoUrlParsed) && isGitUrl(repoUrlParsed)
 	$: repoBranchValid = repoBranch !== ''
 	$: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
 	$: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
@@ -102,7 +107,7 @@
 		clearError()
 
 		// create an application and assign it to the store
-		application.create(repoUrl, repoBranch, dockerImage, envVars)
+		application.create(repoUrlParsed, repoBranch, dockerImage, envVars)
 	}
 
 	function showEmbedCode () {
@@ -133,7 +138,7 @@
 			<div id="repo-url">
 				<TextInput
 					id="repo-url"
-					label="Copy your repo URL below. (URL format http://<repo URL>.git)"
+					label="Copy your repo URL below."
 					valid={repoUrlValid}
 					validityMessage="Please enter a valid Repository url."
 					value={repoUrl}

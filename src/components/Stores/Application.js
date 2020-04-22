@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { runApiRequest } from '../Helpers/Const'
+import { runApiRequest } from '../../Helpers'
 import { JEXIA_CREDENTIALS } from '../../env'
 
 function createApplication() {

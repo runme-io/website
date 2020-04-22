@@ -1,7 +1,6 @@
 <script>
     import { goto } from '@sapper/app'
-    import { queryParam } from '../components/Helpers/QueryParam'
-    import { redirectWithError } from '../components/Helpers/Const'
+    import { queryParam, redirectWithError } from '../Helpers'
     import { onDestroy } from 'svelte'
     import { build } from '../components/Stores/Build'
     import { header } from '../components/Stores/Header'
