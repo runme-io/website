@@ -5,7 +5,7 @@
     import marked from 'marked'
     import { application } from '../../Stores/Application'
     import { onDestroy } from 'svelte'
-    import { setUrl } from '../../Helpers/Const'
+    import { setUrl } from '../../../Helpers'
 
     let content
     let runUrl

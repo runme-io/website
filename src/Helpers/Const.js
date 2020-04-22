@@ -1,6 +1,5 @@
 import { goto } from '@sapper/app'
-import { RUNME_API } from '../../env'
-import GitUrlParse from 'git-url-parse'
+import { RUNME_API } from '../env'
 
 export const zeroPad = (num, places) => String(num).padStart(places, '0')
 
@@ -94,13 +93,13 @@ export const runApiRequest = async (url, method = 'GET', body = null) => {
 }
 
 // parse a git url to the following format "https://<repo URL>.git"
-export const parseGitUrl = (url) => {
+export const parseGitUrl = async (url) => {
   try {
+    const { default: GitUrlParse } = await import('git-url-parse')
     const { source, owner, name } = GitUrlParse(url)
 
     if (!source || !owner || owner.match(/\//) || !name) { return '' }
 
     return `https://${source}/${owner}/${name}.git`
-
   } catch (e) { return '' }
 }

@@ -1,7 +1,7 @@
 <script>
     import moment from 'moment'
     import { header } from '../../Stores/Header'
-    import { displayTimer } from '../../Helpers/Const'
+    import { displayTimer } from '../../../Helpers'
     import { onDestroy } from 'svelte'
 
     let display = '00:00'

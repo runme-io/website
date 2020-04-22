@@ -4,8 +4,7 @@
     import { goto } from '@sapper/app'
     import { build } from '../components/Stores/Build'
     import { header } from '../components/Stores/Header'
-    import { queryParam } from '../components/Helpers/QueryParam'
-    import { isBase64 } from '../components/Helpers/Const'
+    import { queryParam, isBase64 } from '../Helpers'
     import { onDestroy } from 'svelte'
     import CliWindow from '../components/UI/Cli/CliWindow.svelte'
 

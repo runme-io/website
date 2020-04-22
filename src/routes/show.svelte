@@ -3,7 +3,7 @@
     import { application } from '../components/Stores/Application'
     import { build } from '../components/Stores/Build'
     import { header } from '../components/Stores/Header'
-    import { queryParam } from '../components/Helpers/QueryParam'
+    import { queryParam } from '../Helpers'
     import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
     import { onDestroy } from 'svelte'
     import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'

@@ -9,11 +9,9 @@
 	import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle'
 	import GenerateButton from '../components/Runme/Generator/GenerateButton.svelte'
 	import TextInput from '../components/UI/TextInput.svelte'
-	import { isDockerUrl, isEmpty, isGitUrl } from '../components/Helpers/Validation'
+	import { isDockerUrl, isEmpty, isGitUrl, queryParam, parseGitUrl, setUrl } from '../Helpers'
 	import Alert from '../components/UI/Alert.svelte'
 	import GithubReadme from '../components/UI/GitHub/GithubReadme.svelte'
-	import { queryParam } from '../components/Helpers/QueryParam'
-	import { parseGitUrl, setUrl } from '../components/Helpers/Const'
 	import { onDestroy } from 'svelte'
 
 	// form fields
@@ -46,7 +44,7 @@
 	const exclamationIcon = faExclamationCircle
 
 	// ensure correct GIT url
-	$: repoUrlParsed = parseGitUrl(repoUrl)
+	$: parseGitUrl(repoUrl).then(url => repoUrlParsed = url)
 
 	// check if the fields are valid
 	$: repoUrlValid = !isEmpty(repoUrlParsed) && isGitUrl(repoUrlParsed)
