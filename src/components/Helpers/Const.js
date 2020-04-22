@@ -98,7 +98,7 @@ export const parseGitUrl = (url) => {
   try {
     const { source, owner, name } = GitUrlParse(url)
 
-    if (!source || !owner || !name) { return '' }
+    if (!source || !owner || owner.match(/\//) || !name) { return '' }
 
     return `https://${source}/${owner}/${name}.git`
 

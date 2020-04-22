@@ -49,7 +49,7 @@
 	$: repoUrlParsed = parseGitUrl(repoUrl)
 
 	// check if the fields are valid
-	$: repoUrlValid = !isEmpty(repoUrlParsed)
+	$: repoUrlValid = !isEmpty(repoUrlParsed) && isGitUrl(repoUrlParsed)
 	$: repoBranchValid = repoBranch !== ''
 	$: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
 	$: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
