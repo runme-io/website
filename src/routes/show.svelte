@@ -8,6 +8,7 @@
     import { onDestroy } from 'svelte'
     import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
     import { DEPLOYMENT } from '../env'
+    import { DISCORD_LINK } from '../Data/menu'
 
     let src
     let iframeLoaded = false
@@ -20,6 +21,7 @@
     const intervalTimer = 5000
     const buildId = queryParam().get('build_id')
     const unsubscribe = {}
+    const discordLink = DISCORD_LINK
 
     const showError = (msg) => {
         errorMsg = msg
@@ -53,7 +55,7 @@
                 iframeLoaded = true
             } catch (e) {
                 if (pollingAttempt++ > maxPollingAttempt) {
-                    showError('Your application cannot be loaded.')
+                    showError(`The app you are trying to reach is unavailable. If you suspect it's an error, please <a target="_blank" href="${discordLink}">let us now</a>`)
                 }
             }
         }, intervalTimer)
@@ -122,7 +124,7 @@
     </ContentLayout>
 {:else if errorMsg}
     <ContentLayout>
-        <h1>Error</h1>
+        <h1>Oeps</h1>
         <p>{@html errorMsg}</p>
     </ContentLayout>
 {/if}
