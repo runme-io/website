@@ -60,14 +60,12 @@
         }
     })
 
-    unsubscribe.build = build.subscribe(({ error, ...response }) => {
+    unsubscribe.build = build.subscribe(({ error, status, deploy_log, build_log, id, app_id, created_at }) => {
         if (error) {
             header.isFailed(true)
             showBuildError(error.message)
             return;
         }
-
-        const { status, deploy_log, build_log, id, app_id } = response
 
         // fetch application info when the cliTitle has not been set with the repo info
         if (!cliTitle) {
@@ -75,7 +73,7 @@
         }
 
         // update the header values
-        header.showCountUp(response.created_at, 'Build time')
+        header.showCountUp(created_at, 'Build time')
 
         if (status === 'fail') {
             header.isFailed(true)
