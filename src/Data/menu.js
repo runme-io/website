@@ -1,3 +1,5 @@
+export const DISCORD_LINK = 'https://discordapp.com/invite/q54Q8GH'
+
 export const menuItems = [
   {
     label: 'Generate',
@@ -21,7 +23,7 @@ export const menuItems = [
   },
   {
     label: 'Discord',
-    link: 'https://discord.gg/3ZYKHu',
+    link: DISCORD_LINK,
     newWindow: true,
   },
 ]
