@@ -8,7 +8,7 @@
     export let error
     export let working = false
     export let workingOn = 'Build'
-    export let title = 'Terminal'
+    export let title
 
     let logItems = []
     let loadingPrefix = ''
@@ -16,6 +16,9 @@
     let stickyToBottom = true
     let psContainer = null
     let currentPointer = 0
+    let terminalTitle
+
+    $: terminalTitle = title ? `Terminal | ${title}` : 'Terminal'
 
     const ansi_up = new AnsiUp()
 
@@ -78,7 +81,7 @@
             <li class="orange"></li>
             <li class="green"></li>
         </ul>
-        <h2>{title}</h2>
+        <h2>{terminalTitle}</h2>
     </header>
     <div id="perfectScrollbar" class="content ps">
         <div class="log">
