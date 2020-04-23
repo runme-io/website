@@ -32,7 +32,7 @@
         if (!process.browser) { return }
 
         const response = await fetch(url, { redirect: 'manual' })
-        if (response.status > 400) {
+        if (response.status > 500) {
             throw 'Failed to fetch'
         }
     }
