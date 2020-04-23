@@ -4,8 +4,8 @@
     import { goto } from '@sapper/app'
     import { build } from '../components/Stores/Build'
     import { header } from '../components/Stores/Header'
-    import { queryParam } from '../components/Helpers/QueryParam'
-    import { isBase64 } from '../components/Helpers/Const'
+    import { application } from '../components/Stores/Application'
+    import { queryParam, isBase64 } from '../Helpers'
     import { onDestroy } from 'svelte'
     import CliWindow from '../components/UI/Cli/CliWindow.svelte'
 
@@ -16,8 +16,10 @@
     let buildErrorMsg
     let countFrom = 0
     let workingOn = 'Build'
+    let cliTitle = ''
 
     const showBuildError = (error) => {
+        header.isFailed(true)
         buildErrorMsg = error
         building = false
     }
@@ -52,11 +54,26 @@
         buildLog = log.join('\r\n')
     }
 
-    const process = (response) => {
-        const { status, deploy_log, build_log, id } = response
+    $: if (Object.keys($application).length) {
+        const { repo_branch, repo_name } = $application
+        cliTitle = `${repo_name}:${repo_branch}`
+    }
+
+    const unsubscribe = build.subscribe(({ error, status, deploy_log, build_log, id, app_id, created_at }) => {
+        if (error) {
+            showBuildError(error.message)
+            return;
+        }
+
+        // fetch application info when the cliTitle has not been set with the repo info
+        if (!cliTitle) {
+            application.get(app_id)
+        }
+
+        // update the header values
+        header.showCountUp(created_at, 'Build time')
 
         if (status === 'fail') {
-            header.isFailed(true)
             showBuildError(`Build failed`)
         }
 
@@ -66,19 +83,6 @@
 
         // collect the log and combine them
         collectLog(build_log, deploy_log)
-    }
-
-    const unsubscribe = build.subscribe(({ error, ...response }) => {
-        if (error) {
-            header.isFailed(true)
-            showBuildError(error.message)
-        } else {
-            // update the header values
-            header.showCountUp(response.created_at, 'Build time')
-
-            // fireup the process
-            process(response)
-        }
     })
 
     // no repo url? Redirect back
@@ -101,7 +105,7 @@
 
     <div class="container">
         <main>
-            <CliWindow {workingOn} working={building} error={buildErrorMsg} log={buildLog}/>
+            <CliWindow {workingOn} working={building} error={buildErrorMsg} log={buildLog} title={cliTitle}/>
         </main>
     </div>
 

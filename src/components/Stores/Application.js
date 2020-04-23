@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { runApiRequest } from '../Helpers/Const'
+import { runApiRequest } from '../../Helpers'
 import { JEXIA_CREDENTIALS } from '../../env'
 
 function createApplication() {
@@ -24,7 +24,7 @@ function createApplication() {
       }
     },
     get: async (app_id) => {
-      if (process.browser) {
+      if (process.browser && app_id) {
 
         const { jexiaClient, dataOperations } = await import('jexia-sdk-js/browser')
         const dataModule = dataOperations()

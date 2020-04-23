@@ -1,11 +1,11 @@
 <script>
     import RunmeButton from '../../Runme/RunmeButton.svelte'
-    import parseGithub from 'github-url-to-object'
+    import GitUrlParse from 'git-url-parse'
     import { fetchReadme } from '@varandas/fetch-readme'
     import marked from 'marked'
     import { application } from '../../Stores/Application'
     import { onDestroy } from 'svelte'
-    import { setUrl } from '../../Helpers/Const'
+    import { setUrl } from '../../../Helpers'
 
     let content
     let runUrl
@@ -25,18 +25,18 @@
     vel urna. Praesent placerat odio in interdum accumsan. Vivamus auctor turpis ac dui dignissim, et maximus ex consectetur.
     In vitae ornare ipsum, eu luctus turpis.</p>`
 
-    const unsubscribe = application.subscribe(({ repo_url, id, repo_name }) => {
+    const unsubscribe = application.subscribe(({ repo_url, id, repo_name, repo_branch }) => {
         if (process.browser) {
-            const github = parseGithub(repo_url)
+            const { owner, name } = GitUrlParse(repo_url)
 
             // fetch and parse the markdown
             fetchReadme({
-                username: github.user,
-                repository: github.repo,
-                branch: github.branch
+                username: owner,
+                repository: name,
+                branch: repo_branch
             })
-                    .then(response => content = marked(response))
-                    .catch(() => content = `<h1>${repo_name}</h1><p>${ipsum}</p>`)
+                .then(response => content = marked(response))
+                .catch(() => content = `<h1>${repo_name}</h1><p>${ipsum}</p>`)
 
             // set the run url to build the application
             runUrl = setUrl(`run?app_id=${id}`)
