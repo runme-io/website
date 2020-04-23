@@ -10,7 +10,6 @@
     import CliWindow from '../components/UI/Cli/CliWindow.svelte'
 
     const buildId = queryParam().get('build_id')
-    const unsubscribe = {}
 
     let building = true
     let buildLog = ''
@@ -20,6 +19,7 @@
     let cliTitle = ''
 
     const showBuildError = (error) => {
+        header.isFailed(true)
         buildErrorMsg = error
         building = false
     }
@@ -54,15 +54,13 @@
         buildLog = log.join('\r\n')
     }
 
-    unsubscribe.application = application.subscribe(({ repo_branch, repo_name }) => {
-        if (repo_name && repo_branch) {
-            cliTitle = `${repo_name}:${repo_branch}`
-        }
-    })
+    $: if (Object.keys($application).length) {
+        const { repo_branch, repo_name } = $application
+        cliTitle = `${repo_name}:${repo_branch}`
+    }
 
-    unsubscribe.build = build.subscribe(({ error, status, deploy_log, build_log, id, app_id, created_at }) => {
+    const unsubscribe = build.subscribe(({ error, status, deploy_log, build_log, id, app_id, created_at }) => {
         if (error) {
-            header.isFailed(true)
             showBuildError(error.message)
             return;
         }
@@ -76,7 +74,6 @@
         header.showCountUp(created_at, 'Build time')
 
         if (status === 'fail') {
-            header.isFailed(true)
             showBuildError(`Build failed`)
         }
 
@@ -96,10 +93,7 @@
         build.get(buildId, true)
     }
 
-    onDestroy(() => {
-        unsubscribe.build()
-        unsubscribe.application()
-    })
+    onDestroy(unsubscribe)
 </script>
 
 <svelte:head>
