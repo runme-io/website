@@ -24,12 +24,15 @@
 </script>
 
 <style lang="sass">
+    @import "../../assets/style/theme"
+    @import "../../assets/style/form"
+
     input,
     textarea
         display: block
         width: 100%
         font: inherit
-        border: 1px solid #bfbfbf
+        border: 1px solid $input-main-color
         background: white
         padding: 1rem 1.5rem
         transition: border-color .1s ease-out
@@ -39,13 +42,10 @@
             outline: none
 
         &::placeholder
-            color: #bfbfbf
+            color: $input-main-color
 
     label
-        display: block
-        margin-bottom: .5rem
-        width: 100%
-        font-size: 1.4rem
+        @include label()
 
     .form-control
         padding: .5rem 0
