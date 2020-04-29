@@ -1,5 +1,6 @@
 <script>
     export let type = 'button'
+    export let ariaLabel = null
     export let href = null
     export let target = null
     export let title = null
@@ -79,7 +80,16 @@
         <slot />
     </a>
 {:else}
-    <button class:flex class:big class="{mode}" {type} on:click {disabled} {title}>
+    <button
+        class:flex
+        class:big
+        class="{mode}"
+        aria-label={ariaLabel}
+        {type}
+        {disabled}
+        title={title || ariaLabel}
+        on:click
+    >
         <slot />
     </button>
 {/if}

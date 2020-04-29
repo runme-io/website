@@ -1,10 +1,10 @@
 <script>
+    import { createEventDispatcher } from 'svelte'
+    import Icon from 'fa-svelte'
+    import { faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
     import TextInput from '../../UI/TextInput.svelte'
     import Button from '../../UI/Button.svelte'
-    import Icon from 'fa-svelte'
-    import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
-    import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
-    import { createEventDispatcher } from 'svelte'
+    import ButtonIcon from '../../UI/ButtonIcon.svelte'
     import InputSwitch from '../../UI/InputSwitch.svelte'
 
     const dispatch = createEventDispatcher()
@@ -101,17 +101,22 @@
                     />
                 </div>
                 <div>
-                    <Button on:click={() => remove(i)} mode="default">
-                        <Icon icon={removeIcon}/>
-                    </Button>
+                    <ButtonIcon
+                        icon={removeIcon}
+                        on:click={() => remove(i)}
+                        mode="default"
+                    />
                 </div>
             </div>
         {/each}
 
         <div class="add-button">
-            <Button flex={true} on:click={add} mode="outline">
-                <span class="button-icon"><Icon icon={addIcon}/></span> Add
-            </Button>
+            <ButtonIcon
+                flex={true}
+                label="Add"
+                icon={addIcon}
+                on:click={add}
+            />
         </div>
     {/if}
 
@@ -125,10 +130,6 @@
 
     .env-vars
         margin: 1rem 0 2rem
-
-    .button-icon
-        display: inline-flex
-        padding-right: 1rem
 
     .switch
         display: flex
