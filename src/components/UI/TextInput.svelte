@@ -48,17 +48,13 @@
         @include label()
 
     .form-control
-        padding: .5rem 0
-        width: 100%
-        margin: .25rem 0
+        @include form-control()
 
     .invalid
-        border-color: red
-        background: #fde3e3
+        @include input-invalid()
 
     .error-message
-        color: red
-        margin: .25rem 0
+        @include input-validation-message()
 </style>
 
 <div class="form-control">

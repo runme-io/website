@@ -1,8 +1,23 @@
 $label-font-size: 1.4rem
 $label-margin: .5rem
 
+$invalid-color: red
+
 @mixin label()
   display: block
   margin-bottom: $label-margin
   width: 100%
   font-size: $label-font-size
+
+@mixin form-control()
+  padding: .5rem 0
+  width: 100%
+  margin: .25rem 0
+
+@mixin input-invalid()
+  border-color: $invalid-color
+  background: #fde3e3
+
+@mixin input-validation-message()
+  color: $invalid-color
+  margin: .25rem 0
