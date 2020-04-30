@@ -3,6 +3,8 @@
     import dockerImages from '../../resources/docker-images.json'
     import { DOCKER_SELECT_TYPE } from '../../Helpers'
 
+    const dispatch = createEventDispatcher()
+
     /*
      * type of the docker image source,
      * available values:
@@ -17,9 +19,6 @@
 
     let imageItem = ''
     let tag = ''
-
-    const dispatch = createEventDispatcher()
-
     let touched = false
 
     $: {
