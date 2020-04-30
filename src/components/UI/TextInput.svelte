@@ -5,7 +5,7 @@
     export let id = null
     export let label = null
     export let rows = null
-    export let value
+    export let value = ''
     export let type = 'text'
     export let valid = true
     export let validityMessage = ''

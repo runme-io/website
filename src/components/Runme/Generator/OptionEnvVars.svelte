@@ -11,11 +11,18 @@
     const removeIcon = faTrash
     const addIcon = faPlusCircle
 
+    // the env vars in object format
+    export let value
+
     let useTextarea = true
     let envVars = []
     let envVarsAsText = ''
     let envVarsAsTextValid = false
     let switchText = 'Switch to GUI'
+
+    if (value) {
+        envVarsAsText = objectToText(value)
+    }
 
     const notEmpty = (value) => value !== ''
     const validKey = (value) => value.match(/^[A-Z_a-z]+$/)
@@ -34,14 +41,13 @@
         return accumulator
     }, [])
 
-    const convertEnvVarsToText = (envVars) => {
-      return envVars.reduce((accumulator, currentValue) => [...accumulator, `${currentValue.key}=${currentValue.value}`], []).join('\n')
+    function convertEnvVarsToText (envVars) {
+        return envVars.reduce((accumulator, currentValue) => [...accumulator, `${currentValue.key}=${currentValue.value}`], []).join('\n')
     }
 
-    const prepareVars = () => envVars.reduce((accumulator, currentValue) => {
-        accumulator[currentValue['key']] = currentValue['value']
-        return accumulator
-    }, {})
+    function objectToText (envVars) {
+        return Object.entries(envVars).map(([key, value]) => `${key}=${value}`).join('\n')
+    }
 
     function add () {
         envVars = envVars.concat({ key: '', value: '' })
@@ -63,8 +69,13 @@
         }
     }
 
+    $: envVarsObject = envVars.reduce((accumulator, currentValue) => {
+        accumulator[currentValue['key']] = currentValue['value']
+        return accumulator
+    }, {})
+
     $: dispatch('valid', checkVars(envVars))
-    $: dispatch('items', prepareVars(envVars))
+    $: dispatch('items', envVarsObject)
 </script>
 
 <div class="env-vars">
@@ -115,6 +126,7 @@
                 flex={true}
                 label="Add"
                 icon={addIcon}
+                mode="outline"
                 on:click={add}
             />
         </div>
@@ -161,5 +173,5 @@
                 width: 10%
                 flex-grow: 1
                 text-align: center
-                align-self: center
+                align-items: center
 </style>

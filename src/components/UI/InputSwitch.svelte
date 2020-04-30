@@ -7,8 +7,9 @@
      * Whether to display labels "Yes" and "No" inside the switch
      */
     export let showLabels = false
+    export let value = false
 
-    let checked = false
+    let checked = value
 
     $: label = showLabels ? (checked ? 'Yes' : 'No') : ''
     $: dispatch('checked', checked)
