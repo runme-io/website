@@ -31,8 +31,8 @@ export default function createSpecGenerator () {
               return services
           })
       },
-      removeService (service) {
-          update(services => services.filter(s => s !== service))
+      removeService (serviceToBeRemoved) {
+          update(services => services.filter(service => service !== serviceToBeRemoved))
       }
     }
 }

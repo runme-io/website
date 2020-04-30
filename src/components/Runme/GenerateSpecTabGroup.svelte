@@ -30,17 +30,13 @@
     .images-list
         display: contents
 
-    .images-list :global(.svelte-tabs .svelte-tabs__tab-list)
-        position: relative
-
     .images-list :global(.svelte-tabs li.svelte-tabs__tab)
         padding: $tabPadding
 
     .tab-add-button
+        display: inline-block
         padding: $tabPadding
-        position: absolute
-        right: 0
-        top: 0
+        vertical-align: middle
 
 </style>
 
@@ -51,7 +47,7 @@
 
             {#each filteredServices as service, index}
                 <Tab>
-                    Service #{index}
+                    Service #{index + 1}
                     <ButtonIcon
                         ariaLabel="Remove Service"
                         icon={iconRemove}
