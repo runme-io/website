@@ -1,35 +1,42 @@
 <script>
     import { createEventDispatcher } from 'svelte'
     import dockerImages from '../../resources/docker-images.json'
-    import { DOCKER_SELECT_TYPE } from '../../Helpers'
 
     const dispatch = createEventDispatcher()
 
     /*
      * type of the docker image source,
      * available values:
-     * - DOCKER_SELECT_TYPE.LANGUAGE
-     * - DOCKER_SELECT_TYPE.SERVICES
+     * - DOCKER_SELECT_LANGUAGE
+     * - DOCKER_SELECT_SERVICES
      */
-    export let sourceType = DOCKER_SELECT_TYPE.LANGUAGE
-    export let label = null
+    export let sourceType
     export let value = null
-    export let valid = false
+    export let valid = true
     export let validityMessage = ''
 
-    let imageItem = ''
+    const items = dockerImages[sourceType.key]
+    const label = sourceType.label
+
+    let imageItem = null
     let tag = ''
     let touched = false
 
+    if (value) {
+        const [imageName, tagName] = value.split(':')
+        imageItem = items.find(({ image }) => image === imageName)
+        tag = tagName
+    }
+
     $: {
-        value = imageItem && tag ? `${imageItem.image}:${tag}` : ''
-        valid = Boolean(value)
+        const composedValue = imageItem && tag ? `${imageItem.image}:${tag}` : null
+        valid = Boolean(composedValue)
+        dispatch('change', composedValue)
     }
 
     $: disabled = !imageItem
     $: tags = imageItem ? imageItem.tags : []
     $: invalid = !valid && touched
-    $: items = dockerImages[sourceType]
 </script>
 
 <style lang="sass">
@@ -59,12 +66,11 @@
 </style>
 
 <div class="form-control">
-    {#if label}<label for="docker-image">{label}</label>{/if}
+    <label for="docker-image">{label}</label>
     <select
         class:invalid={invalid}
         id="docker-image"
         bind:value={imageItem}
-        on:blur={() => touched = true}
     >
         <option value="">Select a docker image</option>
         {#each items as item}
@@ -75,10 +81,11 @@
     <select
         {disabled}
         bind:value={tag}
+        on:blur={() => touched = true}
     >
         <option value="">Select a tag</option>
-        {#each tags as tag}
-            <option>{tag}</option>
+        {#each tags as tagName}
+            <option>{tagName}</option>
         {/each}
     </select>
     {#if validityMessage && invalid}
