@@ -7,8 +7,8 @@
     export let label = ''
     export let flex = false
     export let mode = 'default'
-
 </script>
+
 <style lang="sass">
    .button-icon
         display: inline-flex
