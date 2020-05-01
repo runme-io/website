@@ -17,9 +17,9 @@
     let inputList
 
     if (value) {
-        inputList = typeof value === 'string'
-            ? [createInputDescriptor(value)]
-            : value.map(_value => createInputDescriptor(_value))
+        inputList = Array.isArray(value)
+            ? value.map(_value => createInputDescriptor(_value))
+            : [createInputDescriptor(value)]
     } else {
         inputList = [createInputDescriptor()]
     }
@@ -54,10 +54,7 @@
 </script>
 
 <style lang="sass">
-    @import './assets/style/form'
-
-    .form-control
-        @include form-control()
+    @import './assets/style/theme'
 
     .input-container
         align-items: center
@@ -66,8 +63,6 @@
     .button-remove
         margin-left: $form-control-margin
 
-    label
-        @include label()
 </style>
 
 <div class="form-control">

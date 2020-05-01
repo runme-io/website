@@ -32,44 +32,12 @@
             nodeElement.focus()
         }
     }
-
 </script>
 
 <style lang="sass">
-    @import "../../assets/style/theme"
-    @import "../../assets/style/form"
-
-    input,
-    textarea
-        display: block
-        width: 100%
-        font: inherit
-        border: 1px solid $input-main-color
-        background: white
-        padding: 1rem 1.5rem
-        transition: border-color .1s ease-out
-
-        &:focus
-            border-color: #e40763
-            outline: none
-
-        &::placeholder
-            color: $input-main-color
-
-    label
-        @include label()
-
-    .form-control
-        @include form-control()
-
+    @import './assets/style/theme'
     .compact
         margin-bottom: $label-margin
-
-    .invalid
-        @include input-invalid()
-
-    .error-message
-        @include input-validation-message()
 </style>
 
 <div

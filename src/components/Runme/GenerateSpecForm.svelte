@@ -33,13 +33,13 @@
 </script>
 
 <style lang="sass">
-    @import './assets/style/form'
+    @import './assets/style/theme'
 
     .switch
-        @include form-control()
         align-items: center
         display: flex
         font-size: $label-font-size
+        margin-bottom: $form-control-margin
 
         label
             margin-right: $label-margin
