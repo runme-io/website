@@ -78,6 +78,45 @@
     $: dispatch('items', envVarsObject)
 </script>
 
+<style lang="sass">
+    @import './assets/style/form'
+    .add-button
+        margin-top: 1rem
+
+    .env-vars
+        @include form-control()
+
+    .switch
+        display: flex
+        justify-content: flex-end
+        font-size: 1.2rem
+        align-items: center
+
+    label
+        @include label()
+
+    .row
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        align-items: baseline
+
+        > div
+            width: 45%
+
+            &:first-child
+                padding-right: 1rem
+
+            &:nth-child(2)
+                padding-left: 1rem
+
+            &:last-child
+                width: 10%
+                flex-grow: 1
+                text-align: center
+                align-items: center
+</style>
+
 <div class="env-vars">
     <label>Enter your environment variables</label>
 
@@ -133,45 +172,4 @@
     {/if}
 
     <div class="switch">{switchText}&nbsp;<InputSwitch on:checked={switchUI}/></div>
-
 </div>
-
-<style lang="sass">
-    .add-button
-        margin-top: 1rem
-
-    .env-vars
-        margin: 1rem 0 2rem
-
-    .switch
-        display: flex
-        justify-content: flex-end
-        font-size: 1.2rem
-        align-items: center
-
-    label
-        display: block
-        width: 100%
-        font-size: 1.4rem
-
-    .row
-        display: flex
-        flex-direction: row
-        flex-wrap: wrap
-        align-items: baseline
-
-        > div
-            width: 45%
-
-            &:first-child
-                padding-right: 1rem
-
-            &:nth-child(2)
-                padding-left: 1rem
-
-            &:last-child
-                width: 10%
-                flex-grow: 1
-                text-align: center
-                align-items: center
-</style>

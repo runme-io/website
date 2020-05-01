@@ -35,10 +35,10 @@
     @import './assets/style/form'
 
     .switch
+        @include form-control()
         align-items: center
         display: flex
         font-size: $label-font-size
-        margin-bottom: $label-margin
 
         label
             margin-right: $label-margin
