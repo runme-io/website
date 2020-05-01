@@ -124,7 +124,7 @@
     </ContentLayout>
 {:else if errorMsg}
     <ContentLayout>
-        <h1>Oeps</h1>
+        <h1>Oops</h1>
         <p>{@html errorMsg}</p>
     </ContentLayout>
 {/if}
