@@ -5,5 +5,5 @@ export const DOCKER_SELECT_LANGUAGE = {
 
 export const DOCKER_SELECT_SERVICES = {
     key: 'additional_services',
-    label: `What is the service?`,
+    label: `Which docker image does you service need?`,
 }

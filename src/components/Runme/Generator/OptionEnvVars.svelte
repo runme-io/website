@@ -79,7 +79,7 @@
 </script>
 
 <div class="env-vars">
-    <label>Enter your environment variable</label>
+    <label>Enter your environment variables</label>
 
     {#if useTextarea}
         <TextInput

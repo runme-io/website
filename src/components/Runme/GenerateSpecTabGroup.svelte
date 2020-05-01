@@ -37,7 +37,6 @@
         display: inline-block
         padding: $tabPadding
         vertical-align: middle
-
 </style>
 
 <div class="images-list">

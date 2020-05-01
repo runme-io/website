@@ -6,6 +6,7 @@
     export let label = null
     export let rows = null
     export let value = ''
+    export let min
     export let type = 'text'
     export let valid = true
     export let validityMessage = ''
@@ -62,7 +63,17 @@
     {#if controlType === "textarea"}
         <textarea class:invalid="{!valid && touched}" {rows} {placeholder} {id} bind:value on:blur={() => touched = true} />
     {:else}
-        <input class:invalid="{!valid && touched}" {type} {placeholder} {id} {value} on:input on:keydown={handleEnter} on:blur={() => touched = true} />
+        <input
+            class:invalid="{!valid && touched}"
+            {type}
+            {placeholder}
+            {id}
+            {value}
+            {min}
+            on:input
+            on:keydown={handleEnter}
+            on:blur={() => touched = true}
+        >
     {/if}
     {#if validityMessage && !valid && touched}
         <p class="error-message">{validityMessage}</p>
