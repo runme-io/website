@@ -1,5 +1,6 @@
 $label-font-size: 1.4rem
 $label-margin: .5rem
+$form-control-margin: 1.5rem
 
 $invalid-color: red
 
@@ -11,7 +12,7 @@ $invalid-color: red
 
 @mixin form-control()
   width: 100%
-  margin-bottom: 1.5rem
+  margin-bottom: $form-control-margin
 
 @mixin input-invalid()
   border-color: $invalid-color

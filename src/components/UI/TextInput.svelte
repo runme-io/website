@@ -6,11 +6,15 @@
     export let label = null
     export let rows = null
     export let value = ''
-    export let min
+    export let min = null
     export let type = 'text'
     export let valid = true
     export let validityMessage = ''
     export let placeholder = ''
+    // whether this form control has compact style: less margin
+    export let compact = false
+    // whether this element should be focused when rendered
+    export let focus = false
 
     const dispatch = createEventDispatcher()
 
@@ -22,6 +26,13 @@
           dispatch('enter')
       }
     }
+
+    function init(nodeElement) {
+        if (focus) {
+            nodeElement.focus()
+        }
+    }
+
 </script>
 
 <style lang="sass">
@@ -51,6 +62,9 @@
     .form-control
         @include form-control()
 
+    .compact
+        margin-bottom: $label-margin
+
     .invalid
         @include input-invalid()
 
@@ -58,7 +72,10 @@
         @include input-validation-message()
 </style>
 
-<div class="form-control">
+<div
+    class="form-control"
+    class:compact={compact}
+>
     {#if label}<label for={id}>{label}</label>{/if}
     {#if controlType === "textarea"}
         <textarea class:invalid="{!valid && touched}" {rows} {placeholder} {id} bind:value on:blur={() => touched = true} />
@@ -70,6 +87,7 @@
             {id}
             {value}
             {min}
+            use:init
             on:input
             on:keydown={handleEnter}
             on:blur={() => touched = true}

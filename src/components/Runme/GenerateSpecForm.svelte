@@ -2,6 +2,7 @@
     import { createEventDispatcher } from 'svelte'
     import OptionEnvVars from './Generator/OptionEnvVars.svelte'
     import TextInput from '../UI/TextInput.svelte'
+    import MultipleTextInput from '../UI/MultipleTextInput.svelte'
     import InputSwitch from '../UI/InputSwitch.svelte'
     import DockerImageSelect from '../UI/DockerImageSelect.svelte'
     import { isDockerUrl, DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES } from '../../Helpers'
@@ -89,13 +90,14 @@
         on:input={({ target }) => value.port = target.value}
     />
 
-    <TextInput
-        id="command"
+    <MultipleTextInput
+        id="commands"
+        addLabel="Add more commands"
         label={`Which commands should we use to run your ${sourceTypeLabel}?`}
         valid={true}
         placeholder="npm run start"
         value={value.command}
-        on:input={({ target }) => value.command = target.value}
+        on:change={({ detail }) => value.command = detail}
     />
 
     <OptionEnvVars
