@@ -1,13 +1,10 @@
 <script>
-    import { createEventDispatcher } from 'svelte'
     import OptionEnvVars from './Generator/OptionEnvVars.svelte'
     import TextInput from '../UI/TextInput.svelte'
     import MultipleTextInput from '../UI/MultipleTextInput.svelte'
     import InputSwitch from '../UI/InputSwitch.svelte'
     import DockerImageSelect from '../UI/DockerImageSelect.svelte'
     import { isDockerUrl, DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES } from '../../Helpers'
-
-    const dispatch = createEventDispatcher()
 
     export let value = {}
     // The source type of the docker image select
@@ -26,10 +23,6 @@
         }
     }
     $: sourceTypeLabel = isApp ? 'app' : 'service'
-
-    function onSubmit () {
-        dispatch('submit')
-    }
 </script>
 
 <style lang="sass">
