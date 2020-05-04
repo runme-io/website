@@ -3,9 +3,10 @@
     import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs'
     import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
     import GenerateSpecForm from './GenerateSpecForm.svelte'
+    import Button from '../UI/Button.svelte'
     import ButtonIcon from '../UI/ButtonIcon.svelte'
     import specGenerator from '../Stores/SpecGenerator'
-    import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES } from '../../Helpers'
+    import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, generateYaml, generateDockerfile } from '../../Helpers'
 
     // add app tab
     const services = specGenerator()
@@ -18,9 +19,15 @@
 
     $: filteredServices = $services.slice(1)
 
-    $: {
-        const isValid = $services.every(({ valid }) => valid)
-        dispatch('validate', isValid)
+    let spec
+    let dockerFile
+
+    async function generateSpec () {
+        spec = await generateYaml($services)
+
+        const appValue = $services[0].value
+
+        dockerFile = !appValue.hasDockerImage ? generateDockerfile(appValue) : ''
     }
 </script>
 
@@ -73,4 +80,14 @@
             </TabPanel>
         {/each}
     </Tabs>
+
+    <Button on:click={generateSpec}>Generate spec</Button>
+
+    {#if spec}
+        <pre>{spec}</pre>
+    {/if}
+
+    {#if dockerFile}
+        <pre>{dockerFile}</pre>
+    {/if}
 </div>
