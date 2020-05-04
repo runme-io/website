@@ -1,21 +1,28 @@
 <script>
+    import { createEventDispatcher } from 'svelte'
+    import Icon from 'fa-svelte'
+    import { faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
     import TextInput from '../../UI/TextInput.svelte'
     import Button from '../../UI/Button.svelte'
-    import Icon from 'fa-svelte'
-    import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
-    import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
-    import { createEventDispatcher } from 'svelte'
+    import ButtonIcon from '../../UI/ButtonIcon.svelte'
     import InputSwitch from '../../UI/InputSwitch.svelte'
 
     const dispatch = createEventDispatcher()
     const removeIcon = faTrash
     const addIcon = faPlusCircle
 
+    // the env vars in object format
+    export let value
+
     let useTextarea = true
     let envVars = []
     let envVarsAsText = ''
     let envVarsAsTextValid = false
     let switchText = 'Switch to GUI'
+
+    if (value) {
+        envVarsAsText = objectToText(value)
+    }
 
     const notEmpty = (value) => value !== ''
     const validKey = (value) => value.match(/^[A-Z_a-z]+$/)
@@ -34,14 +41,13 @@
         return accumulator
     }, [])
 
-    const convertEnvVarsToText = (envVars) => {
-      return envVars.reduce((accumulator, currentValue) => [...accumulator, `${currentValue.key}=${currentValue.value}`], []).join('\n')
+    function convertEnvVarsToText (envVars) {
+        return envVars.reduce((accumulator, currentValue) => [...accumulator, `${currentValue.key}=${currentValue.value}`], []).join('\n')
     }
 
-    const prepareVars = () => envVars.reduce((accumulator, currentValue) => {
-        accumulator[currentValue['key']] = currentValue['value']
-        return accumulator
-    }, {})
+    function objectToText (envVars) {
+        return Object.entries(envVars).map(([key, value]) => `${key}=${value}`).join('\n')
+    }
 
     function add () {
         envVars = envVars.concat({ key: '', value: '' })
@@ -63,12 +69,49 @@
         }
     }
 
+    $: envVarsObject = envVars.reduce((accumulator, currentValue) => {
+        accumulator[currentValue['key']] = currentValue['value']
+        return accumulator
+    }, {})
+
     $: dispatch('valid', checkVars(envVars))
-    $: dispatch('items', prepareVars(envVars))
+    $: dispatch('items', envVarsObject)
 </script>
 
-<div class="env-vars">
-    <label>Enter your environment variable</label>
+<style lang="sass">
+    .add-button
+        margin-top: 1rem
+
+    .switch
+        display: flex
+        justify-content: flex-end
+        font-size: 1.2rem
+        align-items: center
+
+    .row
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        align-items: baseline
+
+        > div
+            width: 45%
+
+            &:first-child
+                padding-right: 1rem
+
+            &:nth-child(2)
+                padding-left: 1rem
+
+            &:last-child
+                width: 10%
+                flex-grow: 1
+                text-align: center
+                align-items: center
+</style>
+
+<div class="form-control">
+    <label>Enter your environment variables</label>
 
     {#if useTextarea}
         <TextInput
@@ -101,64 +144,25 @@
                     />
                 </div>
                 <div>
-                    <Button on:click={() => remove(i)} mode="default">
-                        <Icon icon={removeIcon}/>
-                    </Button>
+                    <ButtonIcon
+                        icon={removeIcon}
+                        on:click={() => remove(i)}
+                        mode="default"
+                    />
                 </div>
             </div>
         {/each}
 
         <div class="add-button">
-            <Button flex={true} on:click={add} mode="outline">
-                <span class="button-icon"><Icon icon={addIcon}/></span> Add
-            </Button>
+            <ButtonIcon
+                flex={true}
+                label="Add"
+                icon={addIcon}
+                mode="outline"
+                on:click={add}
+            />
         </div>
     {/if}
 
     <div class="switch">{switchText}&nbsp;<InputSwitch on:checked={switchUI}/></div>
-
 </div>
-
-<style lang="sass">
-    .add-button
-        margin-top: 1rem
-
-    .env-vars
-        margin: 1rem 0 2rem
-
-    .button-icon
-        display: inline-flex
-        padding-right: 1rem
-
-    .switch
-        display: flex
-        justify-content: flex-end
-        font-size: 1.2rem
-        align-items: center
-
-    label
-        display: block
-        width: 100%
-        font-size: 1.4rem
-
-    .row
-        display: flex
-        flex-direction: row
-        flex-wrap: wrap
-        align-items: baseline
-
-        > div
-            width: 45%
-
-            &:first-child
-                padding-right: 1rem
-
-            &:nth-child(2)
-                padding-left: 1rem
-
-            &:last-child
-                width: 10%
-                flex-grow: 1
-                text-align: center
-                align-self: center
-</style>

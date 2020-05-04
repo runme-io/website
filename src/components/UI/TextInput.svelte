@@ -5,11 +5,16 @@
     export let id = null
     export let label = null
     export let rows = null
-    export let value
+    export let value = ''
+    export let min = null
     export let type = 'text'
     export let valid = true
     export let validityMessage = ''
     export let placeholder = ''
+    // whether this form control has compact style: less margin
+    export let compact = false
+    // whether this element should be focused when rendered
+    export let focus = false
 
     const dispatch = createEventDispatcher()
 
@@ -21,52 +26,40 @@
           dispatch('enter')
       }
     }
+
+    function init(nodeElement) {
+        if (focus) {
+            nodeElement.focus()
+        }
+    }
 </script>
 
 <style lang="sass">
-    @import "../../assets/style/theme"
-    @import "../../assets/style/form"
-
-    input,
-    textarea
-        display: block
-        width: 100%
-        font: inherit
-        border: 1px solid $input-main-color
-        background: white
-        padding: 1rem 1.5rem
-        transition: border-color .1s ease-out
-
-        &:focus
-            border-color: #e40763
-            outline: none
-
-        &::placeholder
-            color: $input-main-color
-
-    label
-        @include label()
-
-    .form-control
-        padding: .5rem 0
-        width: 100%
-        margin: .25rem 0
-
-    .invalid
-        border-color: red
-        background: #fde3e3
-
-    .error-message
-        color: red
-        margin: .25rem 0
+    @import './assets/style/theme'
+    .compact
+        margin-bottom: $label-margin
 </style>
 
-<div class="form-control">
+<div
+    class="form-control"
+    class:compact={compact}
+>
     {#if label}<label for={id}>{label}</label>{/if}
     {#if controlType === "textarea"}
         <textarea class:invalid="{!valid && touched}" {rows} {placeholder} {id} bind:value on:blur={() => touched = true} />
     {:else}
-        <input class:invalid="{!valid && touched}" {type} {placeholder} {id} {value} on:input on:keydown={handleEnter} on:blur={() => touched = true} />
+        <input
+            class:invalid="{!valid && touched}"
+            {type}
+            {placeholder}
+            {id}
+            {value}
+            {min}
+            use:init
+            on:input
+            on:keydown={handleEnter}
+            on:blur={() => touched = true}
+        >
     {/if}
     {#if validityMessage && !valid && touched}
         <p class="error-message">{validityMessage}</p>

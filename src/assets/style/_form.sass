@@ -1,0 +1,47 @@
+@import "theme"
+
+@mixin focused()
+  &:focus
+    border-color: $focused-border-color
+    outline: none
+
+.form-control
+  width: 100%
+  margin-bottom: $form-control-margin
+
+  > label
+    display: block
+    margin-bottom: $label-margin
+    width: 100%
+    font-size: $label-font-size
+
+  input,
+  textarea
+    @include focused()
+    display: block
+    width: 100%
+    font: inherit
+    border: .1rem solid $input-main-color
+    background: white
+    padding: 1rem 1.5rem
+    transition: border-color .1s ease-out
+
+    &::placeholder
+      color: $input-main-color
+
+  select
+    @include focused()
+    border: .1rem solid $input-main-color
+    background: white
+    transition: border-color .1s ease-out
+
+  input,
+  textarea,
+  select
+    &.invalid
+      border-color: $invalid-color
+      background: #fde3e3
+
+  .error-message
+    color: $invalid-color
+    margin: .25rem 0
