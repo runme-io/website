@@ -79,21 +79,14 @@
 </script>
 
 <style lang="sass">
-    @import './assets/style/form'
     .add-button
         margin-top: 1rem
-
-    .env-vars
-        @include form-control()
 
     .switch
         display: flex
         justify-content: flex-end
         font-size: 1.2rem
         align-items: center
-
-    label
-        @include label()
 
     .row
         display: flex
@@ -117,7 +110,7 @@
                 align-items: center
 </style>
 
-<div class="env-vars">
+<div class="form-control">
     <label>Enter your environment variables</label>
 
     {#if useTextarea}

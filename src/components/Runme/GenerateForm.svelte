@@ -6,11 +6,9 @@
     import OptionEnvVars from './Generator/OptionEnvVars.svelte'
     import GenerateButton from './Generator/GenerateButton.svelte'
     import { application } from '../Stores/Application'
-    import MainLayout from '../UI/Layout/MainLayout.svelte'
     import TextInput from '../UI/TextInput.svelte'
     import Alert from '../UI/Alert.svelte'
-    import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
-    import { isDockerUrl, isEmpty, isGitUrl, queryParam, parseGitUrl, setUrl } from '../../Helpers'
+    import { isEmpty, isGitUrl, queryParam, parseGitUrl, setUrl } from '../../Helpers'
 
     const dispatch = createEventDispatcher()
 
@@ -29,8 +27,6 @@
 
     // others
     let showAdvancedOptions = false
-    let embedCode = ''
-    let canShowEmbed = false
     let loading = false
     let buttonText = 'Generate'
     let errorMsg = ''
@@ -133,7 +129,7 @@
                 <div class="spacing-top">
                     <TextInput
                         id="repo-branch"
-                        label="What branch should we use?"
+                        label="Which branch should we use?"
                         valid={repoBranchValid}
                         validityMessage="Please enter a valid branch."
                         value={repoBranch}
@@ -150,7 +146,10 @@
                         on:enter={createApp}
                         on:input={event => (dockerImage = event.target.value)}
                     />
-                    <OptionEnvVars on:items={event => envVars = event.detail} on:valid={event => envVarsValid = event.detail} />
+                    <OptionEnvVars
+                        on:items={event => envVars = event.detail}
+                        on:valid={event => envVarsValid = event.detail}
+                    />
                 </div>
             {/if}
         </div>
@@ -176,5 +175,4 @@
 
     .generate-button
         text-align: center
-
 </style>

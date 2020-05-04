@@ -39,32 +39,6 @@
     $: invalid = !valid && touched
 </script>
 
-<style lang="sass">
-    @import "../../assets/style/theme"
-    @import "../../assets/style/form"
-
-    select
-        border: .1rem solid $input-main-color
-        background: white
-        transition: border-color .1s ease-out
-
-        &:focus
-            border-color: #e40763
-            outline: none
-
-    label
-        @include label()
-
-    .form-control
-        @include form-control()
-
-    .invalid
-        @include input-invalid()
-
-    .error-message
-        @include input-validation-message()
-</style>
-
 <div class="form-control">
     <label for="docker-image">{label}</label>
     <select
