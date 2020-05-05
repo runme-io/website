@@ -7,12 +7,11 @@
     const dispatch = createEventDispatcher()
     const createInputDescriptor = (value = '', focus = false) => ({ value, focus })
 
-    // it should accept all InputText props
-    const { label, id, value, ...inputProps } = $$props
-    delete inputProps.addLabel
-
     // the label to be shown in the "Add" link
     export let addLabel
+    export let label
+    export let id
+    export let value
 
     let inputList
 
@@ -37,6 +36,7 @@
 
     function onInput (input, value) {
         input.value = value
+        inputList = [...inputList]
         dispatchChange()
     }
 
@@ -75,7 +75,7 @@
                 compact={true}
                 focus={input.focus}
                 value={input.value}
-                {...inputProps}
+                {...$$restProps}
                 on:input={({ target }) => onInput(input, target.value)}
             />
             {#if index}
