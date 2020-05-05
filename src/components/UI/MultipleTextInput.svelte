@@ -36,7 +36,6 @@
 
     function onInput (input, value) {
         input.value = value
-        inputList = [...inputList]
         dispatchChange()
     }
 

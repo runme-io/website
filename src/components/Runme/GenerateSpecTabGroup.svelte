@@ -1,5 +1,4 @@
 <script>
-    import { createEventDispatcher } from 'svelte'
     import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs'
     import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
     import GenerateSpecForm from './GenerateSpecForm.svelte'
@@ -9,26 +8,26 @@
     import { generateYaml, generateDockerfile } from '../../Helpers'
     import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 
-    // add app tab
     const services = specGenerator()
 
+    // add app tab
     services.addService()
 
-    const dispatch = createEventDispatcher()
     const iconRemove = faTimes
     const iconAdd = faPlusCircle
-
-    $: filteredServices = $services.slice(1)
+    const serviceValidity = {}
 
     let spec
     let dockerFile
 
+    $: filteredServices = $services.slice(1)
+    $: isAddDisabled = $services.length >= ADDITIONAL_SERVICES_LIMIT
+    $: isValid = $services.every((_, index) => serviceValidity[index])
+    $: isGenerateDisabled = !isValid
+
     async function generateSpec () {
         spec = await generateYaml($services)
-
-        const appValue = $services[0].value
-
-        dockerFile = !appValue.hasDockerImage ? generateDockerfile(appValue) : ''
+        dockerFile = generateDockerfile($services)
     }
 </script>
 
@@ -43,8 +42,11 @@
 
     .tab-add-button
         display: inline-block
-        padding: $tabPadding
         vertical-align: middle
+
+        > :global(button)
+            display: flex // TODO: improve css of ButtonIcon
+            padding: $tabPadding !important
 </style>
 
 <div class="images-list">
@@ -62,12 +64,13 @@
                     />
                 </Tab>
             {/each}
-
             <div class="tab-add-button">
                 <ButtonIcon
                     ariaLabel="Add Service"
                     icon={iconAdd}
-                    on:click={services.addService} />
+                    disabled={isAddDisabled}
+                    on:click={services.addService}
+                />
             </div>
         </TabList>
 
@@ -75,14 +78,17 @@
             <TabPanel>
                 <GenerateSpecForm
                     sourceType={index === 0 ? DOCKER_SELECT_LANGUAGE : DOCKER_SELECT_SERVICES }
-                    value={service.value}
-                    on:submit
+                    value={service}
+                    on:validate={({ detail }) => serviceValidity[index] = detail}
                 />
             </TabPanel>
         {/each}
     </Tabs>
 
-    <Button on:click={generateSpec}>Generate spec</Button>
+    <Button
+        disabled={isGenerateDisabled}
+        on:click={generateSpec}
+    >Generate spec</Button>
 
     {#if spec}
         <pre>{spec}</pre>

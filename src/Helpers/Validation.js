@@ -4,12 +4,12 @@ export function isGitUrl(str) {
 }
 
 export function isDockerUrl(str) {
-  const regex = /(\w+):(\w+)/gim
+  const regex = /(\w+):(\w+)/i
   return regex.test(str)
 }
 
 export function isEmpty (val) {
-  return val.trim().length === 0
+  return [null, undefined].includes(val) || val.trim().length === 0
 }
 
 export function isValidEmail (val) {
