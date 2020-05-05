@@ -6,7 +6,8 @@
     import Button from '../UI/Button.svelte'
     import ButtonIcon from '../UI/ButtonIcon.svelte'
     import specGenerator from '../Stores/SpecGenerator'
-    import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, generateYaml, generateDockerfile } from '../../Helpers'
+    import { generateYaml, generateDockerfile } from '../../Helpers'
+    import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 
     // add app tab
     const services = specGenerator()

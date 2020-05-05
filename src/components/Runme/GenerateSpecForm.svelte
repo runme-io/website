@@ -4,7 +4,8 @@
     import MultipleTextInput from '../UI/MultipleTextInput.svelte'
     import InputSwitch from '../UI/InputSwitch.svelte'
     import DockerImageSelect from '../UI/DockerImageSelect.svelte'
-    import { isDockerUrl, DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES } from '../../Helpers'
+    import { isDockerUrl, isEmpty } from '../../Helpers'
+    import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES } from '../../Consts'
 
     export let value = {}
     // The source type of the docker image select
