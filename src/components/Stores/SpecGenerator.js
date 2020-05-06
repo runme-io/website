@@ -1,17 +1,15 @@
 import { writable } from 'svelte/store'
 
 const createService = () => ({
-    value: {
-        /*
-        * Whether the user select to provide a image or select one from a list
-        */
-        hasDockerImage: false,
-        dockerImage: '',
-        envVars: {},
-        port: null,
-        command: ''
-    },
-    valid: true,
+    /*
+    * Whether the user select to provide a image or select one from a list
+    */
+    hasDockerImage: false,
+    dockerImage: '',
+    envVars: {},
+    port: null,
+    build_command: '',
+    command: ''
 })
 
 export default function createSpecGenerator () {
@@ -24,12 +22,6 @@ export default function createSpecGenerator () {
               ...services,
               createService(),
           ])
-      },
-      setValid (index, valid) {
-          update(services => {
-              services[index].valid = valid
-              return services
-          })
       },
       removeService (serviceToBeRemoved) {
           update(services => services.filter(service => service !== serviceToBeRemoved))

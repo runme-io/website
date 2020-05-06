@@ -2,10 +2,8 @@
     import Icon from 'fa-svelte'
     import Button from './Button.svelte'
 
-    export let ariaLabel = null
     export let icon = null
     export let label = ''
-    export let flex = false
     export let mode = 'default'
 </script>
 
@@ -16,8 +14,7 @@
 </style>
 
 <Button
-    {ariaLabel}
-    {flex}
+    {...$$restProps}
     {mode}
     on:click
 >

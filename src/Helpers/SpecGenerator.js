@@ -1,13 +1,27 @@
-function parseSpecService (service) {
+function parseSpecService (service, isMain = false) {
     let parsedService = {
-        image: service.dockerImage,
         command: service.command,
     }
 
-    if (service.envVars) {
+    if (Object.values(service.envVars || {}).length) {
         parsedService = {
             ...parsedService,
             environment: service.envVars,
+        }
+    }
+
+    if (isMain && !service.hasDockerImage) {
+        parsedService = {
+            ...parsedService,
+            build: {
+                type: 'dockerfile',
+                config: './.runme/Dockerfile'
+            },
+        }
+    } else {
+        parsedService = {
+            ...parsedService,
+            image: service.dockerImage,
         }
     }
 
@@ -30,29 +44,34 @@ export async function generateYaml (serviceList) {
     const { default: YAML } = await import('yaml')
 
     const services = serviceList.slice(1)
-        .map(({ value }) => parseSpecService(value))
+        .map(parseSpecService)
         .reduce(
             (accumulator, service, index) => {
                 accumulator[`service_${index + 1}`] = service
                 return accumulator
             },
             {
-                app: parseSpecService(serviceList[0].value),
+                app: parseSpecService(serviceList[0], true),
             },
         )
 
-    return YAML.stringify({
-        version: '1.0',
+    return 'version: 1.0\n' + YAML.stringify({
         publish: 'app',
         services,
     })
 }
 
-export function generateDockerfile ({ dockerImage, command }) {
+export function generateDockerfile (serviceList) {
+    const appValue = serviceList[0] || {}
+
+    if (appValue.hasDockerImage) {
+        return ''
+    }
+
     return `
-FROM ${dockerImage}
+FROM ${appValue.dockerImage}
 WORKDIR /app
 COPY . .
-RUN ${command}
+RUN ${appValue.build_command}
     `
 }

@@ -1,10 +1,14 @@
 <script>
+    import { createEventDispatcher } from 'svelte'
     import OptionEnvVars from './Generator/OptionEnvVars.svelte'
     import TextInput from '../UI/TextInput.svelte'
     import MultipleTextInput from '../UI/MultipleTextInput.svelte'
     import InputSwitch from '../UI/InputSwitch.svelte'
     import DockerImageSelect from '../UI/DockerImageSelect.svelte'
-    import { isDockerUrl, DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES } from '../../Helpers'
+    import { isDockerUrl, isEmpty } from '../../Helpers'
+    import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES } from '../../Consts'
+
+    const dispatch = createEventDispatcher()
 
     export let value = {}
     // The source type of the docker image select
@@ -14,7 +18,20 @@
 
     // form states
     let envVarsValid = true // true by default as this is optional
-    $: dockerImageValid = value.dockerImage === '' || isDockerUrl(value.dockerImage)
+    $: isDockerImageValid = isDockerUrl(value.dockerImage)
+    $: isPortValid = !isApp || !isEmpty(value.port)
+    $: isBuildCommandValid = !isApp || (!value.hasDockerImage && !isEmpty(value.build_command))
+    $: isCommandValid = Array.isArray(value.command)
+        ? value.command.length && !value.command.find(isEmpty)
+        : !isEmpty(value.command)
+
+    $: dispatch('validate',
+        envVarsValid
+        && isBuildCommandValid
+        && isDockerImageValid
+        && isPortValid
+        && isCommandValid
+    )
 
     $: {
         isApp = sourceType === DOCKER_SELECT_LANGUAGE
@@ -22,7 +39,7 @@
             value.hasDockerImage = false
         }
     }
-    $: sourceTypeLabel = isApp ? 'app' : 'service'
+    $: sourceTypeLabel = isApp ? 'application' : 'service'
 </script>
 
 <style lang="sass">
@@ -53,7 +70,7 @@
             <TextInput
                 id="docker-image"
                 label="Copy your docker image in format <image>:<tag> (optional)"
-                valid={dockerImageValid}
+                valid={isDockerImageValid}
                 validityMessage="Please enter a valid Docker image url."
                 value={value.dockerImage}
                 placeholder="<image>:<tag>"
@@ -61,33 +78,49 @@
             />
         {/if}
     {/if}
+
     {#if !value.hasDockerImage}
         <DockerImageSelect
-            valid={dockerImageValid}
+            valid={isDockerImageValid}
             validityMessage="A valid docker image is required"
             value={value.dockerImage}
             {sourceType}
             on:change={({ detail }) => value.dockerImage = detail}
         />
+
+        {#if isApp}
+            <TextInput
+                id="build_command"
+                label={`Which command should we use to build your ${sourceTypeLabel}?`}
+                valid={isBuildCommandValid}
+                validityMessage="Build command is required"
+                placeholder="npm run build"
+                value={value.build_command}
+                on:input={({ target }) => value.build_command = target.value}
+            />
+        {/if}
     {/if}
 
-    <!-- TODO: add min/max params OR create a HOC for this TextInput? -->
-    <TextInput
-        id="port"
-        label={`Which port does your ${sourceTypeLabel} listens to?`}
-        valid={true}
-        placeholder="8080"
-        type="number"
-        min="0"
-        value={value.port}
-        on:input={({ target }) => value.port = target.value}
-    />
+    {#if isApp}
+        <TextInput
+            id="port"
+            label={`Which port does your ${sourceTypeLabel} expose?`}
+            valid={isPortValid}
+            validityMessage="Port is required"
+            placeholder="8080"
+            type="number"
+            min="0"
+            value={value.port}
+            on:input={({ target }) => value.port = target.value}
+        />
+    {/if}
 
     <MultipleTextInput
         id="commands"
         addLabel="Add more commands"
         label={`Which commands should we use to run your ${sourceTypeLabel}?`}
-        valid={true}
+        valid={isCommandValid}
+        validityMessage="Commands are required"
         placeholder="npm run start"
         value={value.command}
         on:change={({ detail }) => value.command = detail}
