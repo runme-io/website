@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte'
+    import DockerImages from '../Stores/DockerImages'
 
     const dispatch = createEventDispatcher()
 
@@ -11,7 +12,6 @@
      */
     export let sourceType
     // the object preloaded of docker images
-    export let dockerImages
     export let value = null
     export let valid = true
     export let validityMessage = ''
@@ -25,7 +25,7 @@
         imageItem = items.find(({ image }) => image === imageName)
         tag = tagName
     }
-    $: items = dockerImages[sourceType.key]
+    $: items = $DockerImages[sourceType.key] || []
 
     $: {
         const composedValue = imageItem && tag ? `${imageItem.image}:${tag}` : null

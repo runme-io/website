@@ -13,7 +13,6 @@
     export let value = {}
     // The source type of the docker image select
     export let sourceType
-    export let dockerImages
 
     let isApp
 
@@ -85,7 +84,6 @@
             valid={isDockerImageValid}
             validityMessage="A valid docker image is required"
             value={value.dockerImage}
-            {dockerImages}
             {sourceType}
             on:change={({ detail }) => value.dockerImage = detail}
         />

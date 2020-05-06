@@ -13,8 +13,6 @@
     // add app tab
     services.addService()
 
-    export let dockerImages
-
     const iconRemove = faTimes
     const iconAdd = faPlusCircle
     const serviceValidity = {}
@@ -80,7 +78,6 @@
             <TabPanel>
                 <GenerateSpecForm
                     sourceType={index === 0 ? DOCKER_SELECT_LANGUAGE : DOCKER_SELECT_SERVICES }
-                    {dockerImages}
                     value={service}
                     on:validate={({ detail }) => serviceValidity[index] = detail}
                 />
