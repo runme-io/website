@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte'
-    import dockerImages from '../../resources/docker-images.json'
+    import DockerImages from '../Stores/DockerImages'
 
     const dispatch = createEventDispatcher()
 
@@ -11,12 +11,10 @@
      * - DOCKER_SELECT_SERVICES
      */
     export let sourceType
+    // the object preloaded of docker images
     export let value = null
     export let valid = true
     export let validityMessage = ''
-
-    const items = dockerImages[sourceType.key]
-    const label = sourceType.label
 
     let imageItem = null
     let tag = ''
@@ -27,6 +25,7 @@
         imageItem = items.find(({ image }) => image === imageName)
         tag = tagName
     }
+    $: items = $DockerImages[sourceType.key] || []
 
     $: {
         const composedValue = imageItem && tag ? `${imageItem.image}:${tag}` : null
@@ -40,7 +39,7 @@
 </script>
 
 <div class="form-control">
-    <label for="docker-image">{label}</label>
+    <label for="docker-image">{sourceType.label}</label>
     <select
         class:invalid={invalid}
         id="docker-image"
