@@ -34,6 +34,12 @@
     )
 
     $: {
+        if (value.hasDockerImage) {
+            value.build_command = '' // clear command when user has docker image
+        }
+    }
+
+    $: {
         isApp = sourceType === DOCKER_SELECT_LANGUAGE
         if (!isApp) {
             value.hasDockerImage = false
