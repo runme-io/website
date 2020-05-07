@@ -20,7 +20,7 @@
     let envVarsValid = true // true by default as this is optional
     $: isDockerImageValid = isDockerUrl(value.dockerImage)
     $: isPortValid = !isApp || !isEmpty(value.port)
-    $: isBuildCommandValid = !isApp || (!value.hasDockerImage && !isEmpty(value.build_command))
+    $: isBuildCommandValid = !isApp || value.hasDockerImage || !isEmpty(value.build_command)
     $: isCommandValid = Array.isArray(value.command)
         ? value.command.length && !value.command.find(isEmpty)
         : !isEmpty(value.command)
