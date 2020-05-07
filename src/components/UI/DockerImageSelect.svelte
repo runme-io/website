@@ -1,5 +1,5 @@
 <script>
-    import { createEventDispatcher } from 'svelte'
+    import { createEventDispatcher, onMount } from 'svelte'
     import DockerImages from '../Stores/DockerImages'
 
     const dispatch = createEventDispatcher()
@@ -20,15 +20,12 @@
     let tag = ''
     let touched = false
 
-    if (value) {
-        const [imageName, tagName] = value.split(':')
-        imageItem = items.find(({ image }) => image === imageName)
-        tag = tagName
-    }
     $: items = $DockerImages[sourceType.key] || []
+    $: hasValidSelection = imageItem && tag
 
     $: {
-        const composedValue = imageItem && tag ? `${imageItem.image}:${tag}` : null
+        const composedValue = hasValidSelection ? getValue() : null
+
         valid = Boolean(composedValue)
         dispatch('change', composedValue)
     }
@@ -36,6 +33,22 @@
     $: disabled = !imageItem
     $: tags = imageItem ? imageItem.tags : []
     $: invalid = !valid && touched
+
+    function getValue () {
+        const { image, container_port: port } = imageItem
+
+        return {
+            image,
+            tag,
+            port,
+        }
+    }
+
+    onMount(() => {
+        const [imageName, tagName] = (value || '').split(':')
+        imageItem = items.find(({ image }) => image === imageName)
+        tag = tagName
+    })
 </script>
 
 <div class="form-control">

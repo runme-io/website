@@ -40,6 +40,21 @@
         }
     }
     $: sourceTypeLabel = isApp ? 'application' : 'service'
+
+    function setDockerImageValue (dockerImageValue) {
+        if (!dockerImageValue) {
+            value.dockerImage = ''
+            return
+        }
+
+        const { image, tag, port } = dockerImageValue
+
+        if (port) {
+            value.port = port
+        }
+
+        value.dockerImage = `${image}:${tag}`
+    }
 </script>
 
 <style lang="sass">
@@ -74,7 +89,7 @@
                 validityMessage="Please enter a valid Docker image url."
                 value={value.dockerImage}
                 placeholder="<image>:<tag>"
-                on:input={({ target }) => value.dockerImage = target.value}
+                on:input={({ target }) => setDockerImageValue(target.value)}
             />
         {/if}
     {/if}
@@ -85,7 +100,7 @@
             validityMessage="A valid docker image is required"
             value={value.dockerImage}
             {sourceType}
-            on:change={({ detail }) => value.dockerImage = detail}
+            on:change={({ detail }) => setDockerImageValue(detail)}
         />
 
         {#if isApp}
