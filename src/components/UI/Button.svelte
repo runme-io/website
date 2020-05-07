@@ -84,7 +84,7 @@
     <button
         class:flex
         class:big
-        class="{classes}"
+        class={classes}
         aria-label={ariaLabel}
         {type}
         {disabled}

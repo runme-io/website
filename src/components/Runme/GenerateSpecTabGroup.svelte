@@ -3,6 +3,7 @@
     import { fade } from 'svelte/transition'
     import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
     import GenerateSpecForm from './GenerateSpecForm.svelte'
+    import GenerateSpecResult from './GenerateSpecResult.svelte'
     import Button from '../UI/Button.svelte'
     import ButtonIcon from '../UI/ButtonIcon.svelte'
     import Code from '../UI/Code.svelte'
@@ -21,8 +22,7 @@
     const iconAdd = faPlusCircle
     const serviceValidity = {}
 
-    let yaml
-    let dockerfile
+    let spec
 
     $: filteredServices = $services.slice(1)
     $: isAddDisabled = $services.length >= ADDITIONAL_SERVICES_LIMIT
@@ -30,7 +30,7 @@
     $: isGenerateDisabled = !isValid
 
     async function generate () {
-        ({ yaml, dockerfile } = await generateSpec($services))
+        spec = await generateSpec($services)
     }
 </script>
 
@@ -51,12 +51,6 @@
         > :global(button)
             display: flex // TODO: improve css of ButtonIcon
             padding: $tabPadding !important
-
-    .panel-link
-        text-decoration: none
-
-    .spec-panel
-        margin-top: 2rem
 </style>
 
 <div class="generate-spec-tab-group">
@@ -103,32 +97,5 @@
         >Generate spec</Button>
     </div>
 
-    {#if yaml}
-        <div
-            class="spec-panel"
-            in:fade={animationOptions}
-        >
-            <GithubPanel displayIcon={false}>
-                <a
-                    href="/"
-                    on:click|preventDefault
-                    class="panel-link"
-                    slot="title"
-                >./.runme/config.yaml</a>
-                <Code lang="yaml" code={yaml} />
-            </GithubPanel>
-
-            {#if dockerfile}
-                <GithubPanel displayIcon={false}>
-                    <a
-                        href="/"
-                        on:click|preventDefault
-                        class="panel-link"
-                        slot="title"
-                    >./.runme/Dockerfile</a>
-                    <Code lang="dockerfile" code={dockerfile} />
-                </GithubPanel>
-            {/if}
-        </div>
-    {/if}
+    <GenerateSpecResult {spec} />
 </div>
