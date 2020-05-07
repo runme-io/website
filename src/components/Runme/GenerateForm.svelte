@@ -154,7 +154,7 @@
             {/if}
         </div>
 
-        <div class="generate-button">
+        <div class="form-actions">
             <GenerateButton {loading} disabled={!formIsValid} on:click={createApp}>{buttonText}</GenerateButton>
         </div>
     </section>
@@ -172,7 +172,4 @@
 
     .advanced-option :global(.fa-svelte)
         width: 1rem
-
-    .generate-button
-        text-align: center
 </style>

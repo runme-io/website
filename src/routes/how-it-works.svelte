@@ -1,5 +1,6 @@
 <script>
     import MainLayout from '../components/UI/Layout/MainLayout.svelte'
+    import Code from '../components/UI/Code.svelte'
 </script>
 
 <MainLayout title="How it works">
@@ -20,13 +21,9 @@
             <li>if you pass a path to already built docker image we will skip this step and just run your docker image;</li>
             <li>
                 if points 1 and 2 are not applicable, we will use our default Dockerfile. Default Dockerfile will try to run your repository as NodeJS (v12.10) repository which has package.json with 3 main commands:
-                <pre>
-                    <code>
-npm install
+                <Code lang="bash" code={`npm install
 npm run build
-npm run start
-                    </code>
-                </pre>
+npm run start`} />
             </li>
         </ol>
 

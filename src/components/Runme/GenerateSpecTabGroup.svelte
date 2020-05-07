@@ -4,8 +4,10 @@
     import GenerateSpecForm from './GenerateSpecForm.svelte'
     import Button from '../UI/Button.svelte'
     import ButtonIcon from '../UI/ButtonIcon.svelte'
+    import Code from '../UI/Code.svelte'
+    import GithubPanel from '../UI/Github/GithubPanel.svelte'
     import specGenerator from '../Stores/SpecGenerator'
-    import { generateYaml, generateDockerfile } from '../../Helpers'
+    import { generateSpec } from '../../Helpers'
     import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 
     const services = specGenerator()
@@ -17,27 +19,27 @@
     const iconAdd = faPlusCircle
     const serviceValidity = {}
 
-    let spec
-    let dockerFile
+    let yaml
+    let dockerfile
 
     $: filteredServices = $services.slice(1)
     $: isAddDisabled = $services.length >= ADDITIONAL_SERVICES_LIMIT
     $: isValid = $services.every((_, index) => serviceValidity[index])
     $: isGenerateDisabled = !isValid
 
-    async function generateSpec () {
-        spec = await generateYaml($services)
-        dockerFile = generateDockerfile($services)
+    async function generate () {
+        ({ yaml, dockerfile } = await generateSpec($services))
     }
 </script>
 
 <style lang="sass">
     $tabPadding: .5rem .75rem
 
-    .images-list
-        display: contents
+    .generate-spec-tab-group
+        display: flex
+        flex-direction: column
 
-    .images-list :global(.svelte-tabs li.svelte-tabs__tab)
+    .generate-spec-tab-group :global(.svelte-tabs li.svelte-tabs__tab)
         padding: $tabPadding
 
     .tab-add-button
@@ -47,9 +49,12 @@
         > :global(button)
             display: flex // TODO: improve css of ButtonIcon
             padding: $tabPadding !important
+
+    .panel-link
+        text-decoration: none
 </style>
 
-<div class="images-list">
+<div class="generate-spec-tab-group">
     <Tabs>
         <TabList>
             <Tab>App</Tab>
@@ -85,16 +90,34 @@
         {/each}
     </Tabs>
 
-    <Button
-        disabled={isGenerateDisabled}
-        on:click={generateSpec}
-    >Generate spec</Button>
+    <div class="form-actions">
+        <Button
+            disabled={isGenerateDisabled}
+            on:click={generate}
+        >Generate spec</Button>
+    </div>
 
-    {#if spec}
-        <pre>{spec}</pre>
+    {#if yaml}
+        <GithubPanel displayIcon={false}>
+            <a
+                href="/"
+                on:click|preventDefault
+                class="panel-link"
+                slot="title"
+            >./.runme/config.yaml</a>
+            <Code lang="yaml" code={yaml} />
+        </GithubPanel>
     {/if}
 
-    {#if dockerFile}
-        <pre>{dockerFile}</pre>
+    {#if dockerfile}
+        <GithubPanel displayIcon={false}>
+            <a
+                href="/"
+                on:click|preventDefault
+                class="panel-link"
+                slot="title"
+            >./.runme/Dockerfile</a>
+            <Code lang="dockerfile" code={dockerfile} />
+        </GithubPanel>
     {/if}
 </div>
