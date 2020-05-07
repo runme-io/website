@@ -22,17 +22,13 @@
 
     $: items = $DockerImages[sourceType.key] || []
     $: hasValidSelection = imageItem && tag
-
-    $: {
-        const composedValue = hasValidSelection ? getValue() : null
-
-        valid = Boolean(composedValue)
-        dispatch('change', composedValue)
-    }
-
     $: disabled = !imageItem
     $: tags = imageItem ? imageItem.tags : []
     $: invalid = !valid && touched
+
+    $: {
+        dispatch('change', hasValidSelection ? getValue() : null)
+    }
 
     function getValue () {
         const { image, container_port: port } = imageItem
@@ -57,6 +53,7 @@
         class:invalid={invalid}
         id="docker-image"
         bind:value={imageItem}
+        on:change={() => tag = ''}
     >
         <option value="">Select a docker image</option>
         {#each items as item}
