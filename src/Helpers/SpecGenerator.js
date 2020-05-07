@@ -40,7 +40,7 @@ function parseSpecService (service, isMain = false) {
     }
 }
 
-export async function generateYaml (serviceList) {
+async function generateYaml (serviceList) {
     const { default: YAML } = await import('yaml')
 
     const services = serviceList.slice(1)
@@ -61,17 +61,22 @@ export async function generateYaml (serviceList) {
     })
 }
 
-export function generateDockerfile (serviceList) {
+function generateDockerfile (serviceList) {
     const appValue = serviceList[0] || {}
 
     if (appValue.hasDockerImage) {
         return ''
     }
 
-    return `
-FROM ${appValue.dockerImage}
+    return `FROM ${appValue.dockerImage}
 WORKDIR /app
 COPY . .
-RUN ${appValue.build_command}
-    `
+RUN ${appValue.build_command}`
+}
+
+export async function generateSpec (serviceList) {
+    return {
+        yaml: await generateYaml(serviceList),
+        dockerfile: generateDockerfile(serviceList),
+    }
 }

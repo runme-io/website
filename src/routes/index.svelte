@@ -106,7 +106,6 @@
 
 		&__icon
 			margin-right: .5rem
-			height: 1em
 
 		h3
 			font-size: 1.6rem
@@ -124,4 +123,10 @@
 			li
 				list-style: disc
 				font-size: 1.2rem
+
+    code
+        padding: .2rem .4rem
+        color: #c7254e
+        background-color: #f9f2f4
+        border-radius: .4rem
 </style>

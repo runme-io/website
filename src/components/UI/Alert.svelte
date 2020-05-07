@@ -29,7 +29,7 @@
         position: relative
         padding: 1rem 2rem !important
         margin-bottom: 3rem
-        border: 1px solid transparent
+        border: .1rem solid transparent
         border-radius: .5rem
         font-weight: bold
         font-size: 1.4rem

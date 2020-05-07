@@ -6,22 +6,17 @@
     export let loading = false
 </script>
 
-<div class="generate-button">
-    <Button {disabled} big={true} on:click>
-        <slot/>
-        {#if loading}
-            <div class="loading">
-                <Loader size="20" />
-            </div>
-        {/if}
-    </Button>
-</div>
+<Button {disabled} big={true} on:click>
+    <slot/>
+    {#if loading}
+        <div class="loading">
+            <Loader size="20" />
+        </div>
+    {/if}
+</Button>
 
 <style lang="sass">
-    @import '../../../assets/style/theme'
-
-    .generate-button
-        margin: 2rem 0
+    @import './assets/style/theme'
 
     .loading
         display: inline

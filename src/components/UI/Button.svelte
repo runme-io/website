@@ -45,8 +45,8 @@
         &:disabled,
         &:disabled:hover,
         &:disabled:active
-            background: #ccc
-            border-color: #ccc
+            background: $gray-light
+            border-color: $gray-light
             color: #959595
             box-shadow: none
             cursor: not-allowed
@@ -65,7 +65,7 @@
         &:disabled:hover,
         &:disabled:active
             background: transparent
-            color: #ccc
+            color: $gray-light
 
     .default
         background: transparent
