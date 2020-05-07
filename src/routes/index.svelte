@@ -106,7 +106,6 @@
 
 		&__icon
 			margin-right: .5rem
-			height: 1em
 
 		h3
 			font-size: 1.6rem

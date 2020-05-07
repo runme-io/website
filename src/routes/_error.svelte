@@ -14,10 +14,10 @@
     h1
         font-size: 2.8rem
         font-weight: 700
-        margin: 0 0 0.5rem 0
+        margin: 0 0 .5rem 0
 
     p
-        margin: 1em auto
+        margin: 1rem auto
 
 
     @media (min-width: 480px)
