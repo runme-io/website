@@ -124,4 +124,10 @@
 			li
 				list-style: disc
 				font-size: 1.2rem
+
+    code
+        padding: .2rem .4rem
+        color: #c7254e
+        background-color: #f9f2f4
+        border-radius: .4rem
 </style>
