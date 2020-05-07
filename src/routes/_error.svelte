@@ -6,13 +6,15 @@
 </script>
 
 <style lang="sass">
+    @import './assets/style/theme'
+
     h1, p
         margin: 0 auto
 
     h1
-        font-size: 2.8em
+        font-size: 2.8rem
         font-weight: 700
-        margin: 0 0 0.5em 0
+        margin: 0 0 0.5rem 0
 
     p
         margin: 1em auto
@@ -20,13 +22,13 @@
 
     @media (min-width: 480px)
         h1
-            font-size: 4em
+            font-size: 4rem
 
     pre
-      background-color: #333
+      background-color: $gray-medium
       border-radius: .5rem
-      border: .1rem solid #ccc
-      color: #fff
+      border: .1rem solid $gray-light
+      color: $white
       font-size: 1.4rem
       line-height: 1.4rem
       margin: 1rem 0
