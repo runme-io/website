@@ -8,6 +8,8 @@
     export let disabled = false
     export let flex = false
     export let big = false
+
+   $: classes = `${mode} ` + ($$props.class || '')
 </script>
 
 <style lang="sass">
@@ -15,7 +17,6 @@
 
     button,
     a
-        font: inherit
         border: .1rem solid $buttonBackground
         background: $buttonBackground
         padding: .5rem 1rem
@@ -83,7 +84,7 @@
     <button
         class:flex
         class:big
-        class="{mode}"
+        class="{classes}"
         aria-label={ariaLabel}
         {type}
         {disabled}

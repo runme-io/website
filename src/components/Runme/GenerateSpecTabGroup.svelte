@@ -76,6 +76,7 @@
             {/each}
             <div class="tab-add-button">
                 <ButtonIcon
+                    flex={true}
                     ariaLabel="Add Service"
                     icon={iconAdd}
                     disabled={isAddDisabled}
