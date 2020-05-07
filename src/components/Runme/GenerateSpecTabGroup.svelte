@@ -1,5 +1,6 @@
 <script>
     import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs'
+    import { fade } from 'svelte/transition'
     import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
     import GenerateSpecForm from './GenerateSpecForm.svelte'
     import Button from '../UI/Button.svelte'
@@ -11,6 +12,7 @@
     import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 
     const services = specGenerator()
+    const animationOptions = { duration: 200 }
 
     // add app tab
     services.addService()
@@ -52,6 +54,9 @@
 
     .panel-link
         text-decoration: none
+
+    .spec-panel
+        margin-top: 2rem
 </style>
 
 <div class="generate-spec-tab-group">
@@ -98,26 +103,31 @@
     </div>
 
     {#if yaml}
-        <GithubPanel displayIcon={false}>
-            <a
-                href="/"
-                on:click|preventDefault
-                class="panel-link"
-                slot="title"
-            >./.runme/config.yaml</a>
-            <Code lang="yaml" code={yaml} />
-        </GithubPanel>
-    {/if}
+        <div
+            class="spec-panel"
+            in:fade={animationOptions}
+        >
+            <GithubPanel displayIcon={false}>
+                <a
+                    href="/"
+                    on:click|preventDefault
+                    class="panel-link"
+                    slot="title"
+                >./.runme/config.yaml</a>
+                <Code lang="yaml" code={yaml} />
+            </GithubPanel>
 
-    {#if dockerfile}
-        <GithubPanel displayIcon={false}>
-            <a
-                href="/"
-                on:click|preventDefault
-                class="panel-link"
-                slot="title"
-            >./.runme/Dockerfile</a>
-            <Code lang="dockerfile" code={dockerfile} />
-        </GithubPanel>
+            {#if dockerfile}
+                <GithubPanel displayIcon={false}>
+                    <a
+                        href="/"
+                        on:click|preventDefault
+                        class="panel-link"
+                        slot="title"
+                    >./.runme/Dockerfile</a>
+                    <Code lang="dockerfile" code={dockerfile} />
+                </GithubPanel>
+            {/if}
+        </div>
     {/if}
 </div>
