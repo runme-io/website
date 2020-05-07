@@ -1,7 +1,9 @@
 <script>
     import { createEventDispatcher, onDestroy } from 'svelte'
     import Icon from 'fa-svelte'
-    import { faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons'
+    import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+    import { slide } from 'svelte/transition'
+    import { bounceInOut } from 'svelte/easing'
     import RunmeButton from './RunmeButton.svelte'
     import OptionEnvVars from './Generator/OptionEnvVars.svelte'
     import GenerateButton from './Generator/GenerateButton.svelte'
@@ -11,6 +13,8 @@
     import { isEmpty, isGitUrl, queryParam, parseGitUrl, setUrl } from '../../Helpers'
 
     const dispatch = createEventDispatcher()
+    const dropDownIcon = faCaretDown
+    const animationOptions = { duration: 200 }
 
     // form fields
     let repoUrl = ''
@@ -43,7 +47,7 @@
     $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
     $: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
 
-    $:dropDownIcon = showAdvancedOptions ? faSortUp : faSortDown
+    $: toggledIconClass = showAdvancedOptions ? 'toggle-icon-enabled' : ''
 
     const setError = (error, type = 'warning') => {
         errorType = type
@@ -124,9 +128,22 @@
         </div>
 
         <div id="advanced-options">
-            <div class="advanced-option" on:click={toggleAdvanced}>Advanced options <Icon icon={dropDownIcon}/></div>
+            <div
+                class="advanced-option"
+                on:click={toggleAdvanced}
+            >
+                <span>Advanced options</span>
+                <Icon
+                    class="toggle-icon {toggledIconClass}"
+                    icon={dropDownIcon}
+                />
+            </div>
             {#if showAdvancedOptions}
-                <div class="spacing-top">
+                <div
+                    class="spacing-top"
+                    in:slide={animationOptions}
+                    out:slide={animationOptions}
+                >
                     <TextInput
                         id="repo-branch"
                         label="Which branch should we use?"
@@ -167,8 +184,19 @@
         padding-top: 2rem
 
     .advanced-option
+        align-items: center
+        display: flex
         font-size: 1.2rem
         cursor: pointer
+
+        span
+            margin-right: 1rem
+
+    .advanced-option :global(.toggle-icon)
+        transition: .3s ease-in-out
+
+    .advanced-option :global(.toggle-icon-enabled)
+        transform: rotate(180deg)
 
     .advanced-option :global(.fa-svelte)
         width: 1rem
