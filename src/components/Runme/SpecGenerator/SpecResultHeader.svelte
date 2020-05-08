@@ -23,6 +23,8 @@
         linkElement.href = window.URL.createObjectURL(blob)
         linkElement.target = '_blank'
         linkElement.download = filename
+
+        setTimeout(() => window.URL.revokeObjectURL(linkElement.href), 100)
     }
 
     async function copy () {
@@ -82,14 +84,14 @@
         <ButtonIcon
             class="button-copy"
             flex={true}
-            ariaLabel={copyLabel}
+            aria-label={copyLabel}
             icon={faCopy}
             on:click={copy}
         />
         <ButtonIcon
             class="button-download"
             flex={true}
-            ariaLabel={downloadLabel}
+            aria-label={downloadLabel}
             icon={faFileDownload}
             on:click={linkElement.click()}
         />
