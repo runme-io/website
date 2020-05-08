@@ -95,7 +95,7 @@
                 validityMessage="Please enter a valid Docker image url."
                 value={value.dockerImage}
                 placeholder="<image>:<tag>"
-                on:input={({ target }) => setDockerImageValue(target.value)}
+                on:input={({ target }) => value.dockerImage = target.value}
             />
         {/if}
     {/if}
