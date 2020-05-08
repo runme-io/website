@@ -1,9 +1,16 @@
 export const DISCORD_LINK = 'https://discordapp.com/invite/q54Q8GH'
 
+export const GENERATE_SPEC_URL = '/generate-spec'
+
 export const menuItems = [
   {
-    label: 'Generate',
+    label: 'Home',
     link: '/',
+    newWindow: false,
+  },
+  {
+    label: 'Generate spec',
+    link: GENERATE_SPEC_URL,
     newWindow: false,
   },
   {
