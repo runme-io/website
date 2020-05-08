@@ -4,8 +4,7 @@ export function isGitUrl(str) {
 }
 
 export function isDockerUrl(str) {
-  // TODO: improve regex
-  const regex = /(\w+):(\w+)/i
+  const regex = /^\w+:\w+$/i
   return regex.test(str)
 }
 
