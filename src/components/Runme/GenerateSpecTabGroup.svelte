@@ -62,7 +62,7 @@
                 <Tab>
                     Service #{index + 1}
                     <ButtonIcon
-                        ariaLabel="Remove Service"
+                        aria-label="Remove Service"
                         icon={iconRemove}
                         on:click={() => services.removeService(service)}
                     />
@@ -71,7 +71,7 @@
             <div class="tab-add-button">
                 <ButtonIcon
                     flex={true}
-                    ariaLabel="Add Service"
+                    aria-label="Add Service"
                     icon={iconAdd}
                     disabled={isAddDisabled}
                     on:click={services.addService}

@@ -80,7 +80,7 @@
             {#if index}
                 <div class="button-remove">
                     <ButtonIcon
-                        ariaLabel="Remove"
+                        aria-label="Remove"
                         icon={faTimes}
                         on:click={() => removeInput(index)}
                     />
