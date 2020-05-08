@@ -1,21 +1,26 @@
 <script>
     export let type = 'button'
-    export let ariaLabel = null
     export let href = null
     export let target = null
-    export let title = null
     export let mode = null
     export let disabled = false
     export let flex = false
     export let big = false
+
+    let restProps
+
+   $: classes = `${mode || ''} ` + ($$props.class || '')
+   $: {
+       restProps = $$restProps
+       delete restProps.class
+   }
 </script>
 
 <style lang="sass">
-    @import '../../assets/style/theme'
+    @import './assets/style/theme'
 
     button,
     a
-        font: inherit
         border: .1rem solid $buttonBackground
         background: $buttonBackground
         padding: .5rem 1rem
@@ -76,18 +81,22 @@
 </style>
 
 {#if href}
-    <a {href} {target} {title}>
+    <a
+        {...restProps}
+        {href}
+        {target}
+        class={classes}
+    >
         <slot />
     </a>
 {:else}
     <button
+        {...restProps}
         class:flex
         class:big
-        class="{mode}"
-        aria-label={ariaLabel}
+        class={classes}
         {type}
         {disabled}
-        title={title || ariaLabel}
         on:click
     >
         <slot />

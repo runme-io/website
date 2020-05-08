@@ -20,7 +20,7 @@
     let envVarsValid = true // true by default as this is optional
     $: isDockerImageValid = isDockerUrl(value.dockerImage)
     $: isPortValid = !isApp || !isEmpty(value.port)
-    $: isBuildCommandValid = !isApp || (!value.hasDockerImage && !isEmpty(value.build_command))
+    $: isBuildCommandValid = !isApp || value.hasDockerImage || !isEmpty(value.build_command)
     $: isCommandValid = Array.isArray(value.command)
         ? value.command.length && !value.command.find(isEmpty)
         : !isEmpty(value.command)
@@ -34,12 +34,33 @@
     )
 
     $: {
+        if (value.hasDockerImage) {
+            value.build_command = '' // clear command when user has docker image
+        }
+    }
+
+    $: {
         isApp = sourceType === DOCKER_SELECT_LANGUAGE
         if (!isApp) {
             value.hasDockerImage = false
         }
     }
     $: sourceTypeLabel = isApp ? 'application' : 'service'
+
+    function setDockerImageValue (dockerImageValue) {
+        if (!dockerImageValue) {
+            value.dockerImage = ''
+            return
+        }
+
+        const { image, tag, port } = dockerImageValue
+
+        if (port) {
+            value.port = port
+        }
+
+        value.dockerImage = `${image}:${tag}`
+    }
 </script>
 
 <style lang="sass">
@@ -85,7 +106,7 @@
             validityMessage="A valid docker image is required"
             value={value.dockerImage}
             {sourceType}
-            on:change={({ detail }) => value.dockerImage = detail}
+            on:change={({ detail }) => setDockerImageValue(detail)}
         />
 
         {#if isApp}

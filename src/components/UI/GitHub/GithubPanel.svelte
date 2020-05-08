@@ -2,6 +2,8 @@
     import GitHubBookIcon from './GitHubBookIcon.svelte'
 
     export let displayIcon = true
+
+    $: classes = $$restProps.class || ''
 </script>
 
 <style lang="sass">
@@ -27,11 +29,12 @@
             font-weight: 600
 
             > div
-                display: inline-block
+                display: flex
+                flex: 1
                 margin-left: 1rem
 </style>
 
-<div class="github-panel">
+<div class="github-panel {classes}">
     <div class="header">
         {#if displayIcon}
             <GitHubBookIcon/>

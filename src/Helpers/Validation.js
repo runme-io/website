@@ -4,16 +4,22 @@ export function isGitUrl(str) {
 }
 
 export function isDockerUrl(str) {
-  const regex = /(\w+):(\w+)/i
+  const regex = /^\w+:\w+$/i
   return regex.test(str)
 }
 
 export function isEmpty (val) {
-  return [null, undefined].includes(val) || val.trim().length === 0
-}
+  if ([null, undefined].includes(val)) {
+    return true
+  }
 
-export function isValidEmail (val) {
-  return new RegExp(
-    "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
-  ).test(val)
+  if (Array.isArray(val)) {
+    return Boolean(val.length)
+  }
+
+  if (typeof val === 'object') {
+    return Boolean(Object.values(val).length)
+  }
+
+  return String(val).trim().length === 0
 }
