@@ -26,6 +26,7 @@ module.exports = {
   ],
   rules: {
     // 'prettier/prettier': 'error',
+    'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 2, maxEOF: 0 }],
     'comma-dangle': [
       'error',
       'always-multiline',
