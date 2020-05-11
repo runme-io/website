@@ -13,7 +13,6 @@
     import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 
     const services = specGenerator()
-    const animationOptions = { duration: 200 }
 
     // add app tab
     services.addService()

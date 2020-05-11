@@ -2,8 +2,8 @@
     import { fade } from 'svelte/transition'
     import { faCopy, faFileDownload } from '@fortawesome/free-solid-svg-icons'
     import ButtonIcon from '../../UI/ButtonIcon.svelte'
+    import { DEFAULT_TRANSTION } from '../../../Consts'
 
-    const animationOptions = { duration: 200 }
     const MESSAGE_DELAY = 3000
 
     export let content
@@ -77,8 +77,7 @@
     <div class="button-container">
         {#if copied}
             <span
-                in:fade={animationOptions}
-                out:fade={animationOptions}
+                transition:fade={DEFAULT_TRANSTION}
             >File content copied!</span>
         {/if}
         <ButtonIcon

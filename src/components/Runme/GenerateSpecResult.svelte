@@ -4,8 +4,7 @@
     import Code from '../UI/Code.svelte'
     import SpecResultHeader from './SpecGenerator/SpecResultHeader.svelte'
     import GithubPanel from '../UI/GitHub/GithubPanel.svelte'
-
-    const animationOptions = { duration: 200 }
+    import { DEFAULT_TRANSTION } from '../../Consts'
 
     export let spec
 
@@ -36,7 +35,7 @@
 {#if spec}
     <div
         class="spec-panel"
-        in:fade={animationOptions}
+        in:fade={DEFAULT_TRANSTION}
     >
         <GithubPanel
             class="github-panel"
