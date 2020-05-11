@@ -3,7 +3,7 @@
     import { faCopy } from '@fortawesome/free-solid-svg-icons'
     import Code from '../UI/Code.svelte'
     import SpecResultHeader from './SpecGenerator/SpecResultHeader.svelte'
-    import GithubPanel from '../UI/Github/GithubPanel.svelte'
+    import GithubPanel from '../UI/GitHub/GithubPanel.svelte'
 
     const animationOptions = { duration: 200 }
 

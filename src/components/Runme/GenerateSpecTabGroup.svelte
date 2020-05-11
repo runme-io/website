@@ -7,7 +7,7 @@
     import Button from '../UI/Button.svelte'
     import ButtonIcon from '../UI/ButtonIcon.svelte'
     import Code from '../UI/Code.svelte'
-    import GithubPanel from '../UI/Github/GithubPanel.svelte'
+    import GithubPanel from '../UI/GitHub/GithubPanel.svelte'
     import specGenerator from '../Stores/SpecGenerator'
     import { generateSpec } from '../../Helpers'
     import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
