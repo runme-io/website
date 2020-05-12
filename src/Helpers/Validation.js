@@ -23,3 +23,7 @@ export function isEmpty (val) {
 
   return String(val).trim().length === 0
 }
+
+export function notEmpty(val) {
+    return !isEmpty(val)
+}

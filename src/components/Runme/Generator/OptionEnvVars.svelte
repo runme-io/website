@@ -6,13 +6,14 @@
     import Button from '../../UI/Button.svelte'
     import ButtonIcon from '../../UI/ButtonIcon.svelte'
     import InputSwitch from '../../UI/InputSwitch.svelte'
+    import { convertEnvVarsToText, convertEnvVarsFromText, validateEnvVars, notEmpty, validKey } from '../../../Helpers'
 
     const dispatch = createEventDispatcher()
     const removeIcon = faTrash
     const addIcon = faPlusCircle
 
     // the env vars in object format
-    export let value
+    export let value = []
 
     let useTextarea = true
     let envVars = []
@@ -21,33 +22,11 @@
     let switchText = 'Switch to GUI'
 
     if (value) {
-        envVarsAsText = objectToText(value)
+        envVarsAsText = convertEnvVarsToText(value)
     }
-
-    const notEmpty = (value) => value !== ''
-    const validKey = (value) => value.match(/^[A-Z_a-z]+$/)
-    const checkVars = () => envVars.every(item => notEmpty(item.key) && validKey(item.key) && notEmpty(item.value))
 
     $: envVars = convertEnvVarsFromText(envVarsAsText)
-    $: envVarsAsTextValid = checkVars(envVars)
-
-    const convertEnvVarsFromText = (textEnvVars) => textEnvVars.split('\n').reduce((accumulator, currentValue) => {
-        if (currentValue) {
-            const vars = currentValue.split(/=(.+)/)
-            const key = vars[0] || ''
-            const value = vars[1] || ''
-            accumulator = [...accumulator, { key, value }]
-        }
-        return accumulator
-    }, [])
-
-    function convertEnvVarsToText (envVars) {
-        return envVars.reduce((accumulator, currentValue) => [...accumulator, `${currentValue.key}=${currentValue.value}`], []).join('\n')
-    }
-
-    function objectToText (envVars) {
-        return Object.entries(envVars).map(([key, value]) => `${key}=${value}`).join('\n')
-    }
+    $: envVarsAsTextValid = validateEnvVars(envVars)
 
     function add () {
         envVars = envVars.concat({ key: '', value: '' })
@@ -74,7 +53,7 @@
         return accumulator
     }, {})
 
-    $: dispatch('valid', checkVars(envVars))
+    $: dispatch('valid', envVarsAsTextValid)
     $: dispatch('items', envVarsObject)
 </script>
 
@@ -128,7 +107,7 @@
                 <div>
                     <TextInput
                         value={envVar.key}
-                        valid={notEmpty(envVar.key) && validKey(envVar.key)}
+                        valid={validKey(envVar.key)}
                         validityMessage="Invalid key given"
                         placeholder="Your key"
                         on:input={event => (envVar.key = event.target.value)}
