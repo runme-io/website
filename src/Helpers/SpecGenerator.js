@@ -68,10 +68,30 @@ function generateDockerfile (serviceList) {
     return ''
   }
 
-  return `FROM ${appValue.dockerImage}
-WORKDIR /app
-COPY . .
-RUN ${appValue.build_command}`
+  let dockerfileLines = [
+    `FROM ${appValue.dockerImage}`,
+    'WORKDIR /app',
+    'COPY . .',
+  ]
+
+  if (appValue.build_command) {
+    dockerfileLines = dockerfileLines.concat(`RUN ${appValue.build_command}`)
+  }
+
+  const command = formatCommand(appValue)
+  if (command) {
+    dockerfileLines = dockerfileLines.concat(`ENTRYPOINT ${command}`)
+  }
+
+  return dockerfileLines.join('\n')
+}
+
+function formatCommand ({ command }) {
+  if (!command) { return '' }
+
+  return Array.isArray(command)
+    ? command.join(' && ')
+    : command
 }
 
 export async function generateSpec (serviceList) {
