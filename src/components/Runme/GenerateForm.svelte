@@ -11,10 +11,10 @@
     import TextInput from '../UI/TextInput.svelte'
     import Alert from '../UI/Alert.svelte'
     import { isEmpty, isGitUrl, queryParam, parseGitUrl, setUrl } from '../../Helpers'
+    import { DEFAULT_TRANSTION } from '../../Consts'
 
     const dispatch = createEventDispatcher()
     const dropDownIcon = faCaretDown
-    const animationOptions = { duration: 200 }
 
     // form fields
     let repoUrl = ''
@@ -141,8 +141,7 @@
             {#if showAdvancedOptions}
                 <div
                     class="spacing-top"
-                    in:slide={animationOptions}
-                    out:slide={animationOptions}
+                    transition:slide={DEFAULT_TRANSTION}
                 >
                     <TextInput
                         id="repo-branch"
