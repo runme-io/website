@@ -34,6 +34,7 @@ module.exports = {
       'error',
       'always-multiline',
     ],
+    'operator-linebreak': ['error', 'before'],
   },
   settings: {
     'svelte3/ignore-styles': () => true
