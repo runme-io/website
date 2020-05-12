@@ -4,6 +4,7 @@
   import TextInput from '../../UI/TextInput.svelte'
   import ButtonIcon from '../../UI/ButtonIcon.svelte'
   import InputSwitch from '../../UI/InputSwitch.svelte'
+  import FormControl from '../../UI/Form/FormControl.svelte'
   import { convertEnvVarsToText, convertEnvVarsFromText, validateEnvVars, notEmpty, validKey } from '../../../Helpers'
 
   const dispatch = createEventDispatcher()
@@ -87,7 +88,9 @@
         align-items: center
 </style>
 
-<div class="form-control">
+<FormControl
+  required={$$restProps.required}
+>
   <label>Enter your environment variables</label>
 
   {#if useTextarea}
@@ -144,4 +147,4 @@
   {/if}
 
   <div class="switch">{switchText}&nbsp;<InputSwitch on:checked={switchUI}/></div>
-</div>
+</FormControl>

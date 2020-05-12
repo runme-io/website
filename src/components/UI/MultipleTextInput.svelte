@@ -3,6 +3,7 @@
   import { faTimes } from '@fortawesome/free-solid-svg-icons'
   import TextInput from './TextInput.svelte'
   import ButtonIcon from './ButtonIcon.svelte'
+  import FormControl from './Form/FormControl.svelte'
 
   const dispatch = createEventDispatcher()
   const createInputDescriptor = (value = '', focus = false) => ({ value, focus })
@@ -64,7 +65,9 @@
 
 </style>
 
-<div class="form-control">
+<FormControl
+  required={$$restProps.required}
+>
   <label for={id}>{label}</label>
 
   {#each inputList as input, index}
@@ -94,4 +97,4 @@
     href="/"
     on:click|preventDefault={addInput}
   >{addLabel}</a>
-</div>
+</FormControl>

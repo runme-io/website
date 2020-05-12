@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher } from 'svelte'
+  import FormControl from './Form/FormControl.svelte'
 
   export let controlType = null
   export let id = null
@@ -36,13 +37,16 @@
 
 <style lang="sass">
   @import './assets/style/theme'
+
   .compact
     margin-bottom: $label-margin
 </style>
 
-<div
-  class="form-control"
-  class:compact={compact}
+<FormControl
+  required={$$restProps.required}
+  hasError={!valid && touched}
+  {compact}
+  {validityMessage}
 >
   {#if label}<label for={id}>{label}</label>{/if}
 
@@ -55,6 +59,7 @@
       on:blur={() => {
         touched = true
       }}
+      {...$$restProps}
     />
   {:else}
     <input
@@ -70,10 +75,7 @@
       on:blur={() => {
         touched = true
       }}
+      {...$$restProps}
     >
   {/if}
-
-  {#if validityMessage && !valid && touched}
-    <p class="error-message">{validityMessage}</p>
-  {/if}
-</div>
+</FormControl>
