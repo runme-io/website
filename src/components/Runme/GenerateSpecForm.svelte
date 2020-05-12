@@ -18,12 +18,15 @@
 
   // form states
   let envVarsValid = true // true by default as this is optional
+  $: isService = !isApp
+  $: sourceTypeLabel = isApp ? 'application' : 'service'
   $: isDockerImageValid = isDockerUrl(value.dockerImage)
-  $: isPortValid = !isApp || !isEmpty(value.port)
-  $: isBuildCommandValid = !isApp || value.hasDockerImage || !isEmpty(value.build_command)
-  $: isCommandValid = Array.isArray(value.command)
+  $: isPortValid = isService || !isEmpty(value.port)
+  $: isBuildCommandValid = isService || value.hasDockerImage || !isEmpty(value.build_command)
+  $: isCommandsNotEmpty = Array.isArray(value.command)
     ? value.command.length && !value.command.find(isEmpty)
     : !isEmpty(value.command)
+  $: isCommandValid = isService || isCommandsNotEmpty
 
   $: dispatch('validate',
     envVarsValid
@@ -45,7 +48,6 @@
       value.hasDockerImage = false
     }
   }
-  $: sourceTypeLabel = isApp ? 'application' : 'service'
 
   function setDockerImageValue (dockerImageValue) {
     if (!dockerImageValue) {
@@ -140,6 +142,7 @@
     id="commands"
     addLabel="Add more commands"
     label={`Which commands should we use to run your ${sourceTypeLabel}?`}
+    required={isApp}
     valid={isCommandValid}
     validityMessage="Commands are required"
     placeholder="npm run start"
