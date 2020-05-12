@@ -18,14 +18,17 @@ module.exports = {
     {
       files: ['**/*.svelte'],
       processor: 'svelte3/svelte3',
+      rules: {
+        'import/first':  'off',
+        'import/no-duplicates':  'off',
+        'import/no-mutable-exports':  'off',
+      },
     }
   ],
   plugins: [
     'svelte3',
-    // 'prettier',
   ],
   rules: {
-    // 'prettier/prettier': 'error',
     'no-multiple-empty-lines': ['error', { max: 1, maxBOF: 2, maxEOF: 0 }],
     'comma-dangle': [
       'error',

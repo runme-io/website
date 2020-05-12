@@ -19,7 +19,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run pretest"
+      "pre-commit": "npm run pretest"
     }
   },
   "dependencies": {
@@ -79,6 +79,6 @@
     "svelte-tabs": "^1.1.0"
   },
   "lint-staged": {
-    "*.{js,svelte}": "eslint --fix"
+    "*.{js,svelte}": ["eslint --fix", "git add"]
   }
 }
