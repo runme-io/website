@@ -79,6 +79,6 @@
     "svelte-tabs": "^1.1.0"
   },
   "lint-staged": {
-    "*.{js,svelte}": ["eslint --fix", "git add"]
+    "*.{js,svelte}": "eslint --fix"
   }
 }
