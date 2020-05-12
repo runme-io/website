@@ -1,14 +1,15 @@
 <script>
+    import { onDestroy } from 'svelte'
+    import { DEPLOYMENT } from '../env'
+    import { DISCORD_LINK } from '../Data/menu'
+    import { queryParam } from '../Helpers'
     import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
     import { application } from '../components/Stores/Application'
     import { build } from '../components/Stores/Build'
     import { header } from '../components/Stores/Header'
-    import { queryParam } from '../Helpers'
     import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
-    import { onDestroy } from 'svelte'
     import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
-    import { DEPLOYMENT } from '../env'
-    import { DISCORD_LINK } from '../Data/menu'
+    import DockerPullCommand from '../components/Runme/Show/DockerPullCommand.svelte'
 
     let src
     let iframeLoaded = false
@@ -55,7 +56,7 @@
                 iframeLoaded = true
             } catch (e) {
                 if (pollingAttempt++ > maxPollingAttempt) {
-                    showError(`The app you are trying to reach is unavailable. If you suspect it's an error, please <a target="_blank" href="${discordLink}">let us now</a>`)
+                    showError(`The app you are trying to reach is unavailable. If you suspect it's an error, please <a target="_blank" href="${discordLink}">let us now</a>.`)
                 }
             }
         }, intervalTimer)
@@ -97,7 +98,7 @@
         if (buildId) {
             build.get(buildId)
         } else {
-            showError('No build_id has been given, please go to the <a href="/">generator</a> page and create a button and run url')
+            showError('No build_id has been given, please go to the <a href="/">generator</a> page and create a button and run url.')
         }
     }
 
@@ -108,13 +109,22 @@
     })
 </script>
 
+<style lang="sass">
+    .deployed-iframe
+        display: block
+        border: none
+        width: 100vw
+        height: calc(100vh - 10rem)
+</style>
+
 <svelte:head>
     <title>Runme.io</title>
 </svelte:head>
 
-<FixedHeader title="This application will stay available for 10 minutes."/>
+<FixedHeader content="" title="This application will stay available for 10 minutes."/>
 
 {#if src && iframeLoaded && !errorMsg}
+    <DockerPullCommand />
     <iframe class="deployed-iframe" title="Your deployed app" {src}></iframe>
 {:else if !iframeLoaded && !errorMsg}
     <ContentLayout>
@@ -128,11 +138,3 @@
         <p>{@html errorMsg}</p>
     </ContentLayout>
 {/if}
-
-<style lang="sass">
-    .deployed-iframe
-        display: block
-        border: none
-        width: 100vw
-        height: calc(100vh - 10rem)
-</style>
