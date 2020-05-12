@@ -4,7 +4,7 @@ export function isGitUrl(str) {
 }
 
 export function isDockerUrl(str) {
-  const regex = /^\w+:\w+$/i
+  const regex = /^[a-z0-9\/._-]+:[a-z0-9._-]+$/i
   return regex.test(str)
 }
 
