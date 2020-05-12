@@ -24,7 +24,14 @@ export default function createSpecGenerator () {
       ])
     },
     removeService (serviceToBeRemoved) {
-      update(services => services.filter(service => service !== serviceToBeRemoved))
+      let previousIndex
+
+      update(services => {
+        previousIndex = services.indexOf(serviceToBeRemoved) - 1
+        return services.filter(service => service !== serviceToBeRemoved)
+      })
+
+      return previousIndex
     },
   }
 }

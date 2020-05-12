@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from 'svelte'
+  import { writable } from 'svelte/store'
   import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs'
   import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
   import GenerateSpecForm from './GenerateSpecForm.svelte'
@@ -17,6 +19,7 @@
   const iconRemove = faTimes
   const iconAdd = faPlusCircle
   const serviceValidity = {}
+  const selectedTabIndex = writable()
 
   let spec
 
@@ -25,9 +28,24 @@
   $: isValid = $services.every((_, index) => serviceValidity[index])
   $: isGenerateDisabled = !isValid
 
+  function addService () {
+    services.addService()
+    selectedTabIndex.set($services.length - 1)
+  }
+
+  function removeService (service) {
+    const previousTabIndex = services.removeService(service)
+
+    selectedTabIndex.set(previousTabIndex)
+  }
+
   async function generate () {
     spec = await generateSpec($services)
   }
+
+  onMount(() => {
+    selectedTabIndex.set($services.length - 1)
+  })
 </script>
 
 <style lang="sass">
@@ -50,7 +68,9 @@
 </style>
 
 <div class="generate-spec-tab-group">
-  <Tabs>
+  <Tabs
+    selectedTabIndex={$selectedTabIndex}
+  >
     <TabList>
       <Tab>App</Tab>
 
@@ -60,7 +80,7 @@
           <ButtonIcon
             aria-label="Remove Service"
             icon={iconRemove}
-            on:click={() => services.removeService(service)}
+            on:click={() => removeService(service)}
           />
         </Tab>
       {/each}
@@ -70,7 +90,7 @@
           aria-label="Add Service"
           icon={iconAdd}
           disabled={isAddDisabled}
-          on:click={services.addService}
+          on:click={addService}
         />
       </div>
     </TabList>
