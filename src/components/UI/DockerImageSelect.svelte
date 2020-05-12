@@ -1,5 +1,6 @@
 <script>
   import { createEventDispatcher, onMount } from 'svelte'
+  import FormControl from './Form/FormControl.svelte'
   import DockerImages from '../Stores/DockerImages'
 
   const dispatch = createEventDispatcher()
@@ -47,7 +48,11 @@
   })
 </script>
 
-<div class="form-control">
+<FormControl
+  required={$$restProps.required}
+  hasError={invalid}
+  {validityMessage}
+>
   <label for="docker-image">{sourceType.label}</label>
   <select
     class:invalid={invalid}
@@ -75,7 +80,4 @@
       <option>{tagName}</option>
     {/each}
   </select>
-  {#if validityMessage && invalid}
-    <p class="error-message">{validityMessage}</p>
-  {/if}
-</div>
+</FormControl>
