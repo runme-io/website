@@ -15,6 +15,15 @@
     width: 100%
     font-size: $label-font-size
 
+  &.required
+    > label:after
+      color: $focused-border-color
+      content: ' *'
+      display: inline
+      font:
+        size: 110%
+        weight: bold
+
   input,
   textarea
     @include focused()
@@ -43,7 +52,9 @@
       background: #fde3e3
 
   .error-message
+    font-size: $label-font-size * .8
     color: $invalid-color
+    cursor: default
     margin: .25rem 0
 
 .form-actions
