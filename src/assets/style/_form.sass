@@ -16,13 +16,16 @@
     font-size: $label-font-size
 
   &.required
-    > label:after
-      color: $focused-border-color
-      content: ' *'
-      display: inline
-      font:
-        size: 110%
-        weight: bold
+    > label
+      font-weight: bold
+
+      &:after
+        color: $focused-border-color
+        content: ' *'
+        display: inline
+        font:
+          size: 110%
+          weight: bold
 
   input,
   textarea
