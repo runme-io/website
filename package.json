@@ -77,7 +77,7 @@
     "svelte": "^3.20.1",
     "svelte-highlight": "^0.6.0",
     "svelte-preprocess": "^3.6.0",
-    "svelte-tabs": "^1.1.0"
+    "svelte-tabs": "https://github.com/marlosin/svelte-tabs.git#fix/selected-tab-index"
   },
   "lint-staged": {
     "*.{js,svelte}": "eslint --fix"
