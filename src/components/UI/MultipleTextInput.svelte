@@ -13,6 +13,8 @@
   export let label
   export let id
   export let value
+  export let required = false
+  export let valid = true
 
   let inputList
 
@@ -62,11 +64,10 @@
 
   .button-remove
     margin-left: $form-control-margin
-
 </style>
 
 <FormControl
-  required={$$restProps.required}
+  {required}
 >
   <label for={id}>{label}</label>
 
@@ -77,6 +78,7 @@
         compact={true}
         focus={input.focus}
         value={input.value}
+        {valid}
         {...$$restProps}
         on:input={({ target }) => onInput(input, target.value)}
       />

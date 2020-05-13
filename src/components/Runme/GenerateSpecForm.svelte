@@ -14,17 +14,17 @@
   // The source type of the docker image select
   export let sourceType
 
-  let isApp
-
   // form states
   let envVarsValid = true // true by default as this is optional
+  $: isApp = sourceType === DOCKER_SELECT_LANGUAGE
   $: isService = !isApp
   $: sourceTypeLabel = isApp ? 'application' : 'service'
   $: isDockerImageValid = isDockerUrl(value.dockerImage)
-  $: isPortValid = !isApp || !isEmpty(value.port)
-  $: isCommandValid = Array.isArray(value.command)
+  $: isPortValid = isService || !isEmpty(value.port)
+  $: isCommandsNotEmpty = Array.isArray(value.command)
     ? value.command.length && !value.command.find(isEmpty)
     : !isEmpty(value.command)
+  $: isCommandValid = isService || isCommandsNotEmpty
 
   $: dispatch('validate',
     envVarsValid
@@ -40,8 +40,7 @@
   }
 
   $: {
-    isApp = sourceType === DOCKER_SELECT_LANGUAGE
-    if (!isApp) {
+    if (isService) {
       value.hasDockerImage = false
     }
   }
@@ -122,7 +121,8 @@
   {#if isApp}
     <TextInput
       id="port"
-      label={`Which port does your ${sourceTypeLabel} expose?`}
+      label="Which port does your {sourceTypeLabel} expose?"
+      required={true}
       valid={isPortValid}
       validityMessage="Port is required"
       placeholder="8080"
@@ -136,10 +136,10 @@
   <MultipleTextInput
     id="commands"
     addLabel="Add more commands"
-    label={`Which commands should we use to run your ${sourceTypeLabel}?`}
+    label="Which commands should we use to run your {sourceTypeLabel}?"
     required={isApp}
     valid={isCommandValid}
-    validityMessage="Commands are required"
+    validityMessage="At least one command is required to run your {sourceTypeLabel}"
     placeholder="npm run start"
     value={value.command}
     on:change={({ detail }) => (value.command = detail)}

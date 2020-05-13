@@ -21,6 +21,8 @@
 
   let touched = false
 
+  $: isInvalid = !valid && touched
+
   function handleEnter (event) {
     if (event.which === 13) {
       touched = true
@@ -43,7 +45,7 @@
 
 <FormControl
   required={$$restProps.required}
-  hasError={!valid && touched}
+  hasError={isInvalid}
   {compact}
   {validityMessage}
 >
@@ -51,7 +53,7 @@
 
   {#if controlType === 'textarea'}
     <textarea
-      class:invalid="{!valid && touched}"
+      class:invalid={isInvalid}
       {rows}
       {placeholder} {id}
       bind:value
@@ -60,7 +62,7 @@
     />
   {:else}
     <input
-      class:invalid="{!valid && touched}"
+      class:invalid={isInvalid}
       {type}
       {placeholder}
       {id}
