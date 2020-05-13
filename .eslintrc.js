@@ -10,6 +10,7 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2019,
     sourceType: 'module',
@@ -34,6 +35,7 @@ module.exports = {
       'error',
       'always-multiline',
     ],
+    'operator-linebreak': ['error', 'before'],
   },
   settings: {
     'svelte3/ignore-styles': () => true
