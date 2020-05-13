@@ -100,9 +100,7 @@
         <GenerateSpecForm
           sourceType={index === 0 ? DOCKER_SELECT_LANGUAGE : DOCKER_SELECT_SERVICES }
           value={service}
-          on:validate={({ detail }) => {
-            serviceValidity[index] = detail
-          }}
+          on:validate={({ detail }) => (serviceValidity[index] = detail)}
         />
       </TabPanel>
     {/each}
