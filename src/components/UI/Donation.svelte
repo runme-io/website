@@ -1,9 +1,6 @@
 <style lang="sass">
     input[type=image]
         outline: none
-
-        img
-            cursor: pointer
 </style>
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
