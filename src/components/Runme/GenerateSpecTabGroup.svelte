@@ -40,6 +40,7 @@
   }
 
   async function generate () {
+    spec = null
     spec = await generateSpec($services)
   }
 
@@ -84,6 +85,7 @@
           />
         </Tab>
       {/each}
+
       <div class="tab-add-button">
         <ButtonIcon
           flex={true}

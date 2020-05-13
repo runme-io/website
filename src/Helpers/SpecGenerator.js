@@ -1,6 +1,6 @@
 function parseSpecService (service, isMain = false) {
   let parsedService = {
-    command: service.command,
+    command: formatCommand(service),
   }
 
   if (Object.values(service.envVars || {}).length) {
