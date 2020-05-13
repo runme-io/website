@@ -21,16 +21,13 @@
   $: isService = !isApp
   $: sourceTypeLabel = isApp ? 'application' : 'service'
   $: isDockerImageValid = isDockerUrl(value.dockerImage)
-  $: isPortValid = isService || !isEmpty(value.port)
-  $: isBuildCommandValid = isService || value.hasDockerImage || !isEmpty(value.build_command)
-  $: isCommandsNotEmpty = Array.isArray(value.command)
+  $: isPortValid = !isApp || !isEmpty(value.port)
+  $: isCommandValid = Array.isArray(value.command)
     ? value.command.length && !value.command.find(isEmpty)
     : !isEmpty(value.command)
-  $: isCommandValid = isService || isCommandsNotEmpty
 
   $: dispatch('validate',
     envVarsValid
-    && isBuildCommandValid
     && isDockerImageValid
     && isPortValid
     && isCommandValid,
@@ -115,8 +112,6 @@
       <TextInput
         id="build_command"
         label={`Which command should we use to build your ${sourceTypeLabel}?`}
-        valid={isBuildCommandValid}
-        validityMessage="Build command is required"
         placeholder="npm run build"
         value={value.build_command}
         on:input={({ target }) => (value.build_command = target.value)}
