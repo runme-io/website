@@ -37,7 +37,6 @@
 
 <style lang="sass">
   @import './assets/style/theme'
-
   .compact
     margin-bottom: $label-margin
 </style>
@@ -56,9 +55,7 @@
       {rows}
       {placeholder} {id}
       bind:value
-      on:blur={() => {
-        touched = true
-      }}
+      on:blur={() => (touched = true)}
       {...$$restProps}
     />
   {:else}
@@ -72,9 +69,7 @@
       use:init
       on:input
       on:keydown={handleEnter}
-      on:blur={() => {
-        touched = true
-      }}
+      on:blur={() => (touched = true)}
       {...$$restProps}
     >
   {/if}
