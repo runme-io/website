@@ -1,5 +1,5 @@
 <script>
-  import { onDestroy } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import GitUrlParse from 'git-url-parse'
   import marked from 'marked'
   import { fetchReadme } from '@varandas/fetch-readme'
@@ -9,6 +9,7 @@
 
   let content
   let runUrl
+  let unsubscribe
   const ipsum = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim pellentesque neque eget gravida.
   In non lacus in elit aliquam iaculis. Curabitur vel velit efficitur, rhoncus tortor porttitor, dapibus nibh. Fusce efficitur,
   lorem sit amet sollicitudin blandit, nisl odio tempor ligula, et posuere ante elit ut felis. Morbi felis justo, congue a fringilla vitae,
@@ -25,34 +26,39 @@
   vel urna. Praesent placerat odio in interdum accumsan. Vivamus auctor turpis ac dui dignissim, et maximus ex consectetur.
   In vitae ornare ipsum, eu luctus turpis.</p>`
 
-  // eslint-disable-next-line camelcase
-  const unsubscribe = application.subscribe(({ repo_url, id, repo_name, repo_branch }) => {
-    if (process.browser) {
-      const { owner, name } = GitUrlParse(repo_url)
+  onMount(() => {
+    unsubscribe = application.subscribe(({
+      repo_url: repoUrl,
+      id,
+      repo_name: repoName,
+      repo_branch: branch,
+    }) => {
+      if (!repoUrl) { return }
+
+      const { owner, name } = GitUrlParse(repoUrl)
 
       // fetch and parse the markdown
       fetchReadme({
         username: owner,
         repository: name,
-        branch: repo_branch,
+        branch,
       })
         .then(response => (content = marked(response)))
-        // eslint-disable-next-line camelcase
-        .catch(() => (content = `<h1>${repo_name}</h1><p>${ipsum}</p>`))
+        .catch(() => (content = `<h1>${repoName}</h1><p>${ipsum}</p>`))
 
       // set the run url to build the application
       runUrl = setUrl(`run?app_id=${id}`)
-    }
+    })
   })
 
   onDestroy(unsubscribe)
 </script>
 
 <style lang="scss" global>
-  @import "../../../../node_modules/@primer/css/markdown/index.scss";
+  @import "./node_modules/@primer/css/markdown/index.scss";
 
   .markdown-body {
-    max-height: 60rem;
+    max-height: 30rem;
     overflow: hidden;
     position: relative;
 

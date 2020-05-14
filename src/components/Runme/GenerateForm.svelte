@@ -12,18 +12,17 @@
   // form fields
   let repoUrl = ''
   let repoUrlParsed = ''
-  let repoBranch // default branch should be filled by store
+  let repoBranch = 'master'
 
   // form states
   let repoUrlValid
-  let isFormValid
   let isSpecValid
 
   // others
   let loading = false
   let buttonText = 'Generate'
   let errorMsg = ''
-  let appId = ''
+  let appInfo
   let errorType = 'warning'
 
   // ensure correct GIT url
@@ -32,6 +31,13 @@
   // check if the fields are valid
   $: repoUrlValid = !isEmpty(repoUrlParsed) && isGitUrl(repoUrlParsed)
   $: isFormValid = repoUrlValid && isSpecValid
+  $: isGenerateDisabled = loading || !isFormValid
+  $: appInfoChanged = appInfo && (
+    appInfo.repo_url !== repoUrlParsed
+    || (!repoBranch && appInfo.repo_branch !== 'master')
+    || (repoBranch && appInfo.repo_branch !== repoBranch)
+  )
+  $: canCreateApp = !appInfo || appInfoChanged
 
   const setError = (error, type = 'warning') => {
     errorType = type
@@ -52,49 +58,49 @@
   const isLoading = (status) => {
     if (status) {
       loading = true
-      isFormValid = false
       buttonText = 'Generating...'
     } else {
       loading = false
-      isFormValid = repoUrlValid
       buttonText = 'Generate'
     }
   }
 
-  const unsubscribe = application.subscribe(({ id, error }) => {
+  // eslint-disable-next-line camelcase
+  const unsubscribe = application.subscribe(({ id, repo_branch, repo_url, error }) => {
+    isLoading(false)
+
     if (error) {
-      console.log(error)
       setError('There is a problem with creating your button. Please try again later')
-      isLoading(false)
     }
 
     if (id) {
-      appId = id
-      isLoading(false)
-      dispatch('generate', appId)
+      appInfo = { id, repo_branch, repo_url }
+      dispatch('generate')
     }
   })
 
   function createApp () {
-    if (!isFormValid) { return }
-
-    // set the button to loading
-    isLoading(true)
+    if (!isFormValid || loading) { return }
 
     // clear previous errors
     clearError()
 
-    // create an application and assign it to the store
-    application.create(repoUrlParsed, repoBranch)
-    // TODO: generate spec
+    if (canCreateApp) {
+      // set the button to loading
+      isLoading(true)
+      // create an application and assign it to the store
+      application.create(repoUrlParsed, repoBranch)
+    } else {
+      // dispatch event so the spec can be regenerated
+      dispatch('generate')
+    }
   }
 
   onDestroy(unsubscribe)
 </script>
 
 <style lang="sass">
-  @import './assets/style/theme'
-  @import './assets/style/mixins'
+  @import "./assets/style/theme"
 
   .repo-info
     display: grid
@@ -141,7 +147,7 @@
   <div class="form-actions">
     <GenerateButton
       {loading}
-      disabled={!isFormValid}
+      disabled={isGenerateDisabled}
       on:click={createApp}
     >{buttonText}</GenerateButton>
   </div>
