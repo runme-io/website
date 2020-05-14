@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
   import { writable } from 'svelte/store'
   import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs'
   import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
@@ -12,6 +12,7 @@
   import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 
   const services = specGenerator()
+  const dispatch = createEventDispatcher()
 
   // add app tab
   services.addService()
@@ -27,6 +28,10 @@
   $: isAddDisabled = $services.length >= ADDITIONAL_SERVICES_LIMIT
   $: isValid = $services.every((_, index) => serviceValidity[index])
   $: isGenerateDisabled = !isValid
+
+  $: {
+    dispatch('validate', isValid)
+  }
 
   function addService () {
     services.addService()
@@ -53,11 +58,11 @@
   $tabPadding: .5rem .75rem
 
   .generate-spec-tab-group
-      display: flex
-      flex-direction: column
+    display: flex
+    flex-direction: column
 
   .generate-spec-tab-group :global(.svelte-tabs li.svelte-tabs__tab)
-      padding: $tabPadding
+    padding: $tabPadding
 
   .tab-add-button
       display: inline-block

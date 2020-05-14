@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher, onDestroy } from 'svelte'
   import GenerateButton from './Generator/GenerateButton.svelte'
+  import GenerateSpecTabGroup from './GenerateSpecTabGroup.svelte'
   import { application } from '../Stores/Application'
   import TextInput from '../UI/TextInput.svelte'
   import Alert from '../UI/Alert.svelte'
@@ -15,7 +16,8 @@
 
   // form states
   let repoUrlValid
-  let formIsValid
+  let isFormValid
+  let isSpecValid
 
   // others
   let loading = false
@@ -29,7 +31,7 @@
 
   // check if the fields are valid
   $: repoUrlValid = !isEmpty(repoUrlParsed) && isGitUrl(repoUrlParsed)
-  $: formIsValid = repoUrlValid // TODO && spec form valid
+  $: isFormValid = repoUrlValid && isSpecValid
 
   const setError = (error, type = 'warning') => {
     errorType = type
@@ -50,11 +52,11 @@
   const isLoading = (status) => {
     if (status) {
       loading = true
-      formIsValid = false
+      isFormValid = false
       buttonText = 'Generating...'
     } else {
       loading = false
-      formIsValid = repoUrlValid
+      isFormValid = repoUrlValid
       buttonText = 'Generate'
     }
   }
@@ -74,7 +76,7 @@
   })
 
   function createApp () {
-    if (!formIsValid) { return }
+    if (!isFormValid) { return }
 
     // set the button to loading
     isLoading(true)
@@ -129,10 +131,16 @@
     />
   </div>
 
+  <div class="spec-form">
+    <GenerateSpecTabGroup
+      on:validate={({ detail }) => (isSpecValid = detail)}
+    />
+  </div>
+
   <div class="form-actions">
     <GenerateButton
       {loading}
-      disabled={!formIsValid}
+      disabled={!isFormValid}
       on:click={createApp}
     >{buttonText}</GenerateButton>
   </div>

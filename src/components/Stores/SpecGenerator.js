@@ -7,7 +7,7 @@ const createService = () => ({
   hasDockerImage: false,
   dockerImage: '',
   envVars: {},
-  port: null,
+  port: undefined,
   build_command: '',
   command: '',
 })
