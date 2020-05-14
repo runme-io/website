@@ -1,15 +1,33 @@
+<script context="module">
+  import DockerImages from '../components/Stores/DockerImages'
+  export async function preload () {
+    const res = await this.fetch('data/docker-images.json')
+    const dockerImages = await res.json()
+
+    DockerImages.set(dockerImages)
+  }
+</script>
+
 <script>
   import RunmeButton from '../components/Runme/RunmeButton.svelte'
+  import GenerateSpecResult from '../components/Runme/GenerateSpecResult.svelte'
   import GenerateForm from '../components/Runme/GenerateForm.svelte'
   import ReadmeResult from '../components/Runme/ReadmeResult.svelte'
   import MainLayout from '../components/UI/Layout/MainLayout.svelte'
+  import { generateSpec } from '../Helpers'
 
   let showRunmeFooter = false
+  let spec
+
+  async function generate () {
+    showRunmeFooter = true
+    spec = null // unassign before assign again, otherwise the component doesn't rerender new values
+    spec = await generateSpec()
+  }
 </script>
 
 <style lang="sass">
-  @import '../assets/style/theme'
-  @import '../assets/style/mixins'
+  @import "./assets/style/theme"
 
   .generator-page
     padding-top: 6rem
@@ -29,11 +47,13 @@
 
 <MainLayout {showRunmeFooter} showTechnologyIcons={true} title="Run your application from any public Git-repo with one click">
   <div class="generator-page">
-    <h1>Generate <RunmeButton/>  button for your repo.</h1>
+    <h1>Generate <RunmeButton/> button for your repo.</h1>
     <section class="generator">
-      <GenerateForm on:generate={() => (showRunmeFooter = true)} />
+      <GenerateForm on:generate={generate} />
 
       <ReadmeResult />
+
+      <GenerateSpecResult {spec} />
     </section>
   </div>
 </MainLayout>

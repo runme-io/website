@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store'
+import { writable, get } from 'svelte/store'
 
 const createService = () => ({
   /*
@@ -7,31 +7,32 @@ const createService = () => ({
   hasDockerImage: false,
   dockerImage: '',
   envVars: {},
-  port: null,
+  port: undefined,
   build_command: '',
   command: '',
 })
 
-export default function createSpecGenerator () {
-  const { subscribe, update } = writable([])
+const { subscribe, update } = writable([])
 
-  return {
-    subscribe,
-    addService () {
-      update(services => [
-        ...services,
-        createService(),
-      ])
-    },
-    removeService (serviceToBeRemoved) {
-      let previousIndex
+export default {
+  subscribe,
+  addService () {
+    update(services => [
+      ...services,
+      createService(),
+    ])
+  },
+  removeService (serviceToBeRemoved) {
+    let previousIndex
 
-      update(services => {
-        previousIndex = services.indexOf(serviceToBeRemoved) - 1
-        return services.filter(service => service !== serviceToBeRemoved)
-      })
+    update(services => {
+      previousIndex = services.indexOf(serviceToBeRemoved) - 1
+      return services.filter(service => service !== serviceToBeRemoved)
+    })
 
-      return previousIndex
-    },
-  }
+    return previousIndex
+  },
+  getAll () {
+    return get({ subscribe })
+  },
 }

@@ -1,202 +1,148 @@
 <script>
-    import { createEventDispatcher, onDestroy } from 'svelte'
-    import Icon from 'fa-svelte'
-    import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
-    import { slide } from 'svelte/transition'
-    import { bounceInOut } from 'svelte/easing'
-    import RunmeButton from './RunmeButton.svelte'
-    import OptionEnvVars from './Generator/OptionEnvVars.svelte'
-    import GenerateButton from './Generator/GenerateButton.svelte'
-    import { application } from '../Stores/Application'
-    import TextInput from '../UI/TextInput.svelte'
-    import Alert from '../UI/Alert.svelte'
-    import { isEmpty, isGitUrl, queryParam, parseGitUrl, setUrl } from '../../Helpers'
-    import { DEFAULT_TRANSTION } from '../../Consts'
+  import { createEventDispatcher, onDestroy } from 'svelte'
+  import GenerateButton from './Generator/GenerateButton.svelte'
+  import GenerateSpecTabGroup from './GenerateSpecTabGroup.svelte'
+  import { application } from '../Stores/Application'
+  import TextInput from '../UI/TextInput.svelte'
+  import Alert from '../UI/Alert.svelte'
+  import { isEmpty, isGitUrl, queryParam, parseGitUrl } from '../../Helpers'
 
-    const dispatch = createEventDispatcher()
-    const dropDownIcon = faCaretDown
+  const dispatch = createEventDispatcher()
 
-    // form fields
-    let repoUrl = ''
-    let repoUrlParsed = ''
-    let repoBranch = 'master'
-    let dockerImage = ''
-    let envVars = {}
+  // form fields
+  let repoUrl = ''
+  let repoUrlParsed = ''
+  let repoBranch // default branch should be filled by store
 
-    // form states
-    let repoUrlValid
-    let repoBranchValid
-    let dockerImageValid
-    let formIsValid
+  // form states
+  let repoUrlValid
+  let isFormValid
+  let isSpecValid
 
-    // others
-    let showAdvancedOptions = false
-    let loading = false
-    let buttonText = 'Generate'
-    let errorMsg = ''
-    let appId = ''
-    let errorType = 'warning'
-    let envVarsValid = true // true by default as this is optional
+  // others
+  let loading = false
+  let buttonText = 'Generate'
+  let errorMsg = ''
+  let appId = ''
+  let errorType = 'warning'
 
-    // ensure correct GIT url
-    $: parseGitUrl(repoUrl).then(url => repoUrlParsed = url)
+  // ensure correct GIT url
+  $: parseGitUrl(repoUrl).then(url => (repoUrlParsed = url))
 
-    // check if the fields are valid
-    $: repoUrlValid = !isEmpty(repoUrlParsed) && isGitUrl(repoUrlParsed)
-    $: repoBranchValid = repoBranch !== ''
-    $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
-    $: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
+  // check if the fields are valid
+  $: repoUrlValid = !isEmpty(repoUrlParsed) && isGitUrl(repoUrlParsed)
+  $: isFormValid = repoUrlValid && isSpecValid
 
-    $: toggledIconClass = showAdvancedOptions ? 'toggle-icon-enabled' : ''
+  const setError = (error, type = 'warning') => {
+    errorType = type
+    errorMsg = error
+  }
 
-    const setError = (error, type = 'warning') => {
-        errorType = type
-        errorMsg = error
+  const clearError = () => {
+    queryParam().clear('error')
+    setError('')
+  }
+
+  // check if we have to deal with an error from a previous page
+  const hasError = queryParam().get('error')
+  if (hasError) {
+    setError(hasError, 'danger')
+  }
+
+  const isLoading = (status) => {
+    if (status) {
+      loading = true
+      isFormValid = false
+      buttonText = 'Generating...'
+    } else {
+      loading = false
+      isFormValid = repoUrlValid
+      buttonText = 'Generate'
+    }
+  }
+
+  const unsubscribe = application.subscribe(({ id, error }) => {
+    if (error) {
+      console.log(error)
+      setError('There is a problem with creating your button. Please try again later')
+      isLoading(false)
     }
 
-    const clearError = () => {
-        queryParam().clear('error')
-        setError('')
+    if (id) {
+      appId = id
+      isLoading(false)
+      dispatch('generate', appId)
     }
+  })
 
-    // check if we have to deal with an error from a previous page
-    const hasError = queryParam().get('error')
-    if (hasError) {
-        setError(hasError, 'danger')
-    }
+  function createApp () {
+    if (!isFormValid) { return }
 
-    const isLoading = (status) => {
-        if (status) {
-            loading = true
-            formIsValid = false
-            buttonText = 'Generating...'
-        } else {
-            loading = false
-            formIsValid = repoUrlValid
-            buttonText = 'Generate'
-        }
-    }
+    // set the button to loading
+    isLoading(true)
 
-    const unsubscribe = application.subscribe(({ id, error }) => {
-        if (error) {
-            console.log(error)
-            setError('There is a problem with creating your button. Please try again later')
-            isLoading(false)
-        }
+    // clear previous errors
+    clearError()
 
-        if (id) {
-            appId = id
-            isLoading(false)
-            dispatch('generate', appId)
-        }
-    })
+    // create an application and assign it to the store
+    application.create(repoUrlParsed, repoBranch)
+    // TODO: generate spec
+  }
 
-    function toggleAdvanced () {
-        showAdvancedOptions = !showAdvancedOptions
-    }
-
-    function createApp () {
-        if (!formIsValid) { return }
-
-        // set the button to loading
-        isLoading(true)
-
-        // clear previous errors
-        clearError()
-
-        // create an application and assign it to the store
-        application.create(repoUrlParsed, repoBranch, dockerImage, envVars)
-    }
-
-    onDestroy(unsubscribe)
+  onDestroy(unsubscribe)
 </script>
 
-    <section class="repository-form">
-        {#if errorMsg}<Alert type={errorType}>{errorMsg}</Alert>{/if}
-
-        <div id="repo-url">
-            <TextInput
-                id="repo-url"
-                label="Copy your repo URL below."
-                valid={repoUrlValid}
-                validityMessage="Please enter a valid Repository url."
-                value={repoUrl}
-                placeholder="https://github.com/jexia/test-node-app.git"
-                on:enter={createApp}
-                on:input={event => (repoUrl = event.target.value)}
-            />
-        </div>
-
-        <div id="advanced-options">
-            <div
-                class="advanced-option"
-                on:click={toggleAdvanced}
-            >
-                <span>Advanced options</span>
-                <Icon
-                    class="toggle-icon {toggledIconClass}"
-                    icon={dropDownIcon}
-                />
-            </div>
-            {#if showAdvancedOptions}
-                <div
-                    class="spacing-top"
-                    transition:slide={DEFAULT_TRANSTION}
-                >
-                    <TextInput
-                        id="repo-branch"
-                        label="Which branch should we use?"
-                        valid={repoBranchValid}
-                        validityMessage="Please enter a valid branch."
-                        value={repoBranch}
-                        placeholder="master"
-                        on:input={event => (repoBranch = event.target.value)}
-                    />
-                    <TextInput
-                        id="docker-image"
-                        label="Copy your docker image in format <image>:<tag> (optional)"
-                        valid={dockerImageValid}
-                        validityMessage="Please enter a valid Docker image url."
-                        value={dockerImage}
-                        placeholder="<image>:<tag>"
-                        on:enter={createApp}
-                        on:input={event => (dockerImage = event.target.value)}
-                    />
-                    <OptionEnvVars
-                        on:items={event => envVars = event.detail}
-                        on:valid={event => envVarsValid = event.detail}
-                    />
-                </div>
-            {/if}
-        </div>
-
-        <div class="form-actions">
-            <GenerateButton {loading} disabled={!formIsValid} on:click={createApp}>{buttonText}</GenerateButton>
-        </div>
-    </section>
-
 <style lang="sass">
-    @import './assets/style/theme'
-    @import './assets/style/mixins'
+  @import './assets/style/theme'
+  @import './assets/style/mixins'
 
-    .spacing-top
-        padding-top: 2rem
+  .repo-info
+    display: grid
 
-    .advanced-option
-        align-items: center
-        display: flex
-        font-size: 1.2rem
-        cursor: pointer
+    @media screen and (min-width: 800px)
+      grid-gap: $form-control-margin
+      grid-template-columns: 3fr 1fr
 
-        span
-            margin-right: 1rem
-
-    .advanced-option :global(.toggle-icon)
-        transition: .3s ease-in-out
-
-    .advanced-option :global(.toggle-icon-enabled)
-        transform: rotate(180deg)
-
-    .advanced-option :global(.fa-svelte)
-        width: 1rem
 </style>
+
+<section class="repository-form">
+  {#if errorMsg}<Alert type={errorType}>{errorMsg}</Alert>{/if}
+
+  <div class="repo-info">
+    <TextInput
+      id="repo-url"
+      class="repo-field"
+      label="Your repo URL"
+      required={true}
+      valid={repoUrlValid}
+      validityMessage="Please enter a valid Repository url."
+      value={repoUrl}
+      placeholder="https://github.com/jexia/test-node-app.git"
+      on:enter={createApp}
+      on:input={event => (repoUrl = event.target.value)}
+    />
+
+    <TextInput
+      id="repo-branch"
+      class="repo-field"
+      label="Branch"
+      value={repoBranch}
+      placeholder="master"
+      on:input={event => (repoBranch = event.target.value)}
+    />
+  </div>
+
+  <div class="spec-form">
+    <GenerateSpecTabGroup
+      on:validate={({ detail }) => (isSpecValid = detail)}
+    />
+  </div>
+
+  <div class="form-actions">
+    <GenerateButton
+      {loading}
+      disabled={!isFormValid}
+      on:click={createApp}
+    >{buttonText}</GenerateButton>
+  </div>
+</section>

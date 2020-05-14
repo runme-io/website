@@ -1,17 +1,15 @@
 <script>
-  import { onMount } from 'svelte'
+  import { createEventDispatcher, onMount } from 'svelte'
   import { writable } from 'svelte/store'
   import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs'
   import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
   import GenerateSpecForm from './GenerateSpecForm.svelte'
-  import GenerateSpecResult from './GenerateSpecResult.svelte'
-  import Button from '../UI/Button.svelte'
   import ButtonIcon from '../UI/ButtonIcon.svelte'
-  import specGenerator from '../Stores/SpecGenerator'
-  import { generateSpec } from '../../Helpers'
+  import specStore from '../Stores/SpecGenerator'
   import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 
-  const services = specGenerator()
+  const services = specStore
+  const dispatch = createEventDispatcher()
 
   // add app tab
   services.addService()
@@ -21,12 +19,13 @@
   const serviceValidity = {}
   const selectedTabIndex = writable()
 
-  let spec
-
   $: filteredServices = $services.slice(1)
   $: isAddDisabled = $services.length >= ADDITIONAL_SERVICES_LIMIT
   $: isValid = $services.every((_, index) => serviceValidity[index])
-  $: isGenerateDisabled = !isValid
+
+  $: {
+    dispatch('validate', isValid)
+  }
 
   function addService () {
     services.addService()
@@ -39,11 +38,6 @@
     selectedTabIndex.set(previousTabIndex)
   }
 
-  async function generate () {
-    spec = null
-    spec = await generateSpec($services)
-  }
-
   onMount(() => {
     selectedTabIndex.set($services.length - 1)
   })
@@ -53,11 +47,11 @@
   $tabPadding: .5rem .75rem
 
   .generate-spec-tab-group
-      display: flex
-      flex-direction: column
+    display: flex
+    flex-direction: column
 
   .generate-spec-tab-group :global(.svelte-tabs li.svelte-tabs__tab)
-      padding: $tabPadding
+    padding: $tabPadding
 
   .tab-add-button
       display: inline-block
@@ -107,13 +101,4 @@
       </TabPanel>
     {/each}
   </Tabs>
-
-  <div class="form-actions">
-    <Button
-      disabled={isGenerateDisabled}
-      on:click={generate}
-    >Generate spec</Button>
-  </div>
-
-  <GenerateSpecResult {spec} />
 </div>
