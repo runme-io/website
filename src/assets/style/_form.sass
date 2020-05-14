@@ -9,11 +9,20 @@ $padding-horizontal: 1.5rem
   $parsed-color: str-replace(#{$color}, "#", "%23")
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='#{$parsed-color}' d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'%3E%3C/path%3E%3C/svg%3E")
 
-@mixin focused()
-  &:focus
+@mixin bordered
+  transition: border-color, box-shadow .3s ease-out
+  border: .1rem solid $input-main-color
+
+  &:focus,
+  &[required]:focus
+    box-shadow: 0 0 .5rem rgba($focused-border-color, .8)
     border-color: $focused-border-color
     outline: none
 
+  &.invalid
+    border-color: $invalid-color
+
+// global styles
 .form-control
   width: 100%
   margin-bottom: $form-control-margin
@@ -39,14 +48,12 @@ $padding-horizontal: 1.5rem
 
   input,
   textarea
-    @include focused()
+    @include bordered()
     display: block
     width: 100%
     font: inherit
-    border: .1rem solid $input-main-color
     background: white
     padding: $padding-vertical $padding-horizontal
-    transition: border-color .1s ease-out
 
     &::placeholder
       color: $input-main-color
@@ -57,13 +64,13 @@ $padding-horizontal: 1.5rem
   select
     $caret-size: 1.3rem
     @include focused()
+    @include bordered()
     @include select-caret()
     background:
-      color: #fff
+      color: $white
       repeat: no-repeat
       size: $caret-size
       position: right 1rem top 50%
-    border: .1rem solid $input-main-color
     box-sizing: border-box
     margin: 0
     padding:
@@ -71,7 +78,6 @@ $padding-horizontal: 1.5rem
       right: (2.2rem + $caret-size)
       bottom: $padding-vertical
       left: $padding-horizontal
-    transition: border-color .1s ease-out
     appearance: none
 
     &:disabled,
@@ -83,7 +89,6 @@ $padding-horizontal: 1.5rem
   textarea,
   select
     &.invalid
-      border-color: $invalid-color
       background-color: #fde3e3
 
   .error-message
