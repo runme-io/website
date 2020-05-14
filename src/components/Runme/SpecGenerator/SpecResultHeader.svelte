@@ -53,11 +53,10 @@
     text-decoration: none
 
   .button-container
-    display: flex
+    display: grid
+    grid-gap: 1rem
+    grid-template-columns: auto 1fr 1fr
     align-items: center
-
-    \:global(.button-icon)
-      margin-left: 1rem
 
     span
       font-size: 1.2rem
@@ -77,18 +76,18 @@
   </a>
 
   <div class="button-container">
-    {#if copied}
-      <span transition:fade="{DEFAULT_TRANSTION}">File content copied!</span>
-    {/if}
+    <div>
+      {#if copied}
+        <span transition:fade="{DEFAULT_TRANSTION}">File content copied!</span>
+      {/if}
+    </div>
     <ButtonIcon
-      class="button-copy"
       flex="{true}"
       aria-label="{copyLabel}"
       icon="{faCopy}"
       on:click="{copy}"
     />
     <ButtonIcon
-      class="button-download"
       flex="{true}"
       aria-label="{downloadLabel}"
       icon="{faFileDownload}"

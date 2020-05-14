@@ -52,8 +52,7 @@
   @import "../../../../node_modules/@primer/css/markdown/index.scss";
 
   .markdown-body {
-    padding: 4rem;
-    max-height: 80rem;
+    max-height: 60rem;
     overflow: hidden;
     position: relative;
 

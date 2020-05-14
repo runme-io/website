@@ -17,7 +17,7 @@
     border-radius: .3rem
     margin-top: 2rem
 
-    .header
+    &-header
       display: flex
       flex-direction: row
       align-items: center
@@ -33,10 +33,17 @@
         display: flex
         flex: 1
         margin-left: 1rem
+
+    &-content
+      padding: $spacing
+
+      \:global(pre)
+        padding: 0
+        margin: 0
 </style>
 
 <div class="github-panel {classes}">
-  <div class="header">
+  <div class="github-panel-header">
     {#if displayIcon}
       <GitHubBookIcon/>
     {/if}
@@ -46,5 +53,7 @@
     </div>
   </div>
 
-  <slot />
+  <div class="github-panel-content">
+    <slot />
+  </div>
 </div>
