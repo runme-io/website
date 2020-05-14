@@ -6,7 +6,7 @@
   import { setUrl } from '../../Helpers'
   import { application } from '../Stores/Application'
 
-  const runmeButtonUrl = 'https://svc.runme.io/static/button.svg'
+  const runmeButtonUrl = setUrl('/static/button.svg')
   const markdown = 'Markdown'
   const embedStyles = [
     markdown,
