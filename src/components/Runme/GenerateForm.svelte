@@ -1,51 +1,35 @@
 <script>
   import { createEventDispatcher, onDestroy } from 'svelte'
-  import Icon from 'fa-svelte'
-  import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
-  import { slide } from 'svelte/transition'
-  import OptionEnvVars from './Generator/OptionEnvVars.svelte'
   import GenerateButton from './Generator/GenerateButton.svelte'
   import { application } from '../Stores/Application'
   import TextInput from '../UI/TextInput.svelte'
   import Alert from '../UI/Alert.svelte'
-  import { isEmpty, isGitUrl, queryParam, parseGitUrl, isDockerUrl } from '../../Helpers'
-  import { DEFAULT_TRANSTION } from '../../Consts'
+  import { isEmpty, isGitUrl, queryParam, parseGitUrl } from '../../Helpers'
 
   const dispatch = createEventDispatcher()
-  const dropDownIcon = faCaretDown
 
   // form fields
   let repoUrl = ''
   let repoUrlParsed = ''
-  let repoBranch = 'master'
-  let dockerImage = ''
-  let envVars = {}
+  let repoBranch // default branch should be filled by store
 
   // form states
   let repoUrlValid
-  let repoBranchValid
-  let dockerImageValid
   let formIsValid
 
   // others
-  let showAdvancedOptions = false
   let loading = false
   let buttonText = 'Generate'
   let errorMsg = ''
   let appId = ''
   let errorType = 'warning'
-  let envVarsValid = true // true by default as this is optional
 
   // ensure correct GIT url
   $: parseGitUrl(repoUrl).then(url => (repoUrlParsed = url))
 
   // check if the fields are valid
   $: repoUrlValid = !isEmpty(repoUrlParsed) && isGitUrl(repoUrlParsed)
-  $: repoBranchValid = repoBranch !== ''
-  $: dockerImageValid = dockerImage === '' || isDockerUrl(dockerImage)
-  $: formIsValid = repoUrlValid && dockerImageValid && envVarsValid
-
-  $: toggledIconClass = showAdvancedOptions ? 'toggle-icon-enabled' : ''
+  $: formIsValid = repoUrlValid // TODO && spec form valid
 
   const setError = (error, type = 'warning') => {
     errorType = type
@@ -89,10 +73,6 @@
     }
   })
 
-  function toggleAdvanced () {
-    showAdvancedOptions = !showAdvancedOptions
-  }
-
   function createApp () {
     if (!formIsValid) { return }
 
@@ -103,7 +83,8 @@
     clearError()
 
     // create an application and assign it to the store
-    application.create(repoUrlParsed, repoBranch, dockerImage, envVars)
+    application.create(repoUrlParsed, repoBranch)
+    // TODO: generate spec
   }
 
   onDestroy(unsubscribe)
@@ -113,35 +94,23 @@
   @import './assets/style/theme'
   @import './assets/style/mixins'
 
-  .spacing-top
-    padding-top: 2rem
+  .repo-info
+    display: grid
 
-  .advanced-option
-    align-items: center
-    display: flex
-    font-size: 1.2rem
-    cursor: pointer
+    @media screen and (min-width: 800px)
+      grid-gap: $form-control-margin
+      grid-template-columns: 3fr 1fr
 
-    span
-      margin-right: 1rem
-
-  .advanced-option :global(.toggle-icon)
-    transition: .3s ease-in-out
-
-  .advanced-option :global(.toggle-icon-enabled)
-    transform: rotate(180deg)
-
-  .advanced-option :global(.fa-svelte)
-    width: 1rem
 </style>
 
 <section class="repository-form">
   {#if errorMsg}<Alert type={errorType}>{errorMsg}</Alert>{/if}
 
-  <div id="repo-url">
+  <div class="repo-info">
     <TextInput
       id="repo-url"
-      label="Copy your repo URL below."
+      class="repo-field"
+      label="Your repo URL"
       valid={repoUrlValid}
       validityMessage="Please enter a valid Repository url."
       value={repoUrl}
@@ -149,49 +118,15 @@
       on:enter={createApp}
       on:input={event => (repoUrl = event.target.value)}
     />
-  </div>
 
-  <div id="advanced-options">
-    <div
-      class="advanced-option"
-      on:click={toggleAdvanced}
-    >
-      <span>Advanced options</span>
-      <Icon
-        class="toggle-icon {toggledIconClass}"
-        icon={dropDownIcon}
-      />
-    </div>
-    {#if showAdvancedOptions}
-      <div
-        class="spacing-top"
-        transition:slide={DEFAULT_TRANSTION}
-      >
-        <TextInput
-          id="repo-branch"
-          label="Which branch should we use?"
-          valid={repoBranchValid}
-          validityMessage="Please enter a valid branch."
-          value={repoBranch}
-          placeholder="master"
-          on:input={event => (repoBranch = event.target.value)}
-        />
-        <TextInput
-          id="docker-image"
-          label="Copy your docker image in format <image>:<tag> (optional)"
-          valid={dockerImageValid}
-          validityMessage="Please enter a valid Docker image url."
-          value={dockerImage}
-          placeholder="<image>:<tag>"
-          on:enter={createApp}
-          on:input={event => (dockerImage = event.target.value)}
-        />
-        <OptionEnvVars
-          on:items={event => (envVars = event.detail)}
-          on:valid={event => (envVarsValid = event.detail)}
-        />
-      </div>
-    {/if}
+    <TextInput
+      id="repo-branch"
+      class="repo-field"
+      label="Branch"
+      value={repoBranch}
+      placeholder="master"
+      on:input={event => (repoBranch = event.target.value)}
+    />
   </div>
 
   <div class="form-actions">
