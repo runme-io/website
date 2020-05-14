@@ -4,14 +4,11 @@
   import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs'
   import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
   import GenerateSpecForm from './GenerateSpecForm.svelte'
-  import GenerateSpecResult from './GenerateSpecResult.svelte'
-  import Button from '../UI/Button.svelte'
   import ButtonIcon from '../UI/ButtonIcon.svelte'
-  import specGenerator from '../Stores/SpecGenerator'
-  import { generateSpec } from '../../Helpers'
+  import specStore from '../Stores/SpecGenerator'
   import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 
-  const services = specGenerator()
+  const services = specStore
   const dispatch = createEventDispatcher()
 
   // add app tab
@@ -22,12 +19,9 @@
   const serviceValidity = {}
   const selectedTabIndex = writable()
 
-  let spec
-
   $: filteredServices = $services.slice(1)
   $: isAddDisabled = $services.length >= ADDITIONAL_SERVICES_LIMIT
   $: isValid = $services.every((_, index) => serviceValidity[index])
-  $: isGenerateDisabled = !isValid
 
   $: {
     dispatch('validate', isValid)
@@ -42,11 +36,6 @@
     const previousTabIndex = services.removeService(service)
 
     selectedTabIndex.set(previousTabIndex)
-  }
-
-  async function generate () {
-    spec = null
-    spec = await generateSpec($services)
   }
 
   onMount(() => {
@@ -112,13 +101,4 @@
       </TabPanel>
     {/each}
   </Tabs>
-
-  <div class="form-actions">
-    <Button
-      disabled={isGenerateDisabled}
-      on:click={generate}
-    >Generate spec</Button>
-  </div>
-
-  <GenerateSpecResult {spec} />
 </div>

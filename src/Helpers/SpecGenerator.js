@@ -1,3 +1,5 @@
+import specStore from '../components/Stores/SpecGenerator'
+
 function parseSpecService (service, isMain = false) {
   let parsedService = {
     command: formatCommand(service),
@@ -94,7 +96,9 @@ function formatCommand ({ command }) {
     : command
 }
 
-export async function generateSpec (serviceList) {
+export async function generateSpec () {
+  const serviceList = specStore.getAll()
+
   return {
     yaml: await generateYaml(serviceList),
     dockerfile: generateDockerfile(serviceList),

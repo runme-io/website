@@ -113,6 +113,7 @@
       id="repo-url"
       class="repo-field"
       label="Your repo URL"
+      required={true}
       valid={repoUrlValid}
       validityMessage="Please enter a valid Repository url."
       value={repoUrl}

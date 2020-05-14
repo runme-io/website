@@ -10,11 +10,20 @@
 
 <script>
   import RunmeButton from '../components/Runme/RunmeButton.svelte'
+  import GenerateSpecResult from '../components/Runme/GenerateSpecResult.svelte'
   import GenerateForm from '../components/Runme/GenerateForm.svelte'
   import ReadmeResult from '../components/Runme/ReadmeResult.svelte'
   import MainLayout from '../components/UI/Layout/MainLayout.svelte'
+  import { generateSpec } from '../Helpers'
 
   let showRunmeFooter = false
+  let spec
+
+  async function generate () {
+    showRunmeFooter = true
+    spec = null
+    spec = await generateSpec()
+  }
 </script>
 
 <style lang="sass">
@@ -40,9 +49,11 @@
   <div class="generator-page">
     <h1>Generate <RunmeButton/> button for your repo.</h1>
     <section class="generator">
-      <GenerateForm on:generate={() => (showRunmeFooter = true)} />
+      <GenerateForm on:generate={generate} />
 
       <ReadmeResult />
+
+      <GenerateSpecResult {spec} />
     </section>
   </div>
 </MainLayout>
