@@ -1,5 +1,11 @@
 @import "theme"
 
+$padding-vertical: 1rem
+$padding-horizontal: 1.5rem
+
+@mixin select-caret($color: '333333') // the colour hex code without the #
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23#{$color}' d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'%3E%3C/path%3E%3C/svg%3E")
+
 @mixin focused()
   &:focus
     border-color: $focused-border-color
@@ -36,24 +42,47 @@
     font: inherit
     border: .1rem solid $input-main-color
     background: white
-    padding: 1rem 1.5rem
+    padding: $padding-vertical $padding-horizontal
     transition: border-color .1s ease-out
 
     &::placeholder
       color: $input-main-color
 
+    &[required]
+      box-shadow: none
+
   select
     @include focused()
+    @include select-caret()
+    background:
+      color: #fff
+      repeat: no-repeat
+      size: 1.3rem
+      position: right 1rem top 50%
     border: .1rem solid $input-main-color
-    background: white
+    box-sizing: border-box
+    margin: 0
+    padding:
+      top: $padding-vertical
+      right: 3.5rem
+      bottom: $padding-vertical
+      left: $padding-horizontal
     transition: border-color .1s ease-out
+    -moz-appearance: none
+    -webkit-appearance: none
+    appearance: none
+
+    &:disabled,
+    &[aria-disabled=true]
+      @include select-caret('767676')
+      background-color: $gray-light
 
   input,
   textarea,
   select
     &.invalid
       border-color: $invalid-color
-      background: #fde3e3
+      background-color: #fde3e3
 
   .error-message
     font-size: $label-font-size * .8
