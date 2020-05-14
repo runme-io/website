@@ -21,7 +21,7 @@
 
   async function generate () {
     showRunmeFooter = true
-    spec = null
+    spec = null // unassign before assign again, otherwise the component doesn't rerender new values
     spec = await generateSpec()
   }
 </script>
