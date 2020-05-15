@@ -18,7 +18,7 @@
 </script>
 
 <style lang="sass">
-  @import './assets/style/theme'
+  @import "./assets/style/theme"
 
   button,
   a
@@ -28,6 +28,7 @@
     color: $white
     border-radius: .3rem
     box-shadow: .2rem .2rem .5rem rgba(0, 0, 0, .4)
+    font-size: $default-font-size
     transition: .3s all
     cursor: pointer
     text-decoration: none

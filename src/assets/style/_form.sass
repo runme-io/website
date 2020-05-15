@@ -59,7 +59,6 @@ $padding-horizontal: 1.5rem
     @include bordered()
     display: block
     width: 100%
-    font: inherit
     background: white
     padding: $padding-vertical $padding-horizontal
 
@@ -91,6 +90,11 @@ $padding-horizontal: 1.5rem
     &[aria-disabled=true]
       @include select-caret($button-disabled-background)
       background-color: $gray-light
+
+  input,
+  textarea,
+  select
+    font-size: $default-font-size
 
   .error-message
     font-size: $label-font-size * .8
