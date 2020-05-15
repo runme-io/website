@@ -48,36 +48,46 @@
   })
 </script>
 
+<style lang="sass">
+  @import "./assets/style/theme"
+
+  .select-row
+    display: inline-grid
+    grid-gap: $label-margin
+    grid-template-columns: repeat(3, auto)
+    align-items: center
+</style>
+
 <FormControl
   required={$$restProps.required}
   hasError={invalid}
   {validityMessage}
 >
   <label for="docker-image">{sourceType.label}</label>
-  <select
-    class:invalid={invalid}
-    id="docker-image"
-    bind:value={imageItem}
-    on:change={() => {
-      tag = '' // reset tag value
-    }}
-  >
-    <option value="">Select a docker image</option>
-    {#each items as item}
-      <option value={item}>{item.name}</option>
-    {/each}
-  </select>
-  <span>:</span>
-  <select
-    {disabled}
-    bind:value={tag}
-    on:blur={() => {
-      touched = true
-    }}
-  >
-    <option value="">Select a tag</option>
-    {#each tags as tagName}
-      <option>{tagName}</option>
-    {/each}
-  </select>
+  <div class="select-row">
+    <select
+      class:invalid={invalid}
+      id="docker-image"
+      bind:value={imageItem}
+      on:change={() => {
+        tag = '' // reset tag value
+      }}
+    >
+      <option value="">Select a docker image</option>
+      {#each items as item}
+        <option value={item}>{item.name}</option>
+      {/each}
+    </select>
+    <span>:</span>
+    <select
+      {disabled}
+      bind:value={tag}
+      on:blur={() => (touched = true)}
+    >
+      <option value="">Select a tag</option>
+      {#each tags as tagName}
+        <option>{tagName}</option>
+      {/each}
+    </select>
+  </div>
 </FormControl>
