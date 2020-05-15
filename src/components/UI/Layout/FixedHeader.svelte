@@ -53,14 +53,23 @@
   <div class="titles">
     <h1>{title}</h1>
     {#if deployUrl}
-      <Button title="Deploy your application to Jexia" mode="outline" small={true} target="_blank" href={deployUrl}>Deploy permanent</Button>
+      <Button
+        title="Deploy your application to Jexia"
+        mode="outline"
+        small={true}
+        target="_blank"
+        href={deployUrl}
+      >Deploy permanent</Button>
     {/if}
 
     {#if dockerPullCommand}
       <Button mode="outline" small={true}>
-        <Tooltip asPopover={true} popoverTitle="Run following docker command" bind:content={dockerPullCommand} maxWidth="auto">
-          Run locally
-        </Tooltip>
+        <Tooltip
+          asPopover={true}
+          popoverTitle="Run following docker command"
+          bind:content={dockerPullCommand}
+          maxWidth="auto"
+        >Run locally</Tooltip>
       </Button>
     {/if}
   </div>

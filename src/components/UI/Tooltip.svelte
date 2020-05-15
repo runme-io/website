@@ -7,10 +7,10 @@
   export let asPopover = false
   export let popoverTitle = ''
 
+  const popoverTitleHtml = popoverTitle ? `<div class="popover-title">${popoverTitle}</div>` : ''
   let tippyInstance = null
 
-  popoverTitle = popoverTitle ? `<div class="popover-title">${popoverTitle}</div>` : ''
-  $: content = asPopover ? `${popoverTitle}<div class="popover-content">${content}</div>` : content
+  $: content = asPopover ? `${popoverTitleHtml}<div class="popover-content">${content}</div>` : content
   $: {
     if (tippyInstance) {
       tippyInstance.setContent(content)
