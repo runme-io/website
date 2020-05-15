@@ -20,7 +20,7 @@
     padding-right: 1rem
 
     &[disabled]
-      background: $white !import
+      background: $white !important
 
     &:not([disabled]):hover
       \:global(.button-icon-icon)
