@@ -1,5 +1,8 @@
 <script>
   import MainLayout from '../components/UI/Layout/MainLayout.svelte'
+  import { DISCORD_LINK } from '../Data/menu'
+
+  const discordLink = DISCORD_LINK
 </script>
 
 <MainLayout title="About">
@@ -19,9 +22,10 @@
       minutes and will be removed afterwards.</p>
 
     <h2>Contributing</h2>
-    <p>Runme is entirely free to use and is open-source. We ❤ open-source and welcome everyone to contribute whether
-      it's in the form of code, documentation, bug reports, feature requests, or anything else. We encourage you to
-      experiment with the project and make contributions to help evolve it and meet your needs!</p>
+    <p>Runme is entirely free to use and will be open-source in the near future. We ❤ open-source and welcome everyone
+      to contribute whether it's in the form of code, documentation, bug reports, feature requests, or anything else. We
+      encourage you to experiment with the project and give us the feedback to make it better! (feel free to
+      <a href={discordLink} target="_blank">join us on discord</a>)</p>
 
     <p>Thank you for your interest in contributing to Runme!</p>
   </div>
