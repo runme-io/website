@@ -1,9 +1,10 @@
 <script>
+  import { onDestroy } from 'svelte'
+  import { header } from '../../Stores/Header'
   import CountDown from '../Counter/CountDown.svelte'
   import CountUp from '../Counter/CountUp.svelte'
-  import { header } from '../../Stores/Header'
-  import { onDestroy } from 'svelte'
   import Button from '../Button.svelte'
+  import Tooltip from '../Tooltip.svelte'
 
   export let title = 'Run your application from any public Git-repo with one click'
   export let timerTitle = ''
@@ -13,7 +14,8 @@
   let countUp = false
   let failed = false
   let failedStatus = ''
-  let deployUrl
+  let deployUrl = ''
+  let dockerPullCommand = ''
 
   const unsubscribe = header.subscribe(header => {
     countDown = header.countDown
@@ -21,6 +23,10 @@
     failed = header.failed
     failedStatus = header.failedStatus
     deployUrl = header.deployUrl
+
+    if (header.dockerPullCommand) {
+      dockerPullCommand = `docker pull ${header.dockerPullCommand}`
+    }
 
     if (header.timerTitle) {
       timerTitle = header.timerTitle
@@ -47,7 +53,15 @@
   <div class="titles">
     <h1>{title}</h1>
     {#if deployUrl}
-      <Button title="Deploy your application to Jexia" target="_blank" href={deployUrl}>Deploy on Jexia</Button>
+      <Button title="Deploy your application to Jexia" mode="outline" small={true} target="_blank" href={deployUrl}>Deploy permanent</Button>
+    {/if}
+
+    {#if dockerPullCommand}
+      <Button mode="outline" small={true}>
+        <Tooltip asPopover={true} popoverTitle="Run following docker command" bind:content={dockerPullCommand} maxWidth="auto">
+          Run locally
+        </Tooltip>
+      </Button>
     {/if}
   </div>
 

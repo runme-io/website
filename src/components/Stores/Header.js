@@ -6,6 +6,7 @@ function createHeader () {
     countUp: false,
     timerTitle: '',
     deployUrl: '',
+    dockerPullCommand: '',
     failed: false,
     failedStatus: '',
     countDownFinish: false,
@@ -27,6 +28,7 @@ function createHeader () {
     setDeploymentUrl: (deployUrl) => setHeaderValues({ deployUrl }),
     isFailed: (failed = true, failedStatus = 'Failed') => setHeaderValues({ failed, failedStatus }),
     setCountDownFinish: (countDownFinish = true) => setHeaderValues({ countDownFinish }),
+    setDockerPullCommand: (dockerPullCommand) => setHeaderValues({ dockerPullCommand }),
   }
 }
 

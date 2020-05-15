@@ -64,17 +64,28 @@
   const toQueryString = (object, separator = '&') =>
     Object.entries(object).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join(separator)
 
-  unsubscribe.build = build.subscribe(({ error, updated_at: updatedAt, app_id: appId }) => {
+  unsubscribe.build = build.subscribe(({
+    error,
+    updated_at: updatedAt,
+    app_id: applicationId,
+    docker_image: dockerImage,
+  }) => {
     if (error) {
       showError('No application found, go to the Git-repo of your runme button or go to the <a href="/">generator</a> page and create a new one.')
       header.isFailed(true, 'Error')
     } else {
+      appId = applicationId // this need to be assigned, otherwise svelte wont detect the change
       header.showCountDown(updatedAt, 'Countdown', 600) // the app will be alive for 10 min (600s)
+      header.setDockerPullCommand(dockerImage)
       loadUrl(`https://${buildId}.runme.io`)
     }
   })
 
-  unsubscribe.application = application.subscribe(({ repo_branch: repoBranch, repo_url: repoUrl, env_variables: envVariables }) => {
+  unsubscribe.application = application.subscribe(({
+    repo_branch: repoBranch,
+    repo_url: repoUrl,
+    env_variables: envVariables,
+  }) => {
     if (repoBranch && repoUrl) {
       const queryParam = {
         repoUrl,

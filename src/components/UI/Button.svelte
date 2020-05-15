@@ -6,6 +6,7 @@
   export let disabled = false
   export let flex = false
   export let big = false
+  export let small = false
 
   let restProps
 
@@ -35,9 +36,14 @@
     &:active
       box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .4)
 
-  button
+    &.small
+      font-size: 1.2rem
+
     &.big
       font-size: 1.8rem
+
+  button
+    &.big
       padding: .5rem 1.5rem
 
     &.flex
@@ -85,6 +91,8 @@
     {...restProps}
     {href}
     {target}
+    class:big
+    class:small
     class={classes}
   >
     <slot/>
@@ -94,6 +102,7 @@
     {...restProps}
     class:flex
     class:big
+    class:small
     class={classes}
     {type}
     {disabled}
