@@ -22,6 +22,13 @@
     : `.. image:: ${runmeButtonUrl}\n    :target: ${runUrl}`
   $: embedCode = runUrl ? code : ''
 
+  function init (nodeElement) {
+    setTimeout(
+      () => nodeElement.scrollIntoView({ behavior: 'smooth' }),
+      200,
+    )
+  }
+
   onMount(() => {
     appSubscription = application.subscribe(({ id }) => {
       if (id) {
@@ -41,6 +48,7 @@
     @include dashed-line(top)
     padding-top: 4rem
     margin-top: 3rem
+    scroll-snap-align: start
 
     .generated-embed-code
       margin-top: 1rem
@@ -49,15 +57,19 @@
       label
         cursor: pointer
 
-    h3
+    > h3
       margin-top: 4rem
       font-weight: bold
       font-size: 2rem
       margin-bottom: 2rem
+      scroll-snap-align: start
 </style>
 
 {#if embedCode}
-  <div class="embed-result">
+  <div
+    class="embed-result"
+    use:init
+  >
     <div class="generated-embed-code">
       <TextInput
         rows="4"
