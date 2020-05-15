@@ -19,7 +19,10 @@
     display: inline-flex
     padding-right: 1rem
 
-    &:hover
+    &[disabled]
+      background: $white !import
+
+    &:not([disabled]):hover
       \:global(.button-icon-icon)
         transition: all .25s ease-in-out
         transform: scale(1.2)
