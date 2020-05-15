@@ -1,25 +1,24 @@
 <script>
+  import { fade } from 'svelte/transition'
+  import { DEFAULT_TRANSTION } from '../../Consts'
+
   export let type = ''
 
-  function classType () {
-    switch (type) {
-      case 'success':
-        return 'alert--success'
+  $: classType = `alert--${type}`
 
-      case 'danger':
-        return 'alert--danger'
-
-      case 'warning':
-        return 'alert--warning'
-
-      case 'info':
-        return 'alert--info'
-    }
+  function init (nodeElement) {
+    setTimeout(
+      () => nodeElement.scrollIntoView({ behavior: 'smooth' }),
+      200,
+    )
   }
 </script>
 
 <style lang="sass">
   @import "./assets/style/theme"
+
+  .alert-container
+    padding-top: 1rem
 
   .alert
     position: relative
@@ -51,6 +50,11 @@
     border-color: #bee5eb
 </style>
 
-<div class="alert {classType()}">
-  <slot />
+<div class="alert-container" use:init>
+  <div
+    transition:fade={DEFAULT_TRANSTION}
+    class="alert {classType}"
+  >
+    <slot />
+  </div>
 </div>
