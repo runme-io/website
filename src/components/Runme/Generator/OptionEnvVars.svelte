@@ -1,164 +1,150 @@
 <script>
-    import TextInput from '../../UI/TextInput.svelte'
-    import Button from '../../UI/Button.svelte'
-    import Icon from 'fa-svelte'
-    import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
-    import { faPlusCircle } from '@fortawesome/free-solid-svg-icons/faPlusCircle'
-    import { createEventDispatcher } from 'svelte'
-    import InputSwitch from '../../UI/InputSwitch.svelte'
+  import { createEventDispatcher } from 'svelte'
+  import { faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
+  import TextInput from '../../UI/TextInput.svelte'
+  import ButtonIcon from '../../UI/ButtonIcon.svelte'
+  import InputSwitch from '../../UI/InputSwitch.svelte'
+  import FormControl from '../../UI/Form/FormControl.svelte'
+  import { convertEnvVarsToText, convertEnvVarsFromText, validateEnvVars, notEmpty, validKey } from '../../../Helpers'
 
-    const dispatch = createEventDispatcher()
-    const removeIcon = faTrash
-    const addIcon = faPlusCircle
+  const dispatch = createEventDispatcher()
+  const removeIcon = faTrash
+  const addIcon = faPlusCircle
 
-    let useTextarea = true
-    let envVars = []
-    let envVarsAsText = ''
-    let envVarsAsTextValid = false
-    let switchText = 'Switch to GUI'
+  // the env vars in object format
+  export let value = []
 
-    const notEmpty = (value) => value !== ''
-    const validKey = (value) => value.match(/^[A-Z_a-z]+$/)
-    const checkVars = () => envVars.every(item => notEmpty(item.key) && validKey(item.key) && notEmpty(item.value))
+  let useTextarea = true
+  let envVars = []
+  let envVarsAsText = ''
+  let envVarsAsTextValid = false
+  let switchText = 'Switch to GUI'
 
-    $: envVars = convertEnvVarsFromText(envVarsAsText)
-    $: envVarsAsTextValid = checkVars(envVars)
+  if (value) {
+    envVarsAsText = convertEnvVarsToText(value)
+  }
 
-    const convertEnvVarsFromText = (textEnvVars) => textEnvVars.split('\n').reduce((accumulator, currentValue) => {
-        if (currentValue) {
-            const vars = currentValue.split(/=(.+)/)
-            const key = vars[0] || ''
-            const value = vars[1] || ''
-            accumulator = [...accumulator, { key, value }]
-        }
-        return accumulator
-    }, [])
+  $: envVars = convertEnvVarsFromText(envVarsAsText)
+  $: envVarsAsTextValid = validateEnvVars(envVars)
 
-    const convertEnvVarsToText = (envVars) => {
-      return envVars.reduce((accumulator, currentValue) => [...accumulator, `${currentValue.key}=${currentValue.value}`], []).join('\n')
+  function add () {
+    envVars = envVars.concat({ key: '', value: '' })
+  }
+
+  function remove (removeIndex) {
+    envVars = envVars.filter((elem, index) => index !== removeIndex)
+  }
+
+  function switchUI (checked) {
+    useTextarea = !checked.detail
+
+    if (useTextarea) {
+      switchText = 'Switch to GUI'
+      envVarsAsText = convertEnvVarsToText(envVars)
+    } else {
+      switchText = 'Switch to plain text'
+      envVars = convertEnvVarsFromText(envVarsAsText)
     }
+  }
 
-    const prepareVars = () => envVars.reduce((accumulator, currentValue) => {
-        accumulator[currentValue['key']] = currentValue['value']
-        return accumulator
-    }, {})
+  $: envVarsObject = envVars.reduce((accumulator, currentValue) => {
+    accumulator[currentValue.key] = currentValue.value
+    return accumulator
+  }, {})
 
-    function add () {
-        envVars = envVars.concat({ key: '', value: '' })
-    }
-
-    function remove (removeIndex) {
-        envVars = envVars.filter((elem, index) => index !== removeIndex)
-    }
-
-    function switchUI (checked) {
-        useTextarea = !checked.detail
-
-        if (useTextarea) {
-            switchText = 'Switch to GUI'
-            envVarsAsText = convertEnvVarsToText(envVars)
-        } else {
-            switchText = 'Switch to plain text'
-            envVars = convertEnvVarsFromText(envVarsAsText)
-        }
-    }
-
-    $: dispatch('valid', checkVars(envVars))
-    $: dispatch('items', prepareVars(envVars))
+  $: dispatch('valid', envVarsAsTextValid)
+  $: dispatch('items', envVarsObject)
 </script>
 
-<div class="env-vars">
-    <label>Enter your environment variable</label>
-
-    {#if useTextarea}
-        <TextInput
-            placeholder="YOUR_ENV_VAR_KEY=example value (put every variable on a new line)"
-            controlType="textarea"
-            valid={envVarsAsTextValid}
-            validityMessage="Invalid values"
-            rows="7"
-            bind:value={envVarsAsText}
-        />
-    {:else}
-        {#each envVars as envVar, i}
-            <div class="row">
-                <div>
-                    <TextInput
-                        value={envVar.key}
-                        valid={notEmpty(envVar.key) && validKey(envVar.key)}
-                        validityMessage="Invalid key given"
-                        placeholder="Your key"
-                        on:input={event => (envVar.key = event.target.value)}
-                    />
-                </div>
-                <div>
-                    <TextInput
-                        value={envVar.value}
-                        valid={notEmpty(envVar.value)}
-                        validityMessage="Invalid value given"
-                        placeholder="Your value"
-                        on:input={event => (envVar.value = event.target.value)}
-                    />
-                </div>
-                <div>
-                    <Button on:click={() => remove(i)} mode="default">
-                        <Icon icon={removeIcon}/>
-                    </Button>
-                </div>
-            </div>
-        {/each}
-
-        <div class="add-button">
-            <Button flex={true} on:click={add} mode="outline">
-                <span class="button-icon"><Icon icon={addIcon}/></span> Add
-            </Button>
-        </div>
-    {/if}
-
-    <div class="switch">{switchText}&nbsp;<InputSwitch on:checked={switchUI}/></div>
-
-</div>
-
 <style lang="sass">
-    .add-button
-        margin-top: 1rem
+  .add-button
+    margin-top: 1rem
 
-    .env-vars
-        margin: 1rem 0 2rem
+  .switch
+    display: flex
+    justify-content: flex-end
+    font-size: 1.2rem
+    align-items: center
 
-    .button-icon
-        display: inline-flex
+  .row
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    align-items: baseline
+
+    > div
+      width: 45%
+
+      &:first-child
         padding-right: 1rem
 
-    .switch
-        display: flex
-        justify-content: flex-end
-        font-size: 1.2rem
+      &:nth-child(2)
+        padding-left: 1rem
+
+      &:last-child
+        width: 10%
+        flex-grow: 1
+        text-align: center
         align-items: center
-
-    label
-        display: block
-        width: 100%
-        font-size: 1.4rem
-
-    .row
-        display: flex
-        flex-direction: row
-        flex-wrap: wrap
-        align-items: baseline
-
-        > div
-            width: 45%
-
-            &:first-child
-                padding-right: 1rem
-
-            &:nth-child(2)
-                padding-left: 1rem
-
-            &:last-child
-                width: 10%
-                flex-grow: 1
-                text-align: center
-                align-self: center
 </style>
+
+<FormControl
+  required={$$restProps.required}
+>
+  <label>Enter your environment variables</label>
+
+  {#if useTextarea}
+    <TextInput
+      placeholder="YOUR_ENV_VAR_KEY=example value (put every variable on a new line)"
+      controlType="textarea"
+      valid={envVarsAsTextValid}
+      validityMessage="Invalid values"
+      rows="7"
+      bind:value={envVarsAsText}
+    />
+  {:else}
+    {#each envVars as envVar, i}
+      <div class="row">
+        <div>
+          <TextInput
+            value={envVar.key}
+            valid={validKey(envVar.key)}
+            validityMessage="Invalid key given"
+            placeholder="Your key"
+            on:input={event => (envVar.key = event.target.value)}
+          />
+        </div>
+
+        <div>
+          <TextInput
+            value={envVar.value}
+            valid={notEmpty(envVar.value)}
+            validityMessage="Invalid value given"
+            placeholder="Your value"
+            on:input={event => (envVar.value = event.target.value)}
+          />
+        </div>
+
+        <div>
+          <ButtonIcon
+            icon={removeIcon}
+            on:click={() => remove(i)}
+            mode="default"
+          />
+        </div>
+      </div>
+    {/each}
+
+    <div class="add-button">
+      <ButtonIcon
+        flex={true}
+        label="Add"
+        icon={addIcon}
+        mode="outline"
+        on:click={add}
+      />
+    </div>
+  {/if}
+
+  <div class="switch">{switchText}&nbsp;<InputSwitch on:checked={switchUI}/></div>
+</FormControl>

@@ -3,18 +3,30 @@
 
     const dispatch = createEventDispatcher()
 
-    let checked = false
+    /*
+     * Whether to display labels "Yes" and "No" inside the switch
+     */
+    export let showLabels = false
+    export let value = false
 
+    let checked = value
+
+    $: label = showLabels ? (checked ? 'Yes' : 'No') : ''
     $: dispatch('checked', checked)
 </script>
 
 <label class="switch">
     <input type="checkbox" bind:checked={checked}>
-    <span class="slider round"></span>
+    <div class="slider round">
+        {#if label}
+            <span class:checked={checked}>{label}</span>
+        {/if}
+    </div>
 </label>
 
 <style lang="sass">
     @import "../../assets/style/theme"
+    $default-transition: .4s
 
     /* The switch - the box around the slider */
     .switch
@@ -37,8 +49,8 @@
         left: 0
         right: 0
         bottom: 0
-        background-color: #ccc
-        transition: .4s
+        background-color: $gray-light
+        transition: $default-transition
 
         &:before
             position: absolute
@@ -47,8 +59,9 @@
             width: 1.6rem
             left: .4rem
             bottom: .4rem
-            background-color: white
-            transition: .4s
+            background-color: $white
+            transition: $default-transition
+            z-index: 1
 
         /* Rounded sliders */
         &.round
@@ -56,6 +69,16 @@
 
             &:before
                 border-radius: 50%
+
+        span
+            font-size: 1.4rem
+            position: absolute
+            right: 1rem
+            top: .2rem
+            transition: $default-transition
+
+            &.checked
+                left: .5rem
 
     input:checked + .slider
         background-color: $primary-yellow

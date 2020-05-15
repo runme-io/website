@@ -2,30 +2,28 @@ import { writable } from 'svelte/store'
 import { runApiRequest } from '../../Helpers'
 import { JEXIA_CREDENTIALS } from '../../env'
 
-function createApplication() {
+function createApplication () {
   const { subscribe, set } = writable({})
 
   return {
     subscribe,
     set,
-    create: async (repo_url, repo_branch = 'master', docker_image = '', env_variables = {}) => {
+    create: async (repoUrl, repoBranch = 'master') => {
       try {
         const application = await runApiRequest('v1/apps', 'POST', {
-          repo_url,
-          repo_branch,
-          docker_image,
-          env_variables,
+          // eslint-disable-next-line camelcase
+          repo_url: repoUrl,
+          // eslint-disable-next-line camelcase
+          repo_branch: repoBranch,
         })
 
         set(application || {})
-      }
-      catch (error) {
+      } catch (error) {
         set({ error })
       }
     },
-    get: async (app_id) => {
-      if (process.browser && app_id) {
-
+    get: async (appId) => {
+      if (process.browser && appId) {
         const { jexiaClient, dataOperations } = await import('jexia-sdk-js/browser')
         const dataModule = dataOperations()
         const credentials = {
@@ -40,14 +38,14 @@ function createApplication() {
 
         appsDataset
           .select()
-          .where(field => field('id').isEqualTo(app_id))
+          .where(field => field('id').isEqualTo(appId))
           .subscribe(
             ([result]) => set(result || {}),
-            () => {} // TODO handle errors
+            () => {}, // TODO handle errors
           )
       }
-    }
+    },
   }
 }
 
-export const application = createApplication();
+export const application = createApplication()

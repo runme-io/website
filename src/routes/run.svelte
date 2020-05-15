@@ -70,10 +70,10 @@
             You application is firing up, please hang with us so we can collect your repo info and start building your application.
         </LoadingBlock>
     {:else if hasError}
-        <h1>Oeps!</h1>
+        <h1>Oops!</h1>
         <p>
             {#if rateLimitError}
-                There are to many build triggers for this particular repo. Please hang on, Runme will try to run it in a new build, after <CountDown /> minutes.
+                There are too many build triggers for this particular repo. Please hang on, Runme will try to run it in a new build, after <CountDown /> minutes.
             {/if}
 
             {#if generalError}

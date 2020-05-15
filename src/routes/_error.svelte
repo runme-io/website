@@ -5,26 +5,35 @@
 	const dev = process.env.NODE_ENV === 'development';
 </script>
 
-<style>
-	h1, p {
-		margin: 0 auto;
-	}
+<style lang="sass">
+    @import './assets/style/theme'
 
-	h1 {
-		font-size: 2.8em;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
+    h1, p
+        margin: 0 auto
 
-	p {
-		margin: 1em auto;
-	}
+    h1
+        font-size: 2.8rem
+        font-weight: 700
+        margin: 0 0 .5rem 0
 
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
-	}
+    p
+        margin: 1rem auto
+
+
+    @media (min-width: 480px)
+        h1
+            font-size: 4rem
+
+    pre
+      background-color: $gray-medium
+      border-radius: .5rem
+      border: .1rem solid $gray-light
+      color: $white
+      font-size: 1.4rem
+      line-height: 1.4rem
+      margin: 1rem 0
+      word-break: break-all
+      word-wrap: break-word
 </style>
 
 <svelte:head>

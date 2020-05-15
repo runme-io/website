@@ -1,0 +1,103 @@
+@import "theme"
+@import "functions"
+
+$padding-vertical: 1rem
+$padding-horizontal: 1.5rem
+
+// mixins
+@mixin select-caret($color: $gray-medium)
+  $parsed-color: str-replace(#{$color}, "#", "%23")
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='#{$parsed-color}' d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z'%3E%3C/path%3E%3C/svg%3E")
+
+@mixin bordered
+  transition: border-color, box-shadow .2s ease-out
+  border: .1rem solid $input-main-color
+
+  &:focus,
+  &[required]:focus
+    box-shadow: 0 0 .5rem rgba($focused-border-color, .5)
+    border-color: $focused-border-color
+    outline: none
+
+  &:not(:focus).invalid
+    border:
+      color: $invalid-color
+      style: dashed
+
+    background-color: #fde3e3
+
+    &::placeholder
+      color: rgba($invalid-color, .2)
+
+
+// global styles
+.form-control
+  width: 100%
+  margin-bottom: $form-control-margin
+
+  > label
+    display: block
+    margin-bottom: $label-margin
+    width: 100%
+    font-size: $label-font-size
+
+  &.required
+    > label
+      font-weight: bold
+
+      &:after
+        color: $focused-border-color
+        content: ' *'
+        display: inline
+        line-height: 1
+        font:
+          size: 110%
+          weight: bold
+
+  input,
+  textarea
+    @include bordered()
+    display: block
+    width: 100%
+    font: inherit
+    background: white
+    padding: $padding-vertical $padding-horizontal
+
+    &::placeholder
+      color: $input-main-color
+
+    &[required]
+      box-shadow: none
+
+  select
+    $caret-size: 1.3rem
+    @include bordered()
+    @include select-caret()
+    background:
+      color: $white
+      repeat: no-repeat
+      size: $caret-size
+      position: right 1rem top 50%
+    box-sizing: border-box
+    margin: 0
+    padding:
+      top: $padding-vertical
+      right: (2.2rem + $caret-size)
+      bottom: $padding-vertical
+      left: $padding-horizontal
+    appearance: none
+
+    &:disabled,
+    &[aria-disabled=true]
+      @include select-caret($button-disabled-background)
+      background-color: $gray-light
+
+  .error-message
+    font-size: $label-font-size * .8
+    color: $invalid-color
+    cursor: default
+    margin: .25rem 0
+
+.form-actions
+  margin: 2rem 0
+  text-align: center
