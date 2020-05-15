@@ -12,7 +12,9 @@ const createService = () => ({
   command: '',
 })
 
-const { subscribe, update } = writable([])
+const { subscribe, update } = writable([
+  createService(),
+])
 
 export default {
   subscribe,

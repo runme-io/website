@@ -11,9 +11,6 @@
   const services = specStore
   const dispatch = createEventDispatcher()
 
-  // add app tab
-  services.addService()
-
   const iconRemove = faTimes
   const iconAdd = faPlusCircle
   const serviceValidity = {}
