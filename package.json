@@ -37,7 +37,8 @@
     "polka": "next",
     "sirv": "^0.4.0",
     "url": "^0.11.0",
-    "yaml": "^1.9.2"
+    "yaml": "^1.9.2",
+    "tippy.js": "~6.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
