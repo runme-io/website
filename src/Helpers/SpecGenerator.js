@@ -78,6 +78,8 @@ function generateDockerfile (serviceList) {
 
   if (appValue.build_command) {
     dockerfileLines = dockerfileLines.concat(`RUN ${appValue.build_command}`)
+  } else if (!appValue.hasDockerImage && appValue.dockerImage.includes('node:')) {
+    dockerfileLines = dockerfileLines.concat('RUN npm install && npm run build')
   }
 
   const command = formatCommand(appValue)
