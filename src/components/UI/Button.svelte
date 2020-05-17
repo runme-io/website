@@ -1,4 +1,6 @@
 <script>
+  import { tooltip } from '../Actions/Tooltip'
+
   export let type = 'button'
   export let href = null
   export let target = null
@@ -7,6 +9,10 @@
   export let flex = false
   export let big = false
   export let small = false
+  export let tooltipOptions = {}
+
+  // set the marker if we have a tooltip
+  tooltipOptions.enabled = !!tooltipOptions.content
 
   let restProps
 
@@ -95,6 +101,7 @@
     class:big
     class:small
     class={classes}
+    use:tooltip={tooltipOptions}
   >
     <slot/>
   </a>
@@ -108,6 +115,7 @@
     {type}
     {disabled}
     on:click
+    use:tooltip={tooltipOptions}
   >
     <slot/>
   </button>

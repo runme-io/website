@@ -1,0 +1,22 @@
+$backgroundColor: #eee
+
+.tippy-box
+  user-select: text
+  cursor: default
+  font-size: 1.1rem
+
+  &[role='popover'],
+  &[role='popover'] .tippy-content
+    padding: 0
+
+  &[role='popover'][data-placement^=bottom] > .tippy-arrow:before
+    border-bottom-color: $backgroundColor !important
+
+  .popover-title
+    border-bottom: .1rem solid #e2e2e2
+    padding: .7rem 1rem
+    font-size: 1.2rem
+    background: $backgroundColor
+
+  .popover-content
+    padding: 1rem
