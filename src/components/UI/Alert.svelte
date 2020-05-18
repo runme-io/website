@@ -5,6 +5,7 @@
 
   export let type = ''
   export let scrollOptions = { enabled: true }
+  export let title = ''
 
   $: classType = `alert--${type}`
 </script>
@@ -21,8 +22,7 @@
     margin-bottom: 3rem
     border: .1rem solid transparent
     border-radius: .5rem
-    font-weight: bold
-    font-size: 1.4rem
+    font-size: 1.2rem
 
   .alert--success
     color: $success
@@ -43,6 +43,10 @@
     color: $info
     background-color: #d1ecf1
     border-color: #bee5eb
+
+  .alert-title
+    margin-bottom: 2rem
+    font-weight: bold
 </style>
 
 <div
@@ -53,6 +57,7 @@
     transition:fade={DEFAULT_TRANSTION}
     class="alert {classType}"
   >
+    <h3 class="alert-title">{title}</h3>
     <slot />
   </div>
 </div>
