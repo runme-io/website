@@ -75,8 +75,9 @@
 
     if (id) {
       appInfo = { id, repo_branch, repo_url }
-      dispatch('generate')
     }
+
+    dispatch('generate', !!id)
   })
 
   function createApp () {
@@ -92,7 +93,7 @@
       application.create(repoUrlParsed, repoBranch)
     } else {
       // dispatch event so the spec can be regenerated
-      dispatch('generate')
+      dispatch('generate', true)
     }
   }
 
