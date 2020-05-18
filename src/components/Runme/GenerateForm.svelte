@@ -21,7 +21,7 @@
   // others
   let loading = false
   let buttonText = 'Generate'
-  let errorMsg = ''
+  let error = null
   let appInfo
   let errorType = 'warning'
 
@@ -39,14 +39,17 @@
   )
   $: canCreateApp = !appInfo || appInfoChanged
 
-  const setError = (error, type = 'warning') => {
+  const setError = (message, type = 'warning') => {
     errorType = type
-    errorMsg = error
+    error = {
+      title: 'There is a problem with creating your button',
+      message,
+    }
   }
 
   const clearError = () => {
     queryParam().clear('error')
-    setError('')
+    error = null
   }
 
   // check if we have to deal with an error from a previous page
@@ -70,7 +73,8 @@
     isLoading(false)
 
     if (error) {
-      setError('There is a problem with creating your button. Please try again later')
+      console.log('error', error)
+      setError(error.message)
     }
 
     if (id) {
@@ -110,10 +114,20 @@
       grid-gap: $form-control-margin
       grid-template-columns: 3fr 1fr
 
+
+  .error-message:first-letter
+    text-transform: uppercase
 </style>
 
 <section class="repository-form">
-  {#if errorMsg}<Alert type={errorType}>{errorMsg}</Alert>{/if}
+  {#if error}
+    <Alert
+      type={errorType}
+      title={error.title}
+    >
+      <p class="error-message">{error.message}</p>
+    </Alert>
+  {/if}
 
   <div class="repo-info">
     <TextInput
@@ -122,7 +136,7 @@
       label="Your repo URL"
       required={true}
       valid={repoUrlValid}
-      validityMessage="Please enter a valid Repository url."
+      validityMessage="Please enter a valid Repository URL."
       value={repoUrl}
       placeholder="https://github.com/jexia/test-node-app.git"
       on:enter={createApp}
