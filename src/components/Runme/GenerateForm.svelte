@@ -131,7 +131,7 @@
     <TextInput
       id="repo-branch"
       class="repo-field"
-      label="Branch"
+      label="Branch or tag"
       value={repoBranch}
       placeholder="master"
       on:input={event => (repoBranch = event.target.value)}

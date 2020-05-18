@@ -88,10 +88,11 @@
     {#if value.hasDockerImage}
       <TextInput
         id="docker-image"
-        label="Copy your docker image in format <image>:<tag> (optional)"
+        label="Copy your docker image in format <image>:<tag>"
         valid={isDockerImageValid}
         validityMessage="Please enter a valid Docker image url."
         value={value.dockerImage}
+        required={true}
         placeholder="<image>:<tag>"
         on:input={({ target }) => (value.dockerImage = target.value)}
       />
@@ -103,6 +104,7 @@
       valid={isDockerImageValid}
       validityMessage="A valid docker image is required"
       value={value.dockerImage}
+      required={true}
       {sourceType}
       on:change={({ detail }) => setDockerImageValue(detail)}
     />
