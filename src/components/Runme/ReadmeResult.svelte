@@ -3,8 +3,11 @@
   import RunmeButton from './RunmeButton.svelte'
   import TextInput from '../UI/TextInput.svelte'
   import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
+  import { autoscroll } from '../Actions'
   import { setUrl } from '../../Helpers'
   import { application } from '../Stores/Application'
+
+  export let scrollOptions = { onInit: true }
 
   const runmeButtonUrl = setUrl('/static/button.svg')
   const markdown = 'Markdown'
@@ -21,13 +24,6 @@
     ? `[![Runme](${runmeButtonUrl})](${runUrl})`
     : `.. image:: ${runmeButtonUrl}\n    :target: ${runUrl}`
   $: embedCode = runUrl ? code : ''
-
-  function init (nodeElement) {
-    setTimeout(
-      () => nodeElement.scrollIntoView({ behavior: 'smooth' }),
-      200,
-    )
-  }
 
   onMount(() => {
     appSubscription = application.subscribe(({ id }) => {
@@ -68,7 +64,7 @@
 {#if embedCode}
   <div
     class="embed-result"
-    use:init
+    use:autoscroll={scrollOptions}
   >
     <div class="generated-embed-code">
       <TextInput
