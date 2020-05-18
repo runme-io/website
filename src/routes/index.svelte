@@ -44,7 +44,11 @@
     padding-top: $spacing
 </style>
 
-<MainLayout {showRunmeFooter} showTechnologyIcons={true} title="Run your application from any public Git-repo with one click">
+<MainLayout
+  {showRunmeFooter}
+  showTechnologyIcons={true}
+  title="Run your application from any public Git-repo with one click"
+>
   <div class="generator-page">
     <h1>Generate <RunmeButton/> button for your repo.</h1>
     <section class="generator">

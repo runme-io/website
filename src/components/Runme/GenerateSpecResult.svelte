@@ -1,12 +1,9 @@
 <script>
   import { fade } from 'svelte/transition'
-  import Icon from 'fa-svelte'
-  import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
   import Code from '../UI/Code.svelte'
-  import CodePiece from '../UI/CodePiece.svelte'
   import SpecResultHeader from './SpecGenerator/SpecResultHeader.svelte'
   import GithubPanel from '../UI/GitHub/GithubPanel.svelte'
-  import { DEFAULT_TRANSTION, SPEC_URL } from '../../Consts'
+  import { DEFAULT_TRANSTION } from '../../Consts'
 
   export let spec
 
@@ -30,25 +27,9 @@
 
   .title-content
     display: contents
-
-  // TODO: export external-link into Button component
-  .external-link
-    position: relative
-    margin-right: 1rem
-
-    \:global(.external-icon)
-      position: absolute
-      right: -1.2rem
-      width: 1rem
-
 </style>
 
 {#if spec}
-  <p>
-    1. Copy the following { dockerfile ? 'files' : 'file' } inside <CodePiece>./.runme</CodePiece> folder in the root of your repository.
-    Curious about available options for <CodePiece>config.yaml</CodePiece>? <a class="external-link" href={SPEC_URL} target="_blank">Read the full Runme Specification<Icon class="external-icon" icon={faExternalLinkAlt} /></a> and change it by yourself.
-  </p>
-
   <div class="spec-panel" in:fade="{DEFAULT_TRANSTION}">
     <GithubPanel class="github-panel" displayIcon="{false}">
       <div class="title-content" slot="title">

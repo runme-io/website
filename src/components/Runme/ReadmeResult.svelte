@@ -1,6 +1,5 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
-  import CodePiece from '../UI/CodePiece.svelte'
   import TextInput from '../UI/TextInput.svelte'
   import { setUrl } from '../../Helpers'
   import { application } from '../Stores/Application'
@@ -47,8 +46,6 @@
 </style>
 
 {#if embedCode}
-  <p>2. Paste the following code in the <CodePiece>README.md</CodePiece> file of your repository</p>
-
   <div class="generated-embed-code">
     <TextInput
       readonly
