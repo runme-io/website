@@ -19,8 +19,8 @@
   let showRunmeFooter = false
   let spec
 
-  async function generate () {
-    showRunmeFooter = true
+  async function generate ({ detail: success }) {
+    showRunmeFooter = success
     spec = null // unassign before assign again, otherwise the component doesn't rerender new values
     spec = await generateSpec()
   }
