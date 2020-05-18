@@ -10,9 +10,8 @@
 
 <script>
   import RunmeButton from '../components/Runme/RunmeButton.svelte'
-  import GenerateSpecResult from '../components/Runme/GenerateSpecResult.svelte'
   import GenerateForm from '../components/Runme/GenerateForm.svelte'
-  import ReadmeResult from '../components/Runme/ReadmeResult.svelte'
+  import GenerateResult from '../components/Runme/GenerateResult.svelte'
   import MainLayout from '../components/UI/Layout/MainLayout.svelte'
   import { generateSpec } from '../Helpers'
 
@@ -51,9 +50,10 @@
     <section class="generator">
       <GenerateForm on:generate={generate} />
 
-      <ReadmeResult />
-
-      <GenerateSpecResult {spec} />
+      <GenerateResult
+        isVisible={showRunmeFooter}
+        {spec}
+      />
     </section>
   </div>
 </MainLayout>
