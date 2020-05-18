@@ -9,7 +9,7 @@
 
   let content
   let runUrl
-  let unsubscribe
+  let unsubscribe = () => {}
   const ipsum = `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim pellentesque neque eget gravida.
   In non lacus in elit aliquam iaculis. Curabitur vel velit efficitur, rhoncus tortor porttitor, dapibus nibh. Fusce efficitur,
   lorem sit amet sollicitudin blandit, nisl odio tempor ligula, et posuere ante elit ut felis. Morbi felis justo, congue a fringilla vitae,
@@ -28,12 +28,13 @@
 
   onMount(() => {
     unsubscribe = application.subscribe(({
+      error,
       repo_url: repoUrl,
       id,
       repo_name: repoName,
       repo_branch: branch,
     }) => {
-      if (!repoUrl) { return }
+      if (!repoUrl || error) { return }
 
       const { owner, name } = GitUrlParse(repoUrl)
 
@@ -51,7 +52,9 @@
     })
   })
 
-  onDestroy(unsubscribe)
+  onDestroy(() => {
+    unsubscribe()
+  })
 </script>
 
 <style lang="scss" global>

@@ -26,7 +26,12 @@
   $: embedCode = runUrl ? code : ''
 
   onMount(() => {
-    appSubscription = application.subscribe(({ id }) => {
+    appSubscription = application.subscribe(({ error, id }) => {
+      if (error) {
+        runUrl = null // clear result when error is thrown
+        return
+      }
+
       if (id) {
         runUrl = setUrl(`run?app_id=${id}`)
       }
@@ -37,14 +42,12 @@
 </script>
 
 <style lang="sass">
-  @import './assets/style/theme'
-  @import './assets/style/mixins'
+  @import "./assets/style/mixins"
 
   .embed-result
     @include dashed-line(top)
     padding-top: 4rem
     margin-top: 3rem
-    scroll-snap-align: start
 
     .generated-embed-code
       margin-top: 1rem
@@ -58,7 +61,6 @@
       font-weight: bold
       font-size: 2rem
       margin-bottom: 2rem
-      scroll-snap-align: start
 </style>
 
 {#if embedCode}

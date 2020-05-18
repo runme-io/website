@@ -11,7 +11,7 @@
   let yaml
 
   $: {
-    ;({ yaml, dockerfile } = spec || {})
+    ({ yaml, dockerfile } = spec || {})
   }
 </script>
 
