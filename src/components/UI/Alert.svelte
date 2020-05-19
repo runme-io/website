@@ -1,17 +1,12 @@
 <script>
   import { fade } from 'svelte/transition'
+  import { autoscroll } from '../Actions'
   import { DEFAULT_TRANSTION } from '../../Consts'
 
   export let type = ''
+  export let scrollOptions = { enabled: true }
 
   $: classType = `alert--${type}`
-
-  function init (nodeElement) {
-    setTimeout(
-      () => nodeElement.scrollIntoView({ behavior: 'smooth' }),
-      200,
-    )
-  }
 </script>
 
 <style lang="sass">
@@ -50,7 +45,10 @@
     border-color: #bee5eb
 </style>
 
-<div class="alert-container" use:init>
+<div
+  class="alert-container"
+  use:autoscroll={scrollOptions}
+>
   <div
     transition:fade={DEFAULT_TRANSTION}
     class="alert {classType}"
