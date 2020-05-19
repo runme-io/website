@@ -1,5 +1,6 @@
 <script>
-	import GoogleAnalytics from '../components/UI/GoogleAnalytics.svelte'
+  import GoogleAnalytics from '../components/UI/Tracking/GoogleAnalytics.svelte'
+  import Hotjar from '../components/UI/Tracking/Hotjar.svelte'
 </script>
 
 <style lang="sass" global>
@@ -7,5 +8,6 @@
 </style>
 
 <GoogleAnalytics />
+<Hotjar />
 
 <slot />

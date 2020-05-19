@@ -10,17 +10,16 @@
 
 <script>
   import RunmeButton from '../components/Runme/RunmeButton.svelte'
-  import GenerateSpecResult from '../components/Runme/GenerateSpecResult.svelte'
   import GenerateForm from '../components/Runme/GenerateForm.svelte'
-  import ReadmeResult from '../components/Runme/ReadmeResult.svelte'
+  import GenerateResult from '../components/Runme/GenerateResult.svelte'
   import MainLayout from '../components/UI/Layout/MainLayout.svelte'
   import { generateSpec } from '../Helpers'
 
   let showRunmeFooter = false
   let spec
 
-  async function generate () {
-    showRunmeFooter = true
+  async function generate ({ detail: success }) {
+    showRunmeFooter = success
     spec = null // unassign before assign again, otherwise the component doesn't rerender new values
     spec = await generateSpec()
   }
@@ -45,15 +44,20 @@
     padding-top: $spacing
 </style>
 
-<MainLayout {showRunmeFooter} showTechnologyIcons={true} title="Run your application from any public Git-repo with one click">
+<MainLayout
+  {showRunmeFooter}
+  showTechnologyIcons={true}
+  title="Run your application from any public Git-repo with one click"
+>
   <div class="generator-page">
     <h1>Generate <RunmeButton/> button for your repo.</h1>
     <section class="generator">
       <GenerateForm on:generate={generate} />
 
-      <ReadmeResult />
-
-      <GenerateSpecResult {spec} />
+      <GenerateResult
+        isVisible={showRunmeFooter}
+        {spec}
+      />
     </section>
   </div>
 </MainLayout>

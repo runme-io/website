@@ -5,6 +5,7 @@
   export let icon = null
   export let label = ''
   export let mode = 'default'
+  export let tooltipOptions = {}
 
   $: classes = $$restProps.class || ''
 </script>
@@ -33,6 +34,7 @@
   class="button-icon {classes}"
   {...$$restProps}
   {mode}
+  {tooltipOptions}
   on:click
 >
   <Icon class="button-icon-icon" {icon} />
