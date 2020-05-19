@@ -1,8 +1,7 @@
-import tippy from 'tippy.js'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/themes/light-border.css'
 
-export function tooltip (elem, {
+export async function tooltip (elem, {
   enabled = true,
   content,
   componentProps,
@@ -51,6 +50,7 @@ export function tooltip (elem, {
 
   opts.content = formatContent(content, asPopover, title)
 
+  const { default: tippy } = await import('tippy.js')
   const tippyInstance = tippy(elem, opts)
 
   return {

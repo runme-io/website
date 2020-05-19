@@ -16,7 +16,7 @@
 {content}
 <ButtonIcon
   aria-label="copy"
-  icon="{faCopy}"
-  on:click="{copy}"
+  icon={faCopy}
+  on:click={copy}
   tooltipOptions={{ content: 'Copy' }}
 />
