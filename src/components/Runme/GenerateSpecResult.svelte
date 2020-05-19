@@ -18,7 +18,6 @@
 <style lang="sass">
   .spec-panel
     display: flex
-    margin-top: 2rem
 
     \:global(.github-panel,.dockerfile-panel)
       flex: 1
