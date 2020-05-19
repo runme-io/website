@@ -4,7 +4,7 @@
   import { DEFAULT_TRANSTION } from '../../Consts'
 
   export let type = ''
-  export let scrollOptions = { onInit: true }
+  export let scrollOptions = { enabled: true }
 
   $: classType = `alert--${type}`
 </script>

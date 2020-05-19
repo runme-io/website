@@ -7,7 +7,7 @@
   import { setUrl } from '../../Helpers'
   import { application } from '../Stores/Application'
 
-  export let scrollOptions = { onInit: true }
+  export let scrollOptions = { enabled: true }
 
   const runmeButtonUrl = setUrl('/static/button.svg')
   const markdown = 'Markdown'

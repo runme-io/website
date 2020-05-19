@@ -1,11 +1,12 @@
 export function autoscroll (nodeElement, {
-  onInit = true,
+  enabled = true,
   delay = 200,
+  scrollIntoViewOptions = { behavior: 'smooth' },
 } = {}) {
-  if (!onInit) { return }
+  if (!enabled) { return }
 
   setTimeout(
-    () => nodeElement.scrollIntoView({ behavior: 'smooth' }),
+    () => nodeElement.scrollIntoView(scrollIntoViewOptions),
     delay,
   )
 }
