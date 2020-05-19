@@ -1,5 +1,5 @@
 <script>
-  import { tooltip } from '../Actions/tooltip.js'
+  import { tooltip } from '../Actions'
   import Icon from 'fa-svelte'
   import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
