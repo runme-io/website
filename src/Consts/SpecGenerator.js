@@ -10,4 +10,4 @@ export const DOCKER_SELECT_SERVICES = {
   label: 'Which docker image does you service need?',
 }
 
-export const SPEC_URL = 'https://github.com/jexia-com/runme/blob/master/docs/specification.md'
+export const SPEC_URL = 'https://github.com/runme-io/spec'
