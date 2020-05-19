@@ -78,7 +78,7 @@
 
     &:hover,
     &:active
-      background: darken(#f0f8ff, 3%)
+      background: darken($primary-color, 3%)
       box-shadow: none
 
     &:disabled,
