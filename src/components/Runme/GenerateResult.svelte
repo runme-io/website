@@ -1,9 +1,8 @@
 <script>
-  import Icon from 'fa-svelte'
-  import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
   import GenerateSpecResult from './GenerateSpecResult.svelte'
   import RunmeButton from './RunmeButton.svelte'
   import ReadmeResult from './ReadmeResult.svelte'
+  import Button from '../UI/Button.svelte'
   import CodePiece from '../UI/CodePiece.svelte'
   import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
   import { SPEC_URL } from '../../Consts'
@@ -66,15 +65,6 @@
     margin-top: 3rem
     padding-top: 3rem
 
-  // TODO: export external-link into Button component
-  .external-link
-    position: relative
-    margin-right: 1rem
-
-    \:global(.external-icon)
-      position: absolute
-      right: -1.2rem
-      width: 1rem
 </style>
 
 {#if isVisible && spec}
@@ -87,7 +77,7 @@
     <ol class="result-list">
       <li>
         Copy the following { spec.dockerfile ? 'files' : 'file' } inside <CodePiece>./.runme</CodePiece> folder in the root of your repository.
-        Curious about available options for <CodePiece>config.yaml</CodePiece>? <a class="external-link" href={SPEC_URL} target="_blank">Read the full Runme Specification<Icon class="external-icon" icon={faExternalLinkAlt} /></a> and change it by yourself.
+        Curious about available options for <CodePiece>config.yaml</CodePiece>? <Button href={SPEC_URL} target="_blank">Read the full Runme Specification</Button> and change it by yourself.
 
         <GenerateSpecResult {spec} />
       </li>

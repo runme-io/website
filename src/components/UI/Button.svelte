@@ -1,4 +1,7 @@
 <script>
+  import Icon from 'fa-svelte'
+  import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+
   export let type = 'button'
   export let href = null
   export let target = null
@@ -21,7 +24,7 @@
   @import "./assets/style/theme"
 
   button,
-  a
+  a:not([target="_blank"])
     border: .1rem solid $buttonBackground
     background: $buttonBackground
     padding: .5rem 1rem
@@ -85,6 +88,15 @@
     box-shadow: none !important
     border: none !important
     padding: 0 !important
+
+  a[target="_blank"]
+    position: relative
+    margin-right: 1rem
+
+    \:global(.external-icon)
+      position: absolute
+      right: -1.2rem
+      width: 1rem
 </style>
 
 {#if href}
@@ -96,7 +108,7 @@
     class:small
     class={classes}
   >
-    <slot/>
+    <slot/>{#if target}<Icon class="external-icon" icon={faExternalLinkAlt} />{/if}
   </a>
 {:else}
   <button
