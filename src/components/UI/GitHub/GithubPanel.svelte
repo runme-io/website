@@ -35,7 +35,7 @@
         margin-left: 1rem
 
     &-content
-      padding: $spacing
+      padding: 3rem
 
       \:global(pre)
         padding: 0
