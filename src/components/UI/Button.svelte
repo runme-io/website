@@ -30,8 +30,8 @@
 
   button,
   a:not([target="_blank"])
-    border: .1rem solid $buttonBackground
-    background: $buttonBackground
+    border: .1rem solid $button-background
+    background: $button-background
     padding: .5rem 1rem
     color: $white
     border-radius: .3rem
@@ -73,12 +73,12 @@
 
   .outline
     background: transparent
-    color: $buttonBackground
+    color: $button-background
     box-shadow: none
 
     &:hover,
     &:active
-      background: #ffc7de
+      background: darken(#f0f8ff, 3%)
       box-shadow: none
 
     &:disabled,
@@ -89,7 +89,7 @@
 
   .default
     background: transparent
-    color: $buttonBackground
+    color: $button-background
     box-shadow: none !important
     border: none !important
     padding: 0 !important
