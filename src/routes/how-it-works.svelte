@@ -48,7 +48,7 @@ npm run start`}
 
     <p>
       It is free.<br>
-      Happy codding! :)
+      Happy coding! :)
     </p>
   </div>
 </MainLayout>
