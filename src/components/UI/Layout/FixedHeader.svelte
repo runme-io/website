@@ -4,7 +4,7 @@
   import CountDown from '../Counter/CountDown.svelte'
   import CountUp from '../Counter/CountUp.svelte'
   import Button from '../Button.svelte'
-  import Tooltip from '../Tooltip.svelte'
+  import PopoverCopy from '../Popover/PopoverCopy.svelte'
 
   export let title = 'Run your application from any public Git-repo with one click'
   export let timerTitle = ''
@@ -16,6 +16,16 @@
   let failedStatus = ''
   let deployUrl = ''
   let dockerPullCommand = ''
+  let dockerTooltip
+
+  $: dockerTooltip = {
+    content: PopoverCopy,
+    popoverTooltip: { content: 'Run you application locally with Docker' },
+    asPopover: true,
+    title: 'Run following docker command',
+    componentProps: { content: dockerPullCommand },
+    maxWidth: 'auto',
+  }
 
   const unsubscribe = header.subscribe(header => {
     countDown = header.countDown
@@ -54,7 +64,7 @@
     <h1>{title}</h1>
     {#if deployUrl}
       <Button
-        title="Deploy your application to Jexia"
+        tooltipOptions={{ content: 'Deploy your application to Jexia' }}
         mode="outline"
         small={true}
         target="_blank"
@@ -63,14 +73,7 @@
     {/if}
 
     {#if dockerPullCommand}
-      <Button mode="outline" small={true}>
-        <Tooltip
-          asPopover={true}
-          popoverTitle="Run following docker command"
-          bind:content={dockerPullCommand}
-          maxWidth="auto"
-        >Run locally</Tooltip>
-      </Button>
+      <Button tooltipOptions={dockerTooltip} mode="outline" small={true}>Run locally</Button>
     {/if}
   </div>
 
