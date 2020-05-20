@@ -99,6 +99,8 @@
 
       if (deploymentUrl) {
         header.setDeploymentUrl(`https://${deploymentUrl}/runme?${queryString}`)
+      } else {
+        header.showPlaceholderDeploymentButton() // TODO remove once deployment is ready
       }
     }
   })

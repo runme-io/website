@@ -18,6 +18,7 @@
   let deployUrl = ''
   let dockerPullCommand = ''
   let dockerTooltip
+  let showPlaceholderDeployButton = false // TODO remove when deployment is possible
 
   $: dockerTooltip = {
     content: PopoverCopy,
@@ -34,6 +35,7 @@
     failed = header.failed
     failedStatus = header.failedStatus
     deployUrl = header.deployUrl
+    showPlaceholderDeployButton = header.showPlaceholderDeployButton // TODO remove when deployment is possible
 
     if (header.dockerPullCommand) {
       dockerPullCommand = `docker pull ${header.dockerPullCommand}`
@@ -72,6 +74,10 @@
         target="_blank"
         href={deployUrl}
       >Deploy permanent</Link>
+    {/if}
+
+    {#if showPlaceholderDeployButton}
+      <Button tooltipOptions={{ content: 'Coming soon' }} mode="outline" small={true}>Deploy permanent</Button>
     {/if}
 
     {#if dockerPullCommand}
