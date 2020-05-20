@@ -76,7 +76,7 @@
     } else {
       appId = applicationId // this need to be assigned, otherwise svelte wont detect the change
       header.showCountDown(updatedAt, 'Countdown', 600) // the app will be alive for 10 min (600s)
-      header.setDockerPullCommand(dockerImage)
+      header.setDockerImage(dockerImage)
       loadUrl(`https://${buildId}.runme.io`)
     }
   })

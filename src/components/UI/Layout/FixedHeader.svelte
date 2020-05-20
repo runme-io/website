@@ -5,7 +5,7 @@
   import CountUp from '../Counter/CountUp.svelte'
   import Button from '../Button.svelte'
   import Link from '../Link.svelte'
-  import PopoverCopy from '../Popover/PopoverCopy.svelte'
+  import PopoverDockerCommands from '../Popover/PopoverDockerCommands.svelte'
 
   export let title = 'Run your application from any public Git-repo with one click'
   export let timerTitle = ''
@@ -16,16 +16,16 @@
   let failed = false
   let failedStatus = ''
   let deployUrl = ''
-  let dockerPullCommand = ''
+  let dockerImage = null
   let dockerTooltip
   let showPlaceholderDeployButton = false // TODO remove when deployment is possible
 
   $: dockerTooltip = {
-    content: PopoverCopy,
+    content: PopoverDockerCommands,
     popoverTooltip: { content: 'Run you application locally with Docker' },
     asPopover: true,
     title: 'Run following docker command',
-    componentProps: { content: dockerPullCommand },
+    componentProps: { dockerImage },
     maxWidth: 'auto',
   }
 
@@ -37,8 +37,8 @@
     deployUrl = header.deployUrl
     showPlaceholderDeployButton = header.showPlaceholderDeployButton // TODO remove when deployment is possible
 
-    if (header.dockerPullCommand) {
-      dockerPullCommand = `docker pull ${header.dockerPullCommand}`
+    if (header.dockerImage) {
+      dockerImage = header.dockerImage
     }
 
     if (header.timerTitle) {
@@ -80,7 +80,7 @@
       <Button tooltipOptions={{ content: 'Coming soon' }} mode="outline" small={true}>Deploy permanent</Button>
     {/if}
 
-    {#if dockerPullCommand}
+    {#if dockerImage}
       <Button tooltipOptions={dockerTooltip} mode="outline" small={true}>Run locally</Button>
     {/if}
   </div>
