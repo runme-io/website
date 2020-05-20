@@ -4,6 +4,7 @@
   import CountDown from '../Counter/CountDown.svelte'
   import CountUp from '../Counter/CountUp.svelte'
   import Button from '../Button.svelte'
+  import Link from '../Link.svelte'
   import PopoverCopy from '../Popover/PopoverCopy.svelte'
 
   export let title = 'Run your application from any public Git-repo with one click'
@@ -63,13 +64,14 @@
   <div class="titles">
     <h1>{title}</h1>
     {#if deployUrl}
-      <Button
+      <Link
+        asButton={true}
         tooltipOptions={{ content: 'Deploy your application to Jexia' }}
         mode="outline"
         small={true}
         target="_blank"
         href={deployUrl}
-      >Deploy permanent</Button>
+      >Deploy permanent</Link>
     {/if}
 
     {#if dockerPullCommand}
