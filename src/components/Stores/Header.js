@@ -7,6 +7,7 @@ function createHeader () {
     timerTitle: '',
     deployUrl: '',
     dockerPullCommand: '',
+    showPlaceholderDeployButton: false, // TODO remove when deployment is possible
     failed: false,
     failedStatus: '',
     countDownFinish: false,
@@ -29,6 +30,7 @@ function createHeader () {
     isFailed: (failed = true, failedStatus = 'Failed') => setHeaderValues({ failed, failedStatus }),
     setCountDownFinish: (countDownFinish = true) => setHeaderValues({ countDownFinish }),
     setDockerPullCommand: (dockerPullCommand) => setHeaderValues({ dockerPullCommand }),
+    showPlaceholderDeploymentButton: (showPlaceholderDeployButton = true) => setHeaderValues({ showPlaceholderDeployButton }),
   }
 }
 
