@@ -103,7 +103,7 @@ commit and guide you to fix any error. Please have a look at the
 [Conventional Commits] for detailed information about this convention.
 
 [Commitizen]: https://github.com/commitizen/cz-cli
-[Semantic Release](https://github.com/semantic-release/semantic-release
+[Semantic Release]: https://github.com/semantic-release/semantic-release
 [Conventional Commits]: https://www.conventionalcommits.org/en/v1.0.0/#summary
 
 ## Submitting a Pull Request (PR)
@@ -125,7 +125,7 @@ commit and guide you to fix any error. Please have a look at the
 
   1. Finally, push the commits to your fork and submit a [pull request].
 
-That's it! Thank you for your contribution!
+That's it, thank you for your contribution!
 
 [forking]: https://help.github.com/articles/fork-a-repo
 [pull request]: https://help.github.com/articles/creating-a-pull-request
