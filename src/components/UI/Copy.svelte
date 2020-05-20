@@ -31,7 +31,6 @@
       margin-left: .3rem
       width: 1rem
       font-size: 1rem
-
 </style>
 
 <div class="copy">
@@ -42,10 +41,10 @@
   {/if}
 
   <ButtonIcon
-      class="copy-icon"
-      aria-label="copy"
-      icon={faCopy}
-      on:click={copy}
-      tooltipOptions={{ content: tooltipCopyLabel, hideOnClick: false, onHide: () => (tooltipCopyLabel = COPY_LABEL_DEFAULT) }}
+    class="copy-icon"
+    aria-label="copy"
+    icon={faCopy}
+    on:click={copy}
+    tooltipOptions={{ content: tooltipCopyLabel, hideOnClick: false, onHide: () => (tooltipCopyLabel = COPY_LABEL_DEFAULT) }}
   />
 </div>
