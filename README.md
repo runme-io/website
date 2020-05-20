@@ -1,6 +1,10 @@
-# Runme Website
+<h1 align="center">
+  <a href="https://runme.io"><img src="https://runme.io/static/button.svg" alt="Runme" width="200"></a>
+</h1>
 
-[![Chat on Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg?sanitize=true)](https://chat.jexia.com)
+<p align="center">
+  <a href="https://chat.jexia.com"><img src="https://img.shields.io/badge/chat-on%20discord-7289da.svg?sanitize=true" alt="discord"></a>
+</p>
 
 This is the Website part for the [runme.io](https://runme.io) tool. This project is built with [Sapper](https://sapper.svelte.dev), which is the app framework from [Svelte](https://svelte.dev).
 
