@@ -1,4 +1,5 @@
-$background-color: #eee
+@import 'theme'
+@import 'mixins'
 
 .tippy-box
   user-select: text
@@ -10,13 +11,13 @@ $background-color: #eee
     padding: 0
 
   &[role='popover'][data-placement^=bottom] > .tippy-arrow:before
-    border-bottom-color: $background-color !important
+    border-bottom-color: $primary-color !important
 
   .popover-title
-    border-bottom: .1rem solid #e2e2e2
+    @include dashed-line(bottom, rgba(0, 0, 0, .2))
     padding: .7rem 1rem
     font-size: 1.2rem
-    background: $background-color
+    background-color: $primary-color
 
   .popover-content
     padding: 1rem
