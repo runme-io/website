@@ -13,6 +13,8 @@
   import GenerateForm from '../components/Runme/GenerateForm.svelte'
   import GenerateResult from '../components/Runme/GenerateResult.svelte'
   import MainLayout from '../components/UI/Layout/MainLayout.svelte'
+  import Link from '../components/UI/Link.svelte'
+  import Button from '../components/UI/Button.svelte'
   import { generateSpec } from '../Helpers'
 
   let showRunmeFooter = false
@@ -43,7 +45,10 @@
   .generator
     padding-top: $spacing
 </style>
-
+<Link class="test" href="http://google.nl" target="_blank">Read the full Runme Specification</Link>
+<Link tooltipOptions={{ content: 'test' }} href="http://google.nl" target="_blank">Read the full Runme Specification</Link>
+<Link asButton={true} href="http://google.nl" target="_blank">Read the full Runme Specification</Link>
+<Button href="http://google.nl">Read the full Runme Specification</Button>
 <MainLayout
   {showRunmeFooter}
   showTechnologyIcons={true}

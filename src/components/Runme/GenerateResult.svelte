@@ -2,7 +2,7 @@
   import GenerateSpecResult from './GenerateSpecResult.svelte'
   import RunmeButton from './RunmeButton.svelte'
   import ReadmeResult from './ReadmeResult.svelte'
-  import Button from '../UI/Button.svelte'
+  import Link from '../UI/Link.svelte'
   import CodePiece from '../UI/CodePiece.svelte'
   import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
   import { autoscroll } from '../Actions'
@@ -72,7 +72,7 @@
     <ol class="result-list">
       <li>
         Copy the following { spec.dockerfile ? 'files' : 'file' } inside <CodePiece>./.runme</CodePiece> folder in the root of your repository.
-        Curious about available options for <CodePiece>config.yaml</CodePiece>? <Button href={SPEC_URL} target="_blank">Read the full Runme Specification</Button> and change it by yourself.
+        Curious about available options for <CodePiece>config.yaml</CodePiece>? <Link href={SPEC_URL} target="_blank">Read the full Runme Specification</Link> and change it by yourself.
 
         <GenerateSpecResult {spec} />
       </li>
