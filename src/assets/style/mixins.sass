@@ -1,5 +1,27 @@
+@import "theme"
+
 @mixin dashed-line($position: bottom, $start-color: rgba(0, 0, 0, 1), $end-color: rgba(255, 255, 255, .5))
   background-image: linear-gradient(to right, $start-color 33%, $end-color 0%)
   background-position: $position
   background-size: 2rem .1rem
   background-repeat: repeat-x
+
+@mixin list-style-rounded-number($list-spacing: -4rem, $top-spacing: 0, $size: 3rem)
+  li
+    position: relative
+
+    &:before
+      align-items: center
+      background-color: $primary-yellow
+      border-radius: 50%
+      counter-increment: item
+      content: counter(item)
+      color: $white
+      display: flex
+      justify-content: center
+      left: $list-spacing
+      width: $size
+      height: $size
+      position: absolute
+      text-align: center
+      top: $top-spacing

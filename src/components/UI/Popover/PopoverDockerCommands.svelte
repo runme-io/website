@@ -7,14 +7,24 @@
 </script>
 
 <style lang="sass">
+  @import "./assets/style/mixins"
+
   ol
-    list-style-type: decimal
+    font-size: 1.2rem
     margin: 0
-    padding: 0 1rem 0 3rem
+    padding-left: 3rem
+    counter-reset: item
+    @include list-style-rounded-number(-3rem, -.2rem, 2rem)
 
     li
-      margin: .5rem 0
+      margin: 1.5rem 0
       text-align: left
+
+      &:first-child
+        margin-top: .5rem
+
+      &:last-child
+        margin-bottom: .5rem
 </style>
 
 <ol>
