@@ -1,6 +1,6 @@
 <script>
   import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
-  import JexiaFooter from '../components/UI/Layout/JexiaFooter.svelte'
+  import MainFooter from '../components/UI/Footer/MainFooter.svelte'
   import { goto } from '@sapper/app'
   import { build } from '../components/Stores/Build'
   import { header } from '../components/Stores/Header'
@@ -116,5 +116,5 @@
     </main>
   </div>
 
-  <JexiaFooter/>
+  <MainFooter/>
 </div>

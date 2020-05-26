@@ -1,11 +1,19 @@
 <script>
-  import SocialIcons from '../../UI/SocialIcons.svelte'
-  import Donation from '../../UI/Donation.svelte'
+  import SocialIcons from './SocialIcons.svelte'
+  import Donation from './Donation.svelte'
+  import TechnologyLogos from './TechnologyLogos.svelte'
+
+  export let showTechnologyIcons = false
 </script>
 
 <section>
   <div class="container">
-    <div class="runme-footer">
+    {#if showTechnologyIcons}
+        <div class="footer">
+        <TechnologyLogos />
+      </div>
+    {/if}
+    <div class="footer">
       <p>
         If you Like this project, you can show your appreciation by <br>helping us spread the word or making a small donation.
       </p>
@@ -28,12 +36,18 @@
   section
     @include dashed-line(top)
     margin-top: calc(#{$spacing} * 2)
+    padding-top: calc(#{$spacing} * 2)
 
-    .runme-footer
-      margin: calc(#{$spacing} * 2) auto 0 auto
+    .footer
+      margin: 0 auto
       width: 80%
       font-size: 1.6rem
       text-align: center
+
+      &:nth-child(2)
+        @include dashed-line(top)
+        padding-top: $spacing
+        margin-top: $spacing
 
       p
         width: 100%

@@ -1,12 +1,10 @@
 <script>
-  import RunmeFooter from './RunmeFooter.svelte'
-  import JexiaFooter from './JexiaFooter.svelte'
   import Header from './Header.svelte'
-  import TechnologyLogos from './TechnologyLogos.svelte'
+  import MainFooter from '../Footer/MainFooter.svelte'
+  import SubFooter from '../Footer/SubFooter.svelte'
 
-  export let showRunmeFooter = true
-  export let showTechnologyIcons = false
   export let title = ''
+  export let showTechnologyIcons = false
 
   const suffix = 'Runme.io'
   const pageTitle = title ? `${title} - ${suffix}` : suffix
@@ -25,7 +23,6 @@
     </div>
   </main>
 
-  {#if showTechnologyIcons}<TechnologyLogos/>{/if}
-  {#if showRunmeFooter}<RunmeFooter/>{/if}
-  <JexiaFooter/>
+  <SubFooter {showTechnologyIcons}/>
+  <MainFooter/>
 </div>
