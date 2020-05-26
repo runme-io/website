@@ -18,6 +18,7 @@
   @import "./assets/style/mixins"
 
   $default-margin: 2rem
+  $list-spacing: 4rem
 
   .generate-result
     @include dashed-line(top)
@@ -31,29 +32,11 @@
 
   .result-list
     counter-reset: item
-    $list-spacing: 4rem
-
     display: grid
     grid-gap: $default-margin
     margin-top: $default-margin
     padding-inline-start: $list-spacing
-
-    li
-      position: relative
-
-      &:before
-        align-items: center
-        background-color: $primary-yellow
-        border-radius: 50%
-        counter-increment: item
-        content: counter(item)
-        color: $white
-        display: flex
-        justify-content: center
-        left: -($list-spacing)
-        padding: .1rem 1rem
-        position: absolute
-        text-align: center
+    @include list-style-rounded-number(-($list-spacing))
 
   .dashed-section
     @include dashed-line(top)
