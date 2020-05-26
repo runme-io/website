@@ -1,8 +1,10 @@
 <script>
+  import { isDevelopment } from '../Consts'
+
   export let status
   export let error
 
-  const dev = process.env.NODE_ENV === 'development'
+  const dev = isDevelopment
 </script>
 
 <style lang="sass">
