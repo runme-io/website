@@ -8,6 +8,20 @@
   {@html githubGist}
 </svelte:head>
 
+<style lang="sass">
+  @import "./assets/style/theme"
+
+  div
+    \:global(.hljs)
+      padding: 0
+      margin: 0
+      overflow-x: unset
+
+    \:global(.hljs code)
+      display: inline-block
+      margin: $code-block-margin
+</style>
+
 <script>
   const languages = { yaml, dockerfile, bash }
   export let lang
@@ -16,4 +30,6 @@
   $: language = languages[lang]
 </script>
 
-<Highlight {language}>{code}</Highlight>
+<div>
+  <Highlight {language}>{code}</Highlight>
+</div>
