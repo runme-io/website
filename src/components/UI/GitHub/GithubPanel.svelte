@@ -12,6 +12,8 @@
   $github-border: .1rem solid #d1d5da
 
   .github-panel
+    display: flex
+    flex-direction: column
     font-family: $font-family-github
     border: $github-border
     border-radius: .3rem
@@ -35,11 +37,8 @@
         margin-left: 1rem
 
     &-content
-      padding: 3rem
-
-      \:global(pre)
-        padding: 0
-        margin: 0
+      flex: 1
+      overflow-x: auto
 </style>
 
 <div class="github-panel {classes}">

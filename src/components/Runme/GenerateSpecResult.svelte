@@ -21,6 +21,7 @@
 
     \:global(.github-panel,.dockerfile-panel)
       flex: 1
+      width: 0 // together with flex: 1, avoid element to overflow
 
     \:global(.dockerfile-panel)
       margin-left: 2rem
