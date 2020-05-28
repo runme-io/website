@@ -9,7 +9,7 @@
 <section>
   <div class="container">
     {#if showTechnologyIcons}
-        <div class="footer">
+      <div class="footer">
         <TechnologyLogos />
       </div>
     {/if}

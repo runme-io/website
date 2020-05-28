@@ -17,10 +17,8 @@
 <div class="page-container">
   <Header/>
 
-  <main>
-    <div class="container">
-      <slot/>
-    </div>
+  <main class="container">
+    <slot/>
   </main>
 
   <SubFooter {showTechnologyIcons}/>

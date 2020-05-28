@@ -57,7 +57,12 @@
 <div class="logos">
   {#each logos as logo}
     <div>
-      <img style="height:{logo.height}" title={logo.alt} alt={logo.alt} src="/images/technology/{logo.filename}">
+      <img
+        style="height:{logo.height}"
+        title={logo.alt}
+        alt={logo.alt}
+        src="/images/technology/{logo.filename}"
+      >
     </div>
   {/each}
 </div>
@@ -78,6 +83,6 @@
     justify-content: center
     align-items: center
 
-    div
+    > div
       padding: 0 1.5rem 1rem
 </style>

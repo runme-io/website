@@ -110,11 +110,9 @@
 <div class="page-container">
   <FixedHeader/>
 
-  <div class="container">
-    <main>
-      <CliWindow {workingOn} working={building} error={buildErrorMsg} log={logContent} title={cliTitle}/>
-    </main>
-  </div>
+  <main class="container">
+    <CliWindow {workingOn} working={building} error={buildErrorMsg} log={logContent} title={cliTitle}/>
+  </main>
 
   <MainFooter/>
 </div>
