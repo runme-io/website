@@ -56,14 +56,12 @@
 <p>Runme made possible through world impactful technologies</p>
 <div class="logos">
   {#each logos as logo}
-    <div>
-      <img
-        style="height:{logo.height}"
-        title={logo.alt}
-        alt={logo.alt}
-        src="/images/technology/{logo.filename}"
-      >
-    </div>
+    <img
+      style="height:{logo.height}"
+      title={logo.alt}
+      alt={logo.alt}
+      src="/images/technology/{logo.filename}"
+    >
   {/each}
 </div>
 
@@ -76,13 +74,11 @@
     color: $gray
 
   .logos
+    display: grid
+    grid-auto-flow: column
+    grid-gap: 1rem
     margin-top: 2rem
-    display: flex
-    flex-direction: row
-    flex-wrap: wrap
-    justify-content: center
-    align-items: center
 
-    > div
-      padding: 0 1.5rem 1rem
+    img
+      align-self: center
 </style>
