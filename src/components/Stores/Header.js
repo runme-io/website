@@ -12,6 +12,7 @@ function createHeader () {
     failedStatus: '',
     countDownFinish: false,
     countDownFixed: null, // in seconds
+    applicationUrl: '',
   })
 
   const setHeaderValues = (newValue) => update(currentValue => ({ ...currentValue, ...newValue }))
@@ -31,6 +32,7 @@ function createHeader () {
     setCountDownFinish: (countDownFinish = true) => setHeaderValues({ countDownFinish }),
     setDockerImage: (dockerImage) => setHeaderValues({ dockerImage }),
     showPlaceholderDeploymentButton: (showPlaceholderDeployButton = true) => setHeaderValues({ showPlaceholderDeployButton }),
+    setApplicationUrl: (applicationUrl) => setHeaderValues({ applicationUrl }),
   }
 }
 
