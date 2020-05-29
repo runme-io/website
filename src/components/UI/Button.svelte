@@ -47,7 +47,7 @@
       box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .4)
 
     &.small
-      font-size: 1.2rem
+      font-size: 1.4rem
 
     &.big
       font-size: 1.8rem

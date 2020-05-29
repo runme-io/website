@@ -55,6 +55,7 @@
     class="button-dropdown"
     {mode}
     flex={true}
+    small={true}
     isActive={isOpen}
     on:click={() => (isOpen = !isOpen)}
   >

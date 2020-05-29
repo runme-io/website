@@ -39,13 +39,13 @@
 {#if applicationUrl || dockerImage || deployUrl}
   <ButtonDropdown
     mode="outline"
-    label="Choose your action"
+    label="Actions"
   >
     {#if applicationUrl}
       <ButtonDropdownOption
         icon={faCopy}
         label="Copy url"
-        description="Copy the application url"
+        description="Click to copy the application url"
         notification={copiedText}
         notificationDelay={NOTIFICATION_DELAY}
         click={copyAppUrl}
