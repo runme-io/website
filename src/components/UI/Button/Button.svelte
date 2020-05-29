@@ -1,5 +1,5 @@
 <script>
-  import { tooltip } from '../Actions'
+  import { tooltip } from '../../Actions'
 
   export let type = 'button'
   export let href = null

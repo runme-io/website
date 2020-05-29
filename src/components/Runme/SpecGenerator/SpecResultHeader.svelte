@@ -1,7 +1,7 @@
 <script>
   import { fade } from 'svelte/transition'
   import { faCopy, faFileDownload } from '@fortawesome/free-solid-svg-icons'
-  import ButtonIcon from '../../UI/ButtonIcon.svelte'
+  import { ButtonIcon } from '../../UI/Button'
   import { DEFAULT_TRANSTION } from '../../../Consts'
   import { CopyToClipboard } from '../../../Helpers'
 

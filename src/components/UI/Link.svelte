@@ -2,7 +2,7 @@
   import Icon from 'fa-svelte'
   import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
   import { tooltip } from '../Actions'
-  import Button from './Button.svelte'
+  import { Button } from './Button'
 
   export let asButton = false
   export let target = null

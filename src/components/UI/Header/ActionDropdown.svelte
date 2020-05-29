@@ -2,9 +2,8 @@
   import { faCopy, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
   import { faDocker } from '@fortawesome/free-brands-svg-icons'
   import { CopyToClipboard, modal } from '../../../Helpers'
-  import ButtonDropdown from '../ButtonDropdown.svelte'
   import DockerCommandsModal from '../Modals/DockerCommandsModal.svelte'
-  import ButtonDropdownOption from '../ButtonDropdownOption.svelte'
+  import { ButtonDropdown, ButtonDropdownOption } from '../Button'
 
   export let dockerImage = ''
   export let deployUrl = ''

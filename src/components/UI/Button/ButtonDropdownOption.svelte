@@ -1,7 +1,7 @@
 <script>
   import { fade } from 'svelte/transition'
   import Icon from 'fa-svelte'
-  import { DEFAULT_TRANSTION } from '../../Consts'
+  import { DEFAULT_TRANSTION } from '../../../Consts'
   import Button from './Button.svelte'
 
   export let click = null

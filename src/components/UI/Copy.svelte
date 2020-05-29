@@ -1,6 +1,6 @@
 <script>
   import { faCopy } from '@fortawesome/free-solid-svg-icons'
-  import ButtonIcon from './ButtonIcon.svelte'
+  import { ButtonIcon } from './Button'
   import CodePiece from './CodePiece.svelte'
   import { CopyToClipboard } from '../../Helpers'
 
