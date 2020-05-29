@@ -6,25 +6,38 @@
   export let mode = 'default'
   export let label = ''
 
-  let showOptions = false
+  let isOpen = false
 </script>
 
 <style lang="sass">
   @import "./assets/style/theme"
 
   .dropdown-button
-    position: relative
-
     \:global(.button-dropdown.active)
       box-shadow: inset -.1rem .1rem .4rem rgba(0, 0, 0, .15)
 
+  .backdrop
+    position: fixed
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    z-index: 80
+    display: block
+    cursor: default
+
   .dropdown-options
     position: absolute
+    z-index: 90
     margin-top: .5rem
     border: .1rem solid lighten($button-background, 30%)
     border-radius: $button-radius
     background: $white
     box-shadow: .1rem .1rem .5rem rgba(0, 0, 0, .2)
+
+    @media screen and (max-width: 600px)
+      left: 1rem
+      right: 1rem
 
   .icon
     align-self: center
@@ -39,11 +52,11 @@
 
 <div class="dropdown-button">
   <Button
-      class="button-dropdown"
-      {mode}
-      flex={true}
-      isActive={showOptions}
-      on:click={() => (showOptions = !showOptions)}
+    class="button-dropdown"
+    {mode}
+    flex={true}
+    isActive={isOpen}
+    on:click={() => (isOpen = !isOpen)}
   >
     {label}
     <div class="icon">
@@ -51,9 +64,10 @@
     </div>
   </Button>
 
-  {#if showOptions}
+  {#if isOpen}
     <div class="dropdown-options">
       <slot/>
     </div>
+    <div class="backdrop" on:click={() => (isOpen = !isOpen)}></div>
   {/if}
 </div>

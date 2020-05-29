@@ -10,14 +10,18 @@
 
   h2
     background: $primary-color
-    padding: 2rem
+    padding: 2rem 3rem
     margin: 0 0 2rem
     border-top-right-radius: .3rem
     border-top-left-radius: .3rem
     @include dashed-line(bottom)
 
+    @media screen and (max-width: 600px)
+      font-size: 2rem
+
   .modal-content
-    padding: 2rem
+    padding: 1rem 3rem 3rem
+    font-size: 1.4rem
 </style>
 
 {#if title}

@@ -38,9 +38,11 @@
     "perfect-scrollbar": "^1.5.0",
     "polka": "next",
     "sirv": "^0.4.0",
+    "svelte-watch-resize": "^1.0.3",
+    "tingle.js": "^0.15.3",
+    "tippy.js": "~6.0.1",
     "url": "^0.11.0",
-    "yaml": "^1.9.2",
-    "tippy.js": "~6.0.1"
+    "yaml": "^1.9.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -83,6 +85,7 @@
     "svelte": "^3.20.1",
     "svelte-highlight": "^0.6.0",
     "svelte-preprocess": "^3.6.0",
+    "svelte-resize-observer": "^1.1.0",
     "svelte-tabs": "https://github.com/marlosin/svelte-tabs.git#fix/selected-tab-index"
   },
   "lint-staged": {

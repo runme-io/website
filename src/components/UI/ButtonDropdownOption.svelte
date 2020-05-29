@@ -31,6 +31,7 @@
     text-align: left
     display: block
     text-decoration: none
+    width: 100%
 
     &:hover
       background: $primary-color
