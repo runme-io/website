@@ -77,6 +77,7 @@
         label="Deploy permanent"
         description="Coming soon: Deploy your application to the Jexia platform"
         target="_blank"
+        disabled={true}
       />
     {/if}
   </ButtonDropdown>

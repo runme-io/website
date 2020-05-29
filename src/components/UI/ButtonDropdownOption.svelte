@@ -12,6 +12,7 @@
   export let description = ''
   export let notification = ''
   export let notificationDelay = 3000
+  export let disabled = false
 
   let notificationTimeout = null
 
@@ -32,6 +33,14 @@
     display: block
     text-decoration: none
     width: 100%
+
+    &.disabled
+      cursor: not-allowed
+
+      \:global(.dropdown-option-button)
+        pointer-events: none
+        background: lighten($gray, 50%)
+        color: $gray !important
 
     &:hover
       background: $primary-color
@@ -63,7 +72,7 @@
     text-align: left
 </style>
 
-<div class="dropdown-option">
+<div class="dropdown-option" class:disabled>
   <Button
     on:click={click}
     {href}
