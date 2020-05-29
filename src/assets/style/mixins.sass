@@ -6,11 +6,12 @@
   background-size: 2rem .1rem
   background-repeat: repeat-x
 
-@mixin list-style-rounded-number($list-spacing: -4rem, $top-spacing: 0, $size: 3rem)
+@mixin list-style-rounded-number($list-spacing: -4rem, $top-spacing: 0, $size: 3rem, $font-size: 1.6rem)
   li
     position: relative
 
     &:before
+      font-size: $font-size
       align-items: center
       background-color: $primary-yellow
       border-radius: 50%
