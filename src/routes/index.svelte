@@ -15,11 +15,11 @@
   import MainLayout from '../components/UI/Layout/MainLayout.svelte'
   import { generateSpec } from '../Helpers'
 
-  let showRunmeFooter = false
+  let showResult = false
   let spec
 
   async function generate ({ detail: success }) {
-    showRunmeFooter = success
+    showResult = success
     spec = null // unassign before assign again, otherwise the component doesn't rerender new values
     spec = await generateSpec()
   }
@@ -45,7 +45,6 @@
 </style>
 
 <MainLayout
-  {showRunmeFooter}
   showTechnologyIcons={true}
   title="Run your application from any public Git-repo with one click"
 >
@@ -55,7 +54,7 @@
       <GenerateForm on:generate={generate} />
 
       <GenerateResult
-        isVisible={showRunmeFooter}
+        isVisible={showResult}
         {spec}
       />
     </section>
