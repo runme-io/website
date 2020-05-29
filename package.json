@@ -38,7 +38,6 @@
     "perfect-scrollbar": "^1.5.0",
     "polka": "next",
     "sirv": "^0.4.0",
-    "svelte-watch-resize": "^1.0.3",
     "tingle.js": "^0.15.3",
     "tippy.js": "~6.0.1",
     "url": "^0.11.0",
