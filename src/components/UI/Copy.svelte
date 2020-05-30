@@ -2,7 +2,7 @@
   import { faCopy } from '@fortawesome/free-solid-svg-icons'
   import { ButtonIcon } from './Button'
   import CodePiece from './CodePiece.svelte'
-  import { CopyToClipboard } from '../../Helpers'
+  import { copyToClipboard } from '../../Helpers'
 
   export let content = ''
   export let isCodePiece = false
@@ -13,7 +13,7 @@
   let tooltipCopyLabel = COPY_LABEL_DEFAULT
 
   async function copyText () {
-    const success = await CopyToClipboard(content)
+    const success = await copyToClipboard(content)
     if (success) {
       tooltipCopyLabel = COPY_LABEL_COPIED
     }

@@ -1,7 +1,9 @@
 <script>
+  import { fade } from 'svelte/transition'
   import Icon from 'fa-svelte'
   import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
   import Button from './Button.svelte'
+  import { DEFAULT_TRANSTION } from '../../../Consts'
 
   export let mode = 'default'
   export let label = ''
@@ -22,13 +24,13 @@
     right: 0
     bottom: 0
     left: 0
-    z-index: 80
+    z-index: $overlay-zindex
     display: block
     cursor: default
 
   .dropdown-options
     position: absolute
-    z-index: 90
+    z-index: $overlay-zindex + 1
     margin-top: .5rem
     border: .1rem solid lighten($button-background, 30%)
     border-radius: $button-radius
@@ -66,7 +68,7 @@
   </Button>
 
   {#if isOpen}
-    <div class="dropdown-options">
+    <div transition:fade={DEFAULT_TRANSTION} class="dropdown-options">
       <slot/>
     </div>
     <div class="backdrop" on:click={() => (isOpen = !isOpen)}></div>

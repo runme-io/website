@@ -28,13 +28,10 @@
 </style>
 
 <ModalLayout title="Run your application locally">
-  <p>In order to run your application locally, you need the to run the following Docker commands.</p>
+  <p>Copy the following Docker commands to run your application locally.</p>
   <ol>
     {#each commands as command}
       <li><Copy isCodePiece={true} content={`docker ${command} ${dockerImage}`} /></li>
     {/each}
   </ol>
 </ModalLayout>
-
-
-

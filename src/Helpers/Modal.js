@@ -1,5 +1,5 @@
-import tingle from 'tingle.js/src/tingle.js'
-import 'tingle.js/src/tingle.css'
+import tingle from 'tingle.js/dist/tingle'
+import 'tingle.js/dist/tingle.css'
 
 export function modal ({
   content,

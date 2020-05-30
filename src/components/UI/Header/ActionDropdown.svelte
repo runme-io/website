@@ -1,7 +1,7 @@
 <script>
   import { faCopy, faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
   import { faDocker } from '@fortawesome/free-brands-svg-icons'
-  import { CopyToClipboard, modal } from '../../../Helpers'
+  import { copyToClipboard, modal } from '../../../Helpers'
   import DockerCommandsModal from '../Modals/DockerCommandsModal.svelte'
   import { ButtonDropdown, ButtonDropdownOption } from '../Button'
 
@@ -20,7 +20,7 @@
       clearTimeout(copyMessageTimeout)
     }
 
-    const success = await CopyToClipboard(applicationUrl)
+    const success = await copyToClipboard(applicationUrl)
     if (success) {
       copiedText = 'Copied!'
       copyMessageTimeout = setTimeout(() => (copiedText = ''), NOTIFICATION_DELAY)

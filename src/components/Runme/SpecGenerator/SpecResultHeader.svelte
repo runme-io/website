@@ -3,7 +3,7 @@
   import { faCopy, faFileDownload } from '@fortawesome/free-solid-svg-icons'
   import { ButtonIcon } from '../../UI/Button'
   import { DEFAULT_TRANSTION } from '../../../Consts'
-  import { CopyToClipboard } from '../../../Helpers'
+  import { copyToClipboard } from '../../../Helpers'
 
   const MESSAGE_DELAY = 3000
 
@@ -32,7 +32,7 @@
     if (copyMessageTimeout) {
       clearTimeout(copyMessageTimeout)
     }
-    const success = await CopyToClipboard(content)
+    const success = await copyToClipboard(content)
     if (success) {
       copied = true
       copyMessageTimeout = setTimeout(() => (copied = false), MESSAGE_DELAY)
