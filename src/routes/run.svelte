@@ -8,6 +8,7 @@
   import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
   import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
   import CountDown from '../components/UI/Counter/CountDown.svelte'
+  import MetaData from '../components/UI/MetaData.svelte'
 
   let loading = true
   let hasError = false
@@ -54,9 +55,7 @@
   })
 </script>
 
-<svelte:head>
-  <title>Runme.io</title>
-</svelte:head>
+<MetaData title="Prepare you application to run"/>
 
 <FixedHeader/>
 
