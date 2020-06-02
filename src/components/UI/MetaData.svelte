@@ -1,34 +1,22 @@
 <script>
-  export let title = ''
-  export let description = ''
+  export let title = 'Run your applications from Git-repo with one click'
+  export let description = 'Runme.io let\'s you generate a Button which you can integrate in to your Git-repo, and run application from your Git-repo with one click.'
   export let image = ''
   export let imageAlt = ''
   export let url = ''
   export let type = ''
   export let twitterCard = ''
 
-  const suffix = 'Runme.io'
-  const defaultTitle = 'Run your applications from Git-repo with one click'
-  const defaultDescription = 'Runme.io let\'s you generate a Button which you can integrate in to your Git-repo, and run application from your Git-repo with one click.'
-
-  if (!title) {
-    title = defaultTitle
-  }
-
-  if (!description) {
-    description = defaultDescription
-  }
-
-  // append the suffix
-  title = `${title} - ${suffix}`
+  // append a suffix
+  const fullTitle = `${title} - Runme.io`
 </script>
 
 <svelte:head>
-  {#if title}
-    <title>{title}</title>
-    <meta name="title" content={title}/>
-    <meta property="og:title" content={title}/>
-    <meta property="twitter:title" content={title}/>
+  {#if fullTitle}
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle}/>
+    <meta property="og:title" content={fullTitle}/>
+    <meta property="twitter:title" content={fullTitle}/>
   {/if}
 
   {#if description}
