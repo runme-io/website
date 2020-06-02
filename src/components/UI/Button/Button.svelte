@@ -1,5 +1,5 @@
 <script>
-  import { tooltip } from '../Actions'
+  import { tooltip } from '../../Actions'
 
   export let type = 'button'
   export let href = null
@@ -8,6 +8,7 @@
   export let disabled = false
   export let flex = false
   export let big = false
+  export let isActive = false
   export let small = false
   export let tooltipOptions = {}
 
@@ -32,19 +33,21 @@
     background: $button-background
     padding: .5rem 1rem
     color: $white
-    border-radius: .3rem
+    border-radius: $button-radius
     box-shadow: .2rem .2rem .5rem rgba(0, 0, 0, .4)
     font-size: $default-font-size
-    transition: .3s all
+    transition: .1s all
     cursor: pointer
     text-decoration: none
+    display: inline-block
 
     &:hover,
-    &:active
+    &:active,
+    &.active
       box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .4)
 
     &.small
-      font-size: 1.2rem
+      font-size: 1.4rem
 
     &.big
       font-size: 1.8rem
@@ -75,7 +78,8 @@
     box-shadow: none
 
     &:hover,
-    &:active
+    &:active,
+    &.active
       background: darken($primary-color, 3%)
       box-shadow: none
 
@@ -90,7 +94,7 @@
     color: $button-background
     box-shadow: none !important
     border: none !important
-    padding: 0 !important
+    padding: 0
 </style>
 
 {#if href}
@@ -100,6 +104,7 @@
     {target}
     class:big
     class:small
+    class:active={isActive}
     class={classes}
     use:tooltip={tooltipOptions}
   >
@@ -111,6 +116,7 @@
     class:flex
     class:big
     class:small
+    class:active={isActive}
     class={classes}
     {type}
     {disabled}

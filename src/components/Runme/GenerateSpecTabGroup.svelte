@@ -4,7 +4,7 @@
   import { Tabs, Tab, TabList, TabPanel } from 'svelte-tabs'
   import { faPlusCircle, faTimes } from '@fortawesome/free-solid-svg-icons'
   import GenerateSpecForm from './GenerateSpecForm.svelte'
-  import ButtonIcon from '../UI/ButtonIcon.svelte'
+  import { ButtonIcon } from '../UI/Button'
   import specStore from '../Stores/SpecGenerator'
   import { DOCKER_SELECT_LANGUAGE, DOCKER_SELECT_SERVICES, ADDITIONAL_SERVICES_LIMIT } from '../../Consts'
 

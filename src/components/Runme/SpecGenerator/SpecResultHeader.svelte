@@ -1,8 +1,9 @@
 <script>
   import { fade } from 'svelte/transition'
   import { faCopy, faFileDownload } from '@fortawesome/free-solid-svg-icons'
-  import ButtonIcon from '../../UI/ButtonIcon.svelte'
+  import { ButtonIcon } from '../../UI/Button'
   import { DEFAULT_TRANSTION } from '../../../Consts'
+  import { copyToClipboard } from '../../../Helpers'
 
   const MESSAGE_DELAY = 3000
 
@@ -27,16 +28,14 @@
     setTimeout(() => window.URL.revokeObjectURL(linkElement.href), 100)
   }
 
-  async function copy () {
-    try {
-      if (copyMessageTimeout) {
-        clearTimeout(copyMessageTimeout)
-      }
-      await navigator.clipboard.writeText(content)
+  async function copyResult () {
+    if (copyMessageTimeout) {
+      clearTimeout(copyMessageTimeout)
+    }
+    const success = await copyToClipboard(content)
+    if (success) {
       copied = true
       copyMessageTimeout = setTimeout(() => (copied = false), MESSAGE_DELAY)
-    } catch (e) {
-      console.error(e)
     }
   }
 </script>
@@ -85,7 +84,7 @@
       flex="{true}"
       aria-label="{copyLabel}"
       icon="{faCopy}"
-      on:click="{copy}"
+      on:click="{copyResult}"
     />
     <ButtonIcon
       flex="{true}"

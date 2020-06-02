@@ -52,6 +52,7 @@
 
         // update the template variables
         src = url
+        header.setApplicationUrl(url)
         iframeLoaded = true
       } catch (e) {
         if (pollingAttempt++ > maxPollingAttempt) {

@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import { faTimes } from '@fortawesome/free-solid-svg-icons'
   import TextInput from './TextInput.svelte'
-  import ButtonIcon from './ButtonIcon.svelte'
+  import { ButtonIcon } from './Button'
   import FormControl from './Form/FormControl.svelte'
 
   const dispatch = createEventDispatcher()
