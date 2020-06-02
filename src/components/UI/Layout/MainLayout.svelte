@@ -2,17 +2,12 @@
   import Header from './Header.svelte'
   import MainFooter from '../Footer/MainFooter.svelte'
   import SubFooter from '../Footer/SubFooter.svelte'
+  import MetaData from '../MetaData.svelte'
 
-  export let title = ''
   export let showTechnologyIcons = false
-
-  const suffix = 'Runme.io'
-  const pageTitle = title ? `${title} - ${suffix}` : suffix
 </script>
 
-<svelte:head>
-  <title>{pageTitle}</title>
-</svelte:head>
+<MetaData  {...$$restProps}/>
 
 <div class="page-container">
   <Header/>
@@ -22,5 +17,6 @@
   </main>
 
   <SubFooter {showTechnologyIcons}/>
+
   <MainFooter/>
 </div>

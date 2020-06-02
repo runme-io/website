@@ -9,6 +9,7 @@
   import { header } from '../components/Stores/Header'
   import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
   import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
+  import MetaData from '../components/UI/MetaData.svelte'
 
   let src
   let iframeLoaded = false
@@ -121,9 +122,7 @@
   })
 </script>
 
-<svelte:head>
-  <title>Runme.io</title>
-</svelte:head>
+<MetaData title="Showing your application"/>
 
 <FixedHeader title="This application will stay available for 10 minutes."/>
 

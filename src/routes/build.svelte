@@ -1,13 +1,14 @@
 <script>
+  import { onDestroy } from 'svelte'
+  import { goto } from '@sapper/app'
+  import { queryParam, isBase64 } from '../Helpers'
   import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
   import MainFooter from '../components/UI/Footer/MainFooter.svelte'
-  import { goto } from '@sapper/app'
   import { build } from '../components/Stores/Build'
   import { header } from '../components/Stores/Header'
   import { application } from '../components/Stores/Application'
-  import { queryParam, isBase64 } from '../Helpers'
-  import { onDestroy } from 'svelte'
   import CliWindow from '../components/UI/Cli/CliWindow.svelte'
+  import MetaData from '../components/UI/MetaData.svelte'
 
   const buildId = queryParam().get('build_id')
 
@@ -103,9 +104,7 @@
   onDestroy(unsubscribe)
 </script>
 
-<svelte:head>
-  <title>Runme.io - Building your application</title>
-</svelte:head>
+<MetaData title="Building your application"/>
 
 <div class="page-container">
   <FixedHeader/>
