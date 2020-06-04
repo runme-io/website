@@ -1,9 +1,7 @@
 import specStore from '../components/Stores/SpecGenerator'
 
 function parseSpecService (service, isMain = false) {
-  let parsedService = {
-    command: formatCommand(service),
-  }
+  let parsedService = {}
 
   if (Object.values(service.envVars || {}).length) {
     parsedService = {
