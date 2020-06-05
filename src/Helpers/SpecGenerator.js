@@ -30,8 +30,7 @@ function parseSpecService (service, isMain = false) {
       image: service.dockerImage,
     }
   }
-  console.log(parsedService)
-  console.log(isMain)
+
   if (!service.port) {
     return parsedService
   }
