@@ -59,8 +59,10 @@
 
 <style lang="scss" global>
   @import "./node_modules/@primer/css/markdown/index.scss";
+  @import "./assets/style/theme";
 
   .markdown-body {
+    margin: $code-block-margin;
     max-height: 30rem;
     overflow: hidden;
     position: relative;

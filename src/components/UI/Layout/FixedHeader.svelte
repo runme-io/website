@@ -3,8 +3,7 @@
   import { header } from '../../Stores/Header'
   import CountDown from '../Counter/CountDown.svelte'
   import CountUp from '../Counter/CountUp.svelte'
-  import Button from '../Button.svelte'
-  import PopoverCopy from '../Popover/PopoverCopy.svelte'
+  import ActionDropdown from '../Header/ActionDropdown.svelte'
 
   export let title = 'Run your application from any public Git-repo with one click'
   export let timerTitle = ''
@@ -15,17 +14,9 @@
   let failed = false
   let failedStatus = ''
   let deployUrl = ''
-  let dockerPullCommand = ''
-  let dockerTooltip
-
-  $: dockerTooltip = {
-    content: PopoverCopy,
-    popoverTooltip: { content: 'Run you application locally with Docker' },
-    asPopover: true,
-    title: 'Run following docker command',
-    componentProps: { content: dockerPullCommand },
-    maxWidth: 'auto',
-  }
+  let applicationUrl = ''
+  let dockerImage = null
+  let showPlaceholderDeployButton = false // TODO remove when deployment is possible
 
   const unsubscribe = header.subscribe(header => {
     countDown = header.countDown
@@ -33,9 +24,11 @@
     failed = header.failed
     failedStatus = header.failedStatus
     deployUrl = header.deployUrl
+    applicationUrl = header.applicationUrl
+    showPlaceholderDeployButton = header.showPlaceholderDeployButton // TODO remove when deployment is possible
 
-    if (header.dockerPullCommand) {
-      dockerPullCommand = `docker pull ${header.dockerPullCommand}`
+    if (header.dockerImage) {
+      dockerImage = header.dockerImage
     }
 
     if (header.timerTitle) {
@@ -54,48 +47,9 @@
   onDestroy(unsubscribe)
 </script>
 
-<header>
-  <div class="logo-svg">
-    <a href="/">
-      <img src="/static/button-beta.svg" alt="logo">
-    </a>
-  </div>
-  <div class="titles">
-    <h1>{title}</h1>
-    {#if deployUrl}
-      <Button
-        tooltipOptions={{ content: 'Deploy your application to Jexia' }}
-        mode="outline"
-        small={true}
-        target="_blank"
-        href={deployUrl}
-      >Deploy permanent</Button>
-    {/if}
-
-    {#if dockerPullCommand}
-      <Button tooltipOptions={dockerTooltip} mode="outline" small={true}>Run locally</Button>
-    {/if}
-  </div>
-
-  {#if showBlock}
-    <div class="counter">
-      <span class="title">{timerTitle}</span>
-      <span class="timer">
-        {#if failed}
-          <span class="error">{failedStatus}</span>
-        {:else if countDown}
-          <CountDown/>
-        {:else if countUp}
-          <CountUp/>
-        {/if}
-      </span>
-    </div>
-  {/if}
-</header>
-
 <style lang="sass">
-  @import "../../../assets/style/theme"
-  @import "../../../assets/style/mixins"
+  @import "./assets/style/theme"
+  @import "./assets/style/mixins"
 
   header
     position: sticky
@@ -111,12 +65,12 @@
     @include dashed-line()
 
     .titles
+      display: flex
+      flex-direction: column
+      align-items: center
       padding-left: $spacing
       padding-right: $spacing
       width: 60%
-      align-self: center
-      margin: 0 auto
-      text-align: center
 
       @media screen and (max-width: 1200px)
         width: 70%
@@ -180,3 +134,30 @@
       .error
         color: $warning
 </style>
+
+<header>
+  <div class="logo-svg">
+    <a href="/">
+      <img src="/static/button-beta.svg" alt="logo">
+    </a>
+  </div>
+  <div class="titles">
+    <h1>{title}</h1>
+    <ActionDropdown {showPlaceholderDeployButton} {dockerImage} {deployUrl} {applicationUrl}/>
+  </div>
+
+  {#if showBlock}
+    <div class="counter">
+      <span class="title">{timerTitle}</span>
+      <span class="timer">
+        {#if failed}
+          <span class="error">{failedStatus}</span>
+        {:else if countDown}
+          <CountDown/>
+        {:else if countUp}
+          <CountUp/>
+        {/if}
+      </span>
+    </div>
+  {/if}
+</header>

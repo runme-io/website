@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
+    "commit": "git-cz",
     "export": "sapper export --legacy",
     "start": "PORT=80 node __sapper__/build",
     "cy:run": "cypress run",
@@ -19,7 +20,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pretest"
+      "pre-commit": "npm run pretest",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "dependencies": {
@@ -36,9 +38,10 @@
     "perfect-scrollbar": "^1.5.0",
     "polka": "next",
     "sirv": "^0.4.0",
+    "tingle.js": "^0.15.3",
+    "tippy.js": "~6.0.1",
     "url": "^0.11.0",
-    "yaml": "^1.9.2",
-    "tippy.js": "~6.0.1"
+    "yaml": "^1.9.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -46,6 +49,8 @@
     "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/runtime": "^7.9.2",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@rollup/plugin-commonjs": "^11.0.0",
@@ -54,6 +59,7 @@
     "@rollup/plugin-replace": "^2.2.0",
     "autoprefixer": "^9.7.5",
     "babel-eslint": "^10.1.0",
+    "cz-conventional-changelog": "^3.2.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
@@ -82,5 +88,10 @@
   },
   "lint-staged": {
     "*.{js,svelte}": "eslint --fix"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

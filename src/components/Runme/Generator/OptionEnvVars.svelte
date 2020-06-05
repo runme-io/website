@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import { faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
   import TextInput from '../../UI/TextInput.svelte'
-  import ButtonIcon from '../../UI/ButtonIcon.svelte'
+  import { ButtonIcon } from '../../UI/Button'
   import InputSwitch from '../../UI/InputSwitch.svelte'
   import FormControl from '../../UI/Form/FormControl.svelte'
   import { convertEnvVarsToText, convertEnvVarsFromText, validateEnvVars, notEmpty, validKey } from '../../../Helpers'

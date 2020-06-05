@@ -1,7 +1,5 @@
 <script>
-  import { tooltip } from '../Actions/tooltip.js'
-  import Icon from 'fa-svelte'
-  import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+  import { tooltip } from '../../Actions'
 
   export let type = 'button'
   export let href = null
@@ -10,6 +8,7 @@
   export let disabled = false
   export let flex = false
   export let big = false
+  export let isActive = false
   export let small = false
   export let tooltipOptions = {}
 
@@ -29,24 +28,26 @@
   @import "./assets/style/theme"
 
   button,
-  a:not([target="_blank"])
-    border: .1rem solid $buttonBackground
-    background: $buttonBackground
+  a
+    border: .1rem solid $button-background
+    background: $button-background
     padding: .5rem 1rem
     color: $white
-    border-radius: .3rem
+    border-radius: $button-radius
     box-shadow: .2rem .2rem .5rem rgba(0, 0, 0, .4)
     font-size: $default-font-size
-    transition: .3s all
+    transition: .1s all
     cursor: pointer
     text-decoration: none
+    display: inline-block
 
     &:hover,
-    &:active
+    &:active,
+    &.active
       box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, .4)
 
     &.small
-      font-size: 1.2rem
+      font-size: 1.4rem
 
     &.big
       font-size: 1.8rem
@@ -73,12 +74,13 @@
 
   .outline
     background: transparent
-    color: $buttonBackground
+    color: $button-background
     box-shadow: none
 
     &:hover,
-    &:active
-      background: #ffc7de
+    &:active,
+    &.active
+      background: darken($primary-color, 3%)
       box-shadow: none
 
     &:disabled,
@@ -89,19 +91,10 @@
 
   .default
     background: transparent
-    color: $buttonBackground
+    color: $button-background
     box-shadow: none !important
     border: none !important
-    padding: 0 !important
-
-  a[target="_blank"]
-    position: relative
-    margin-right: 1rem
-
-    \:global(.external-icon)
-      position: absolute
-      right: -1.2rem
-      width: 1rem
+    padding: 0
 </style>
 
 {#if href}
@@ -111,10 +104,11 @@
     {target}
     class:big
     class:small
+    class:active={isActive}
     class={classes}
     use:tooltip={tooltipOptions}
   >
-    <slot/>{#if target}<Icon class="external-icon" icon={faExternalLinkAlt} />{/if}
+    <slot/>
   </a>
 {:else}
   <button
@@ -122,6 +116,7 @@
     class:flex
     class:big
     class:small
+    class:active={isActive}
     class={classes}
     {type}
     {disabled}

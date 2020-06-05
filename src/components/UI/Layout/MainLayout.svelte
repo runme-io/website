@@ -1,31 +1,22 @@
 <script>
-    import RunmeFooter from './RunmeFooter.svelte'
-    import JexiaFooter from './JexiaFooter.svelte'
-    import Header from './Header.svelte'
-    import TechnologyLogos from './TechnologyLogos.svelte'
+  import Header from './Header.svelte'
+  import MainFooter from '../Footer/MainFooter.svelte'
+  import SubFooter from '../Footer/SubFooter.svelte'
+  import MetaData from '../MetaData.svelte'
 
-    export let showRunmeFooter = true
-    export let showTechnologyIcons = false
-    export let title = ''
-
-    const suffix = 'Runme.io'
-    const pageTitle = title ? `${title} - ${suffix}` : suffix
+  export let showTechnologyIcons = false
 </script>
 
-<svelte:head>
-    <title>{pageTitle}</title>
-</svelte:head>
+<MetaData  {...$$restProps}/>
 
 <div class="page-container">
-    <Header/>
+  <Header/>
 
-    <main>
-        <div class="container">
-            <slot/>
-        </div>
-    </main>
+  <main class="container">
+    <slot/>
+  </main>
 
-    {#if showTechnologyIcons}<TechnologyLogos/>{/if}
-    {#if showRunmeFooter}<RunmeFooter/>{/if}
-    <JexiaFooter/>
+  <SubFooter {showTechnologyIcons}/>
+
+  <MainFooter/>
 </div>

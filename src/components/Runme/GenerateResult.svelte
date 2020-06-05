@@ -2,7 +2,7 @@
   import GenerateSpecResult from './GenerateSpecResult.svelte'
   import RunmeButton from './RunmeButton.svelte'
   import ReadmeResult from './ReadmeResult.svelte'
-  import Button from '../UI/Button.svelte'
+  import Link from '../UI/Link.svelte'
   import CodePiece from '../UI/CodePiece.svelte'
   import GithubReadme from '../UI/GitHub/GithubReadme.svelte'
   import { autoscroll } from '../Actions'
@@ -18,6 +18,7 @@
   @import "./assets/style/mixins"
 
   $default-margin: 2rem
+  $list-spacing: 4rem
 
   .generate-result
     @include dashed-line(top)
@@ -31,29 +32,11 @@
 
   .result-list
     counter-reset: item
-    $list-spacing: 4rem
-
     display: grid
     grid-gap: $default-margin
     margin-top: $default-margin
     padding-inline-start: $list-spacing
-
-    li
-      position: relative
-
-      &:before
-        align-items: center
-        background-color: $primary-yellow
-        border-radius: 50%
-        counter-increment: item
-        content: counter(item)
-        color: $white
-        display: flex
-        justify-content: center
-        left: -($list-spacing)
-        padding: .1rem 1rem
-        position: absolute
-        text-align: center
+    @include list-style-rounded-number(-($list-spacing))
 
   .dashed-section
     @include dashed-line(top)
@@ -72,7 +55,7 @@
     <ol class="result-list">
       <li>
         Copy the following { spec.dockerfile ? 'files' : 'file' } inside <CodePiece>./.runme</CodePiece> folder in the root of your repository.
-        Curious about available options for <CodePiece>config.yaml</CodePiece>? <Button href={SPEC_URL} target="_blank">Read the full Runme Specification</Button> and change it by yourself.
+        Curious about available options for <CodePiece>config.yaml</CodePiece>? <Link href={SPEC_URL} target="_blank">Read the full Runme Specification</Link> and change it by yourself.
 
         <GenerateSpecResult {spec} />
       </li>

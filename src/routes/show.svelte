@@ -9,6 +9,7 @@
   import { header } from '../components/Stores/Header'
   import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
   import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
+  import MetaData from '../components/UI/MetaData.svelte'
 
   let src
   let iframeLoaded = false
@@ -52,6 +53,7 @@
 
         // update the template variables
         src = url
+        header.setApplicationUrl(url)
         iframeLoaded = true
       } catch (e) {
         if (pollingAttempt++ > maxPollingAttempt) {
@@ -76,7 +78,7 @@
     } else {
       appId = applicationId // this need to be assigned, otherwise svelte wont detect the change
       header.showCountDown(updatedAt, 'Countdown', 600) // the app will be alive for 10 min (600s)
-      header.setDockerPullCommand(dockerImage)
+      header.setDockerImage(dockerImage)
       loadUrl(`https://${buildId}.runme.io`)
     }
   })
@@ -99,6 +101,8 @@
 
       if (deploymentUrl) {
         header.setDeploymentUrl(`https://${deploymentUrl}/runme?${queryString}`)
+      } else {
+        header.showPlaceholderDeploymentButton() // TODO remove once deployment is ready
       }
     }
   })
@@ -118,9 +122,7 @@
   })
 </script>
 
-<svelte:head>
-  <title>Runme.io</title>
-</svelte:head>
+<MetaData title="Showing your application"/>
 
 <FixedHeader title="This application will stay available for 10 minutes."/>
 
