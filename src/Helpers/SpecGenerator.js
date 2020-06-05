@@ -3,6 +3,12 @@ import specStore from '../components/Stores/SpecGenerator'
 function parseSpecService (service, isMain = false) {
   let parsedService = {}
 
+  if (!isMain) {
+    parsedService = {
+      command: formatCommand(service),
+    }
+  }
+
   if (Object.values(service.envVars || {}).length) {
     parsedService = {
       ...parsedService,
@@ -24,7 +30,8 @@ function parseSpecService (service, isMain = false) {
       image: service.dockerImage,
     }
   }
-
+  console.log(parsedService)
+  console.log(isMain)
   if (!service.port) {
     return parsedService
   }
