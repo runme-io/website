@@ -1,4 +1,3 @@
-import { goto } from '@sapper/app'
 import { RUNME_API } from '../env'
 
 export const zeroPad = (num, places) => String(num).padStart(places, '0')
@@ -11,13 +10,6 @@ export const displayTimer = (totalSeconds) => {
   const seconds = totalSeconds - ((hour * 3600) + (minutes * 60))
 
   return zeroPad(minutes, 2) + ':' + zeroPad(seconds, 2)
-}
-
-export const redirectWithError = (errorMsg, path = '/') => {
-  if (process.browser) {
-    const error = encodeURI(errorMsg)
-    goto(`${path}?error=${error}`)
-  }
 }
 
 export const isBase64 = (str) => {
@@ -33,12 +25,8 @@ export const isBase64 = (str) => {
 }
 
 export const setUrl = (path) => {
-  if (process.browser) {
-    const url = `${location.protocol}//${location.host}/${path}`
-
-    // remove double slashes
-    return removeDoubleSlashes(url)
-  }
+  const url = `${location.protocol}//${location.host}/${path}`
+  return removeDoubleSlashes(url)
 }
 
 export const setApiUrl = (path, protocol = 'http') => {
@@ -50,8 +38,6 @@ export const setApiUrl = (path, protocol = 'http') => {
 }
 
 export const runApiRequest = async (url, method = 'GET', body = null) => {
-  if (!process.browser) { return }
-
   body = body ? JSON.stringify(body) : null
   url = setApiUrl(url)
 

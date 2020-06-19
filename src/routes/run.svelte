@@ -1,7 +1,8 @@
 <script>
+  import { onMount } from 'svelte'
   import { onDestroy } from 'svelte'
   import { goto } from '@sapper/app'
-  import { queryParam, redirectWithError } from '../Helpers'
+  import { queryParam } from '../Helpers'
   import { build } from '../components/Stores/Build'
   import { header } from '../components/Stores/Header'
   import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
@@ -36,18 +37,13 @@
       loading = false
       generalError = true
     } else if (buildId) {
-      if (process.browser) {
-        goto(`/build?build_id=${buildId}`)
-      }
+      goto(`/build?build_id=${buildId}`)
     }
   })
 
-  if (!appId) {
-    redirectWithError('No "app_id" is given to run the application')
-  }
-
-  // start the build
-  build.start(appId)
+  onMount(() => {
+    build.start(appId)
+  })
 
   onDestroy(() => {
     unsubBuild()

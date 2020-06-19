@@ -1,8 +1,6 @@
 import { setApiUrl } from './Const'
 
 export function wsBuild (buildId, callback) {
-  if (!process.browser) { return }
-
   const url = setApiUrl('ws', 'ws')
   const ws = new WebSocket(url)
 

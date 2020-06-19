@@ -62,10 +62,8 @@
   })
 
   const scrollToBottom = () => {
-    if (process.browser) {
-      psContainer.scrollTop = ps.contentHeight
-      stickyToBottom = true
-    }
+    psContainer.scrollTop = ps.contentHeight
+    stickyToBottom = true
   }
 </script>
 

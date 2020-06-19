@@ -23,7 +23,7 @@ function createApplication () {
       }
     },
     get: async (appId) => {
-      if (!process.browser || !appId) { return }
+      if (!appId) { return }
 
       const { jexiaClient, dataOperations } = await import('jexia-sdk-js/browser')
       const dataModule = dataOperations()

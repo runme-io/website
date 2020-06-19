@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte'
   import { onDestroy } from 'svelte'
   import { queryParam } from '../Helpers'
   import { DEPLOYMENT } from '../env'
@@ -30,8 +31,6 @@
   }
 
   const urlExists = async (url) => {
-    if (!process.browser) { return }
-
     const response = await fetch(url, { redirect: 'manual' })
     if (response.status > 500) {
       throw new Error('Failed to fetch')
@@ -39,8 +38,6 @@
   }
 
   const loadUrl = (url) => {
-    if (!process.browser) { return }
-
     clearInterval(pollingInterval) // clear previous interval
     pollingAttempt = 1 // reset value
 
@@ -108,13 +105,13 @@
     }
   })
 
-  if (process.browser) {
+  onMount(() => {
     if (buildId) {
       build.get(buildId)
     } else {
       showError('No build_id has been given, please go to the <a href="/">generator</a> page and create a button and run url')
     }
-  }
+  })
 
   onDestroy(() => {
     unsubscribe.build()
