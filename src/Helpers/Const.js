@@ -50,54 +50,54 @@ export const setApiUrl = (path, protocol = 'http') => {
 }
 
 export const runApiRequest = async (url, method = 'GET', body = null) => {
-  if (process.browser) {
-    body = body ? JSON.stringify(body) : null
-    url = setApiUrl(url)
+  if (!process.browser) { return }
 
-    const response = await fetch(url, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body,
-    })
+  body = body ? JSON.stringify(body) : null
+  url = setApiUrl(url)
 
-    const result = await response.json()
+  const response = await fetch(url, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body,
+  })
 
-    // handle errors
-    switch (response.status) {
-      case 200:
-        return result
+  const result = await response.json()
 
-      case 404:
-      case 400:
-      case 500:
-        // TODO optimize to thrown an new Error() object
-        // https://github.com/runme-io/website/issues/164
-        // eslint-disable-next-line no-throw-literal
-        throw {
-          message: result.message,
-        }
+  // handle errors
+  switch (response.status) {
+    case 200:
+      return result
 
-      case 409:
-        // TODO optimize to thrown an new Error() object
-        // https://github.com/runme-io/website/issues/164
-        // eslint-disable-next-line no-throw-literal
-        throw {
-          message: result.message,
-          lastBuild: result.last_build_at,
-          nextBuild: result.next_build_since,
-        }
+    case 404:
+    case 400:
+    case 500:
+      // TODO optimize to thrown an new Error() object
+      // https://github.com/runme-io/website/issues/164
+      // eslint-disable-next-line no-throw-literal
+      throw {
+        message: result.message,
+      }
 
-      default:
-        // TODO optimize to thrown an new Error() object
-        // https://github.com/runme-io/website/issues/164
-        // eslint-disable-next-line no-throw-literal
-        throw {
-          message: 'unknown error occur',
-        }
-    }
+    case 409:
+      // TODO optimize to thrown an new Error() object
+      // https://github.com/runme-io/website/issues/164
+      // eslint-disable-next-line no-throw-literal
+      throw {
+        message: result.message,
+        lastBuild: result.last_build_at,
+        nextBuild: result.next_build_since,
+      }
+
+    default:
+      // TODO optimize to thrown an new Error() object
+      // https://github.com/runme-io/website/issues/164
+      // eslint-disable-next-line no-throw-literal
+      throw {
+        message: 'unknown error occur',
+      }
   }
 }
 
