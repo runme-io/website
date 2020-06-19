@@ -1,15 +1,15 @@
 import { setApiUrl } from './Const'
 
-export function wsBuild(build_id, callback) {
+export function wsBuild (buildId, callback) {
   if (process.browser) {
-    const url = setApiUrl(`ws`, 'ws')
-    const ws = new WebSocket(url);
+    const url = setApiUrl('ws', 'ws')
+    const ws = new WebSocket(url)
 
-    ws.onopen = function(){
-      ws.send(JSON.stringify({ "command": "subscribe", "payload": {"build_id": build_id} }))
+    ws.onopen = function () {
+      ws.send(JSON.stringify({ command: 'subscribe', payload: { build_id: buildId } }))
     }
 
-    ws.onmessage = function(message) {
+    ws.onmessage = function (message) {
       if (typeof callback === 'function') {
         callback(JSON.parse(message.data).payload)
       }

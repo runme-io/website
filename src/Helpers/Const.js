@@ -26,7 +26,7 @@ export const isBase64 = (str) => {
   }
 
   try {
-    return btoa(atob(str)) == str
+    return btoa(atob(str)) === str
   } catch (err) {
     return false
   }
@@ -58,7 +58,7 @@ export const runApiRequest = async (url, method = 'GET', body = null) => {
       method,
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        Accept: 'application/json',
       },
       body,
     })
@@ -73,11 +73,17 @@ export const runApiRequest = async (url, method = 'GET', body = null) => {
       case 404:
       case 400:
       case 500:
+        // TODO optimize to thrown an new Error() object
+        // https://github.com/runme-io/website/issues/164
+        // eslint-disable-next-line no-throw-literal
         throw {
-          message: result.message
+          message: result.message,
         }
 
       case 409:
+        // TODO optimize to thrown an new Error() object
+        // https://github.com/runme-io/website/issues/164
+        // eslint-disable-next-line no-throw-literal
         throw {
           message: result.message,
           lastBuild: result.last_build_at,
@@ -85,6 +91,9 @@ export const runApiRequest = async (url, method = 'GET', body = null) => {
         }
 
       default:
+        // TODO optimize to thrown an new Error() object
+        // https://github.com/runme-io/website/issues/164
+        // eslint-disable-next-line no-throw-literal
         throw {
           message: 'unknown error occur',
         }

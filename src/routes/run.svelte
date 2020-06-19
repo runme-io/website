@@ -70,7 +70,8 @@
     <p>
       {#if rateLimitError}
         There are too many build triggers for this particular repo.
-        Please hang on, Runme will try to run it in a new build, after <CountDown/> minutes.
+        Please hang on, Runme will try to run it in a new build, after
+        <CountDown/> minutes.
       {/if}
 
       {#if generalError}
