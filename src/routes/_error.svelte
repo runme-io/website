@@ -19,23 +19,18 @@
   @keyframes rotate
     0%
       transform: rotate(0)
-      transform-origin: bottom left
 
     30%
       transform: rotate(130deg)
-      transform-origin: bottom left
 
     60%
       transform: rotate(70deg)
-      transform-origin: bottom left
 
     80%
       transform: rotate(100deg)
-      transform-origin: bottom left
 
     100%
       transform: rotate(90deg)
-      transform-origin: bottom left
 
   \:global(.logo-svg)
     animation: rotate 0.75s 1s both

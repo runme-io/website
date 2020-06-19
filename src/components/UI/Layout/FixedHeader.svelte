@@ -101,6 +101,8 @@
           line-height: 1.8rem
 
     .logo-svg
+      transform-origin: bottom left
+
       a
         border: 0
 
