@@ -16,73 +16,53 @@
 <style lang="sass">
   @import './assets/style/theme'
 
-  @keyframes rotate
-    0%
-      transform: rotate(0)
+  .container-404
+    padding: $spacing-double $spacing
 
-    30%
-      transform: rotate(130deg)
+    h1, p
+      margin: 0 auto
 
-    60%
-      transform: rotate(70deg)
-
-    80%
-      transform: rotate(100deg)
-
-    100%
-      transform: rotate(90deg)
-
-  \:global(.logo-svg)
-    animation: rotate 0.75s 1s both
-
-  \:global(body)
-    font-family: $font-family
-    line-height: 1.5
-    font-size: 1.6rem
-
-  h1, p
-    margin: 0 auto
-
-  h1
-    font-size: 2.8rem
-    font-weight: 700
-    margin: 0 0 .5rem 0
-    text-align: center
-
-  p
-    margin: 1rem auto
-    text-align: center
-
-
-  @media (min-width: 480px)
     h1
-      font-size: 4rem
-      padding-top: $spacing-double
+      font-size: 2.8rem
+      font-weight: 700
+      margin: 0 0 .5rem 0
+      text-align: center
 
-      &:before
-        content: '#'
+    p
+      margin: 1rem auto
+      text-align: center
 
-  pre
-    background-color: $gray-medium
-    border-radius: .5rem
-    border: .1rem solid $gray-light
-    color: $white
-    font-size: 1.4rem
-    line-height: 1.4rem
-    margin: 1rem 0
-    word-break: break-all
-    word-wrap: break-word
+
+    @media (min-width: 480px)
+      h1
+        font-size: 4rem
+
+        &:before
+          content: '#'
+
+    pre
+      background-color: $gray-medium
+      border-radius: .5rem
+      border: .1rem solid $gray-light
+      color: $white
+      font-size: 1.4rem
+      line-height: 1.4rem
+      margin: 1rem 0
+      word-break: break-all
+      word-wrap: break-word
 </style>
 
 <GoogleAnalytics />
 <Hotjar />
 
 <MetaData {title}/>
-<FixedHeader/>
+<FixedHeader animatedLogo={true}/>
 
-<h1>{title}</h1>
-<p>{message}</p>
+<div class="container-404">
+  <h1>{title}</h1>
+  <p>{message}</p>
 
-{#if dev && error.stack}
-  <pre>{error.stack}</pre>
-{/if}
+  {#if dev && error.stack}
+    <pre>{error.stack}</pre>
+  {/if}
+</div>

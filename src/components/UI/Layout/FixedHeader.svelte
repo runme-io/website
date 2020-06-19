@@ -4,9 +4,11 @@
   import CountDown from '../Counter/CountDown.svelte'
   import CountUp from '../Counter/CountUp.svelte'
   import ActionDropdown from '../Header/ActionDropdown.svelte'
+  import FixedHeaderLogo from '../Header/FixedHeaderLogo.svelte'
 
   export let title = 'Run your application from any public Git-repo with one click'
   export let timerTitle = ''
+  export let animatedLogo = false
 
   let showBlock = false
   let countDown = false
@@ -100,22 +102,6 @@
           font-size: 1.4rem
           line-height: 1.8rem
 
-    .logo-svg
-      transform-origin: bottom left
-
-      a
-        border: 0
-
-        img
-          width: 20rem
-          display: inline-block
-
-          @media screen and (max-width: 1200px)
-            width: 17rem
-
-          @media screen and (max-width: 900px)
-            width: 15rem
-
     .counter
       align-self: center
       text-align: center
@@ -138,11 +124,7 @@
 
 <header>
   <div class="header-container">
-    <div class="logo-svg">
-      <a href="/">
-        <img src="/static/button-beta.svg" alt="logo">
-      </a>
-    </div>
+    <FixedHeaderLogo animated={animatedLogo}/>
     <div class="titles">
       <h1>{title}</h1>
       <ActionDropdown {showPlaceholderDeployButton} {dockerImage} {deployUrl} {applicationUrl}/>
