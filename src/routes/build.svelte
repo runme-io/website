@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte'
   import { onDestroy } from 'svelte'
   import { goto } from '@sapper/app'
   import { queryParam, isBase64 } from '../Helpers'
@@ -22,12 +23,6 @@
     header.isFailed(true)
     buildErrorMsg = error
     building = false
-  }
-
-  const done = (buildId) => {
-    if (process.browser) {
-      goto(`/show?build_id=${buildId}`)
-    }
   }
 
   const collectLog = (buildLog, deployLog) => {
@@ -86,20 +81,22 @@
     }
 
     if (status === 'done') {
-      done(id)
+      goto(`/show?build_id=${id}`)
     }
 
     // collect the log and combine them
     collectLog(buildLog, deployLog)
   })
 
-  // no repo url? Redirect back
-  if (buildId === '') {
-    showBuildError('"build_id" is missing')
-  } else {
-    // start fetching the log
-    build.get(buildId, true)
-  }
+  onMount(() => {
+    // no repo url? Redirect back
+    if (buildId === '') {
+      showBuildError('"build_id" is missing')
+    } else {
+      // start fetching the log
+      build.get(buildId, true)
+    }
+  })
 
   onDestroy(unsubscribe)
 </script>
