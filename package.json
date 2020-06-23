@@ -1,7 +1,7 @@
 {
   "name": "runme-website",
   "description": "This is the Website for runme.io",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/jexia-com/runme-website.git"
