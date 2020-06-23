@@ -18,6 +18,7 @@
   let buildErrorMsg
   let workingOn = 'Build'
   let cliTitle = ''
+  let websocket
 
   const showBuildError = (error) => {
     header.isFailed(true)
@@ -88,17 +89,23 @@
     collectLog(buildLog, deployLog)
   })
 
-  onMount(() => {
+  onMount(async () => {
     // no repo url? Redirect back
     if (buildId === '') {
       showBuildError('"build_id" is missing')
     } else {
       // start fetching the log
-      build.get(buildId, true)
+      websocket = await build.get(buildId, true)
     }
   })
 
-  onDestroy(unsubscribe)
+  onDestroy(() => {
+    if (websocket) {
+      websocket.close()
+    }
+
+    unsubscribe()
+  })
 </script>
 
 <MetaData title="Building your application"/>

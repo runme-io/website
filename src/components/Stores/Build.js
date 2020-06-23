@@ -15,9 +15,10 @@ function createBuild () {
 
         set(build || {})
 
-        // fireup the WebSocket to get realtime updates
+        // fire up the WebSocket to get realtime updates
+        // also return the socket connection to close it when needed
         if (startWebSocket) {
-          wsBuild(buildId, message => set(message))
+          return wsBuild(buildId, message => set(message))
         }
       } catch (error) {
         set({ error })

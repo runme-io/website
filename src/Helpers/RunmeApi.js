@@ -21,6 +21,8 @@ export function wsBuild (buildId, callback) {
       callback(JSON.parse(message.data).payload)
     }
   }
+
+  return ws
 }
 
 export async function runApiRequest (url, method = 'GET', body = null) {
