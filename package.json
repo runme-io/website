@@ -33,7 +33,6 @@
       "@semantic-release/github"
     ]
   },
-  "private": true,
   "dependencies": {
     "@primer/css": "^14.3.0",
     "@varandas/fetch-readme": "^1.0.5",
