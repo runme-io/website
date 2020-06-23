@@ -3,7 +3,7 @@
   import { onDestroy } from 'svelte'
   import { goto } from '@sapper/app'
   import { queryParam, isBase64 } from '../Helpers'
-  import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
+  import FixedHeader from '../components/UI/Header/FixedHeader.svelte'
   import MainFooter from '../components/UI/Footer/MainFooter.svelte'
   import { build } from '../components/Stores/Build'
   import { header } from '../components/Stores/Header'
