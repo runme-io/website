@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/jexia-com/runme-website.git"
   },
-  "license": "",
+  "license": "MIT",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
@@ -24,6 +24,16 @@
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/github"
+    ]
+  },
+  "private": true,
   "dependencies": {
     "@primer/css": "^14.3.0",
     "@varandas/fetch-readme": "^1.0.5",
@@ -57,6 +67,10 @@
     "@rollup/plugin-json": "^4.0.3",
     "@rollup/plugin-node-resolve": "^7.0.0",
     "@rollup/plugin-replace": "^2.2.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/github": "^7.0.7",
+    "@semantic-release/release-notes-generator": "^9.0.1",
     "autoprefixer": "^9.7.5",
     "babel-eslint": "^10.1.0",
     "cz-conventional-changelog": "^3.2.0",
@@ -81,6 +95,7 @@
     "rollup-plugin-terser": "^5.3.0",
     "sapper": "^0.27.11",
     "sass": "^1.26.3",
+    "semantic-release": "^17.1.0",
     "svelte": "^3.20.1",
     "svelte-highlight": "^0.6.0",
     "svelte-preprocess": "^3.6.0",
