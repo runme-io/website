@@ -1,9 +1,10 @@
 <script>
+  import { onMount } from 'svelte'
   import { onDestroy } from 'svelte'
   import { queryParam } from '../Helpers'
   import { DEPLOYMENT } from '../env'
   import { DISCORD_LINK } from '../Data/menu'
-  import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
+  import FixedHeader from '../components/UI/Header/FixedHeader.svelte'
   import { application } from '../components/Stores/Application'
   import { build } from '../components/Stores/Build'
   import { header } from '../components/Stores/Header'
@@ -30,8 +31,6 @@
   }
 
   const urlExists = async (url) => {
-    if (!process.browser) { return }
-
     const response = await fetch(url, { redirect: 'manual' })
     if (response.status > 500) {
       throw new Error('Failed to fetch')
@@ -39,8 +38,6 @@
   }
 
   const loadUrl = (url) => {
-    if (!process.browser) { return }
-
     clearInterval(pollingInterval) // clear previous interval
     pollingAttempt = 1 // reset value
 
@@ -63,8 +60,9 @@
     }, intervalTimer)
   }
 
-  const toQueryString = (object, separator = '&') =>
-    Object.entries(object).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join(separator)
+  const toQueryString = (object, separator = '&') => Object.entries(object)
+    .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+    .join(separator)
 
   unsubscribe.build = build.subscribe(({
     error,
@@ -107,13 +105,13 @@
     }
   })
 
-  if (process.browser) {
+  onMount(() => {
     if (buildId) {
       build.get(buildId)
     } else {
       showError('No build_id has been given, please go to the <a href="/">generator</a> page and create a button and run url')
     }
-  }
+  })
 
   onDestroy(() => {
     unsubscribe.build()

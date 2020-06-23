@@ -4,9 +4,11 @@
   import CountDown from '../Counter/CountDown.svelte'
   import CountUp from '../Counter/CountUp.svelte'
   import ActionDropdown from '../Header/ActionDropdown.svelte'
+  import FixedHeaderLogo from '../Header/FixedHeaderLogo.svelte'
 
   export let title = 'Run your application from any public Git-repo with one click'
   export let timerTitle = ''
+  export let animatedLogo = false
 
   let showBlock = false
   let countDown = false
@@ -55,14 +57,20 @@
     position: sticky
     top: 0
     z-index: 1
-    padding: 2rem $spacing
+    padding: $spacing-half $spacing
     background-color: $primary-color
-    display: flex
-    flex-direction: row
-    flex-wrap: wrap
-    justify-content: flex-start
-    align-items: center
     @include dashed-line()
+
+    .header-container
+      max-width: 130rem
+      display: flex
+      flex-direction: row
+      flex-wrap: nowrap
+      align-items: center
+      margin: 0 auto
+
+      @media screen and (max-width: 500px)
+        flex-direction: column
 
     .titles
       display: flex
@@ -70,12 +78,14 @@
       align-items: center
       padding-left: $spacing
       padding-right: $spacing
-      width: 60%
-
-      @media screen and (max-width: 1200px)
-        width: 70%
+      text-align: center
+      width: 100%
 
       @media screen and (max-width: 720px)
+        padding-left: $spacing-half
+        padding-right: $spacing-half
+
+      @media screen and (max-width: 500px)
         width: 100%
         padding: 1rem 0 0 0
 
@@ -89,39 +99,16 @@
           line-height: 2rem
 
         @media screen and (max-width: 720px)
-          text-align: center
           font-size: 1.4rem
           line-height: 1.8rem
-
-    .logo-svg
-      @media screen and (max-width: 720px)
-        width: 100%
-        text-align: center
-
-      a
-        border: 0
-
-        img
-          width: 20rem
-          display: inline-block
-
-          @media screen and (max-width: 1200px)
-            width: 17rem
-
-          @media screen and (max-width: 900px)
-            width: 15rem
 
     .counter
       align-self: center
       text-align: center
+      min-width: fit-content
 
       @media screen and (max-width: 1200px)
         font-size: 1.4rem
-
-      @media screen and (min-width: 500px) and (max-width: 720px)
-        position: absolute
-        top: 2rem
-        right: $spacing
 
       @media screen and (max-width: 500px)
         width: 100%
@@ -136,28 +123,26 @@
 </style>
 
 <header>
-  <div class="logo-svg">
-    <a href="/">
-      <img src="/static/button-beta.svg" alt="logo">
-    </a>
-  </div>
-  <div class="titles">
-    <h1>{title}</h1>
-    <ActionDropdown {showPlaceholderDeployButton} {dockerImage} {deployUrl} {applicationUrl}/>
-  </div>
-
-  {#if showBlock}
-    <div class="counter">
-      <span class="title">{timerTitle}</span>
-      <span class="timer">
-        {#if failed}
-          <span class="error">{failedStatus}</span>
-        {:else if countDown}
-          <CountDown/>
-        {:else if countUp}
-          <CountUp/>
-        {/if}
-      </span>
+  <div class="header-container">
+    <FixedHeaderLogo animated={animatedLogo}/>
+    <div class="titles">
+      <h1>{title}</h1>
+      <ActionDropdown {showPlaceholderDeployButton} {dockerImage} {deployUrl} {applicationUrl}/>
     </div>
-  {/if}
+
+    {#if showBlock}
+      <div class="counter">
+        <span class="title">{timerTitle}</span>
+        <span class="timer">
+          {#if failed}
+            <span class="error">{failedStatus}</span>
+          {:else if countDown}
+            <CountDown/>
+          {:else if countUp}
+            <CountUp/>
+          {/if}
+        </span>
+      </div>
+    {/if}
+  </div>
 </header>
