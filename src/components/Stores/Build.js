@@ -7,23 +7,27 @@ function createBuild () {
   return {
     subscribe,
     set,
-    get: async (build_id, startWebSocket = false) => {
+    get: async (buildId, startWebSocket = false) => {
       try {
-        const build = await runApiRequest(`v1/builds/${build_id}`, 'GET')
+        // TODO use "template literal" when the issue with ESLINT has been fixed
+        // SEE https://github.com/babel/babel-eslint/issues/681#issuecomment-629804226
+        const build = await runApiRequest('v1/builds/' + buildId, 'GET')
 
         set(build || {})
 
         // fireup the WebSocket to get realtime updates
         if (startWebSocket) {
-          wsBuild(build_id, message => set(message))
+          wsBuild(buildId, message => set(message))
         }
       } catch (error) {
         set({ error })
       }
     },
-    start: async (app_id) => {
+    start: async (appId) => {
       try {
-        const build = await runApiRequest(`v1/apps/${app_id}/run`, 'POST')
+        // TODO use "template literal" when the issue with ESLINT has been fixed
+        // SEE https://github.com/babel/babel-eslint/issues/681#issuecomment-629804226
+        const build = await runApiRequest('v1/apps/' + appId + '/run', 'POST')
 
         set(build || {})
       } catch (error) {
