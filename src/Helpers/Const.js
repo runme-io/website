@@ -1,5 +1,3 @@
-import { RUNME_API } from '../env'
-
 export const zeroPad = (num, places) => String(num).padStart(places, '0')
 
 export const removeDoubleSlashes = (path) => path.replace(/([^:])(\/\/+)/g, '$1/')
@@ -27,51 +25,6 @@ export const isBase64 = (str) => {
 export const setUrl = (path) => {
   const url = `${location.protocol}//${location.host}/${path}`
   return removeDoubleSlashes(url)
-}
-
-export const setApiUrl = (path, protocol = 'http') => {
-  const secure = RUNME_API.secure ? 's' : ''
-  const url = `${protocol}${secure}://${RUNME_API.host}/${path}`
-
-  // remove double slashes
-  return removeDoubleSlashes(url)
-}
-
-export const runApiRequest = async (url, method = 'GET', body = null) => {
-  body = body ? JSON.stringify(body) : null
-  url = setApiUrl(url)
-
-  const response = await fetch(url, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body,
-  })
-
-  const result = await response.json()
-
-  // handle errors
-  switch (response.status) {
-    case 200:
-      return result
-
-    case 404:
-    case 400:
-    case 500:
-      throw new Error(result.message)
-
-    case 409:
-      // eslint-disable-next-line no-case-declarations
-      const error = new Error(result.message)
-      error.lastBuild = result.last_build_at
-      error.nextBuild = result.next_build_since
-      throw error
-
-    default:
-      throw new Error('unknown error occur')
-  }
 }
 
 // parse a git url to the following format "https://<repo URL>.git"
