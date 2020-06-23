@@ -1,5 +1,5 @@
 <script>
-  import Header from './Header.svelte'
+  import Header from '../Header/Header.svelte'
   import MainFooter from '../Footer/MainFooter.svelte'
   import SubFooter from '../Footer/SubFooter.svelte'
   import MetaData from '../MetaData.svelte'

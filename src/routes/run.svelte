@@ -5,7 +5,7 @@
   import { queryParam } from '../Helpers'
   import { build } from '../components/Stores/Build'
   import { header } from '../components/Stores/Header'
-  import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
+  import FixedHeader from '../components/UI/Header/FixedHeader.svelte'
   import ContentLayout from '../components/UI/Layout/ContentLayout.svelte'
   import LoadingBlock from '../components/UI/Loader/LoadingBlock.svelte'
   import CountDown from '../components/UI/Counter/CountDown.svelte'

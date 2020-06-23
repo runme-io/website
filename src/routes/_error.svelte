@@ -1,6 +1,6 @@
 <script>
   import MetaData from '../components/UI/MetaData.svelte'
-  import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
+  import FixedHeader from '../components/UI/Header/FixedHeader.svelte'
   import Hotjar from '../components/UI/Tracking/Hotjar.svelte'
   import GoogleAnalytics from '../components/UI/Tracking/GoogleAnalytics.svelte'
   import { isDevelopment } from '../Consts'

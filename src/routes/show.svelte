@@ -4,7 +4,7 @@
   import { queryParam } from '../Helpers'
   import { DEPLOYMENT } from '../env'
   import { DISCORD_LINK } from '../Data/menu'
-  import FixedHeader from '../components/UI/Layout/FixedHeader.svelte'
+  import FixedHeader from '../components/UI/Header/FixedHeader.svelte'
   import { application } from '../components/Stores/Application'
   import { build } from '../components/Stores/Build'
   import { header } from '../components/Stores/Header'
