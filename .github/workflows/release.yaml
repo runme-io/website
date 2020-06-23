@@ -1,18 +1,16 @@
 name: Release
 
-# Run the workflow when a Pull Request is opened or when changes are pushed to master
 on:
-  pull_request:
   push:
-    branches: [ master, task/release-bot ]
+    branches: [ master ]
 
 jobs:
   release:
     # Only release on push to master
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     # Waits for test jobs for each Node.js version to complete
-    # TODO enable when we have tests
+    # TODO enable when we have tests (.github/workflows/tests.yaml)
     # needs: [test]
     steps:
       - name: Checkout
