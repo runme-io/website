@@ -60,30 +60,17 @@ export const runApiRequest = async (url, method = 'GET', body = null) => {
     case 404:
     case 400:
     case 500:
-      // TODO optimize to thrown an new Error() object
-      // https://github.com/runme-io/website/issues/164
-      // eslint-disable-next-line no-throw-literal
-      throw {
-        message: result.message,
-      }
+      throw new Error(result.message)
 
     case 409:
-      // TODO optimize to thrown an new Error() object
-      // https://github.com/runme-io/website/issues/164
-      // eslint-disable-next-line no-throw-literal
-      throw {
-        message: result.message,
-        lastBuild: result.last_build_at,
-        nextBuild: result.next_build_since,
-      }
+      // eslint-disable-next-line no-case-declarations
+      const error = new Error(result.message)
+      error.lastBuild = result.last_build_at
+      error.nextBuild = result.next_build_since
+      throw error
 
     default:
-      // TODO optimize to thrown an new Error() object
-      // https://github.com/runme-io/website/issues/164
-      // eslint-disable-next-line no-throw-literal
-      throw {
-        message: 'unknown error occur',
-      }
+      throw new Error('unknown error occur')
   }
 }
 
