@@ -87,8 +87,8 @@
   }) => {
     if (repoBranch && repoUrl) {
       const queryParam = {
-        repoUrl,
-        repoBranch,
+        repo_url: repoUrl,
+        repo_branch: repoBranch,
       }
       const queryString = toQueryString(queryParam)
       const deploymentUrl = DEPLOYMENT.host.trim()
