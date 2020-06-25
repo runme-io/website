@@ -3,9 +3,16 @@ import { runApiRequest, wsBuild } from '../../Helpers'
 
 function createBuild () {
   const { subscribe, set } = writable({})
+  let ws = null
 
   return {
-    subscribe,
+    subscribe: (listener) => {
+      const unsubscribe = subscribe(listener)
+      return () => {
+        if (ws) { ws.close() }
+        unsubscribe()
+      }
+    },
     set,
     get: async (buildId, startWebSocket = false) => {
       try {
@@ -18,7 +25,7 @@ function createBuild () {
         // fire up the WebSocket to get realtime updates
         // also return the socket connection to close it when needed
         if (startWebSocket) {
-          return wsBuild(buildId, message => set(message))
+          ws = wsBuild(buildId, message => set(message))
         }
       } catch (error) {
         set({ error })
