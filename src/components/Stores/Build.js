@@ -3,27 +3,39 @@ import { runApiRequest, wsBuild } from '../../Helpers'
 
 function createBuild () {
   const { subscribe, set } = writable({})
+  let ws = null
 
   return {
-    subscribe,
+    subscribe: (listener) => {
+      const unsubscribe = subscribe(listener)
+      return () => {
+        if (ws) { ws.close() }
+        unsubscribe()
+      }
+    },
     set,
-    get: async (build_id, startWebSocket = false) => {
+    get: async (buildId, startWebSocket = false) => {
       try {
-        const build = await runApiRequest(`v1/builds/${build_id}`, 'GET')
+        // TODO use "template literal" when the issue with ESLINT has been fixed
+        // SEE https://github.com/babel/babel-eslint/issues/681#issuecomment-629804226
+        const build = await runApiRequest('v1/builds/' + buildId, 'GET')
 
         set(build || {})
 
-        // fireup the WebSocket to get realtime updates
+        // fire up the WebSocket to get realtime updates
+        // also return the socket connection to close it when needed
         if (startWebSocket) {
-          wsBuild(build_id, message => set(message))
+          ws = wsBuild(buildId, message => set(message))
         }
       } catch (error) {
         set({ error })
       }
     },
-    start: async (app_id) => {
+    start: async (appId) => {
       try {
-        const build = await runApiRequest(`v1/apps/${app_id}/run`, 'POST')
+        // TODO use "template literal" when the issue with ESLINT has been fixed
+        // SEE https://github.com/babel/babel-eslint/issues/681#issuecomment-629804226
+        const build = await runApiRequest('v1/apps/' + appId + '/run', 'POST')
 
         set(build || {})
       } catch (error) {
