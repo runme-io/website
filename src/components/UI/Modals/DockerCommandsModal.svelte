@@ -4,7 +4,7 @@
 
   export let dockerImage = ''
 
-  const commands = ['pull', 'start']
+  const commands = ['pull', 'run']
 </script>
 
 <style lang="sass">
