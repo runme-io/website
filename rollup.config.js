@@ -19,9 +19,8 @@ const { parsed: envVars = {} } = dotenvConfig()
 
 // we also need to check the process env for getting the env var from a docker build command
 // e.g. docker build --build-arg RUNME_API_HOST=svc.runme.io
-// TODO: get these keys from the .env.example with a ini reader
-const keys = ['RUNME_API_HOST', 'RUNME_API_SECURE', 'DEPLOYMENT_HOST', 'APPLICATION_PROJECT_ID', 'API_KEY', 'API_SECRET']
-keys
+const { parsed = {} } = dotenvConfig({ path: './.env.example' })
+Object.keys(parsed)
   .filter(key => process.env[key])
   .forEach(key => (envVars[key] = process.env[key]))
 
@@ -32,6 +31,7 @@ const {
   APPLICATION_PROJECT_ID = '$APPLICATION_PROJECT_ID',
   API_KEY = '$API_KEY',
   API_SECRET = '$API_SECRET',
+  JEXIA_PROJECT_ZONE = '$JEXIA_PROJECT_ZONE',
 } = envVars
 
 const onwarn = (warning, onwarn) => (warning.code === 'CIRCULAR_DEPENDENCY' && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning)
@@ -51,6 +51,7 @@ export default {
     output: config.client.output(),
     plugins: [
       replace({
+        'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
         'runme-api-host': RUNME_API_HOST,
         'runme-api-secure': RUNME_API_SECURE,
@@ -58,6 +59,7 @@ export default {
         'jexia-application-project-id': APPLICATION_PROJECT_ID,
         'jexia-api-key': API_KEY,
         'jexia-api-secret': API_SECRET,
+        'jexia-project-zone': JEXIA_PROJECT_ZONE,
       }),
       svelte({
         dev,
