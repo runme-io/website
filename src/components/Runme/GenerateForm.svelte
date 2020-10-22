@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher, onDestroy } from 'svelte'
-  import GenerateButton from './Generator/GenerateButton.svelte'
+  import GenerateButtonDisabled from './Generator/GenerateButtonDisabled.svelte'
   import GenerateSpecTabGroup from './GenerateSpecTabGroup.svelte'
   import { application } from '../Stores/Application'
   import TextInput from '../UI/TextInput.svelte'
@@ -160,10 +160,6 @@
   </div>
 
   <div class="form-actions">
-    <GenerateButton
-      {loading}
-      disabled={isGenerateDisabled}
-      on:click={createApp}
-    >{buttonText}</GenerateButton>
+    <GenerateButtonDisabled>{buttonText}</GenerateButtonDisabled>
   </div>
 </section>
