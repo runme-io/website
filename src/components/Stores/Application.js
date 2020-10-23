@@ -27,13 +27,8 @@ function createApplication () {
 
       const { jexiaClient, dataOperations } = await import('jexia-sdk-js/browser')
       const dataModule = dataOperations()
-      const credentials = {
-        projectID: JEXIA_CREDENTIALS.applicationProjectID,
-        key: JEXIA_CREDENTIALS.key,
-        secret: JEXIA_CREDENTIALS.secret,
-      }
 
-      jexiaClient().init(credentials, dataModule)
+      jexiaClient().init(JEXIA_CREDENTIALS, dataModule)
 
       const appsDataset = dataModule.dataset('applications')
 
