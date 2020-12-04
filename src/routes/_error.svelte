@@ -61,6 +61,7 @@
 <div class="container-404">
   <h1>{title}</h1>
   <p>{message}</p>
+  <p>Go <a href="/">back</a> to the home page</p>
 
   {#if dev && error.stack}
     <pre>{error.stack}</pre>
